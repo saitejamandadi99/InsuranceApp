@@ -48,7 +48,7 @@ export class ViewUsersComponent implements  OnInit {
   }
 
   previousPage(){
-    if(this.users.currentPage>1){
+    if(this.users && this.users.currentPage>1){
       this.filterForm.patchValue({
         pageNumber:this.users.currentPage -1
       });
@@ -58,7 +58,7 @@ export class ViewUsersComponent implements  OnInit {
   }
 
   nextPage(){
-    if(!this.users.isLastPage){
+    if(this.users && !this.users.isLastPage){
       this.filterForm.patchValue({
         pageNumber:this.users.currentPage+1
       });

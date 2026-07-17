@@ -32,7 +32,7 @@ export class ViewCustomersComponent implements OnInit {
   }
 
   previousPage(){
-    if(this.customers.currentPage>1){
+    if(this.customers &&  this.customers.currentPage>1){
       this.filterForm.patchValue({
         pageNumber:this.customers.currentPage -1
       });
@@ -42,7 +42,7 @@ export class ViewCustomersComponent implements OnInit {
   }
 
   nextPage(){
-    if(!this.customers.isLastPage){
+    if(this.customers && !this.customers.isLastPage){
       this.filterForm.patchValue({
         pageNumber:this.customers.currentPage+1
       });

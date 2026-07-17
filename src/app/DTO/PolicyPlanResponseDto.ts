@@ -4,6 +4,7 @@ import { ProductType } from "../models/ProductType"
 
 export interface PolicyPlanResponseDto{
     planId: number,
+    productId:number,
     productName: string
     productType: ProductType,
     planName: string,

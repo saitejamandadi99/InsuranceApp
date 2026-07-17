@@ -30,7 +30,8 @@ export class AddUserComponent {
   constructor(private userService:UserServices, private router:Router){}
 
   addUser(){
-    this.addUser$ = this.userService.postUser(this.userForm.value); 
+    const request:UserRequestDto = this.userForm.value;
+    this.addUser$ = this.userService.postUser(request); 
     this.addUser$.subscribe({
       next:(response)=>{
         alert(response.message);

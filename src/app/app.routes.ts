@@ -11,6 +11,7 @@ import { EditCustomerProfileComponent } from './components/customer/edit-custome
 import { ViewCustomersComponent } from './components/customer/view-customers-component/view-customers-component';
 import { CustomerDetailsComponent } from './components/customer/customer-details-component/customer-details-component';
 import { officerGuardsGuard } from './guards/officer-guards-guard';
+import { adminOfficerGuardsGuard } from './guards/admin-officer-guards-guard';
 
 export const routes: Routes = [
     {path:'login', component:LoginComponent},
@@ -20,8 +21,8 @@ export const routes: Routes = [
     {path:'adduser', component:AddUserComponent, canActivate:[adminGuardsGuard]}, 
 
 
-    {path:'viewcustomers', component:ViewCustomersComponent, canActivate:[adminGuardsGuard, officerGuardsGuard]},
-    {path:'customerdetails', component:CustomerDetailsComponent, canActivate:[adminGuardsGuard, officerGuardsGuard]},
+    {path:'viewcustomers', component:ViewCustomersComponent, canActivate:[adminOfficerGuardsGuard]},
+    {path:'customerdetails', component:CustomerDetailsComponent, canActivate:[adminOfficerGuardsGuard]},
     {path:'myprofile', component:ViewMyProfileComponent, canActivate:[customerGuardsGuard]},
     {path:'createprofile', component:AddCustomerProfileComponent, canActivate:[customerGuardsGuard]},
     {path:'editprofile', component:EditCustomerProfileComponent, canActivate:[customerGuardsGuard]},

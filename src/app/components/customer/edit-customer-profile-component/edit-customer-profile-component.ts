@@ -5,6 +5,7 @@ import { CustomerServices } from '../../../services/customer/customer-services';
 import {Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
+import { CustomerRequestDto } from '../../../DTO/CustomerRequestDto';
 
 @Component({
   selector: 'app-edit-customer-profile-component',
@@ -52,7 +53,8 @@ export class EditCustomerProfileComponent implements OnInit {
   constructor(private cusService:CustomerServices, private router:Router){}
 
   updateCustomerProfile(){
-    this.cusService.updateCustomerProfile(this.customerForm.value).subscribe({
+    const request:CustomerRequestDto= this.customerForm.value;
+    this.cusService.updateCustomerProfile(request).subscribe({
       next:(response)=>{
         alert(response.message);
         this.router.navigate(['/myprofile']);

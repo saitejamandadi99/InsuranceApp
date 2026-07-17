@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { Role } from '../../../models/Role';
+import { LoginRequestDto } from '../../../DTO/LoginRequestDto';
 
 @Component({
   selector: 'app-login-component',
@@ -25,7 +26,8 @@ export class LoginComponent {
   constructor(private authService:AuthServices, private router:Router){}
 
   loginUser(){
-    this.loginResponse$ = this.authService.loginUser(this.loginForm.value);
+    const request : LoginRequestDto = this.loginForm.value;
+    this.loginResponse$ = this.authService.loginUser(request);
     this.loginResponse$.subscribe({
       next:(response)=>{
         this.authService.saveToken(response)

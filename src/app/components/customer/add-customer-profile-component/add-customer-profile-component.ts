@@ -5,6 +5,7 @@ import { CustomerServices } from '../../../services/customer/customer-services';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
+import { CustomerRequestDto } from '../../../DTO/CustomerRequestDto';
 
 @Component({
   selector: 'app-add-customer-profile-component',
@@ -40,7 +41,8 @@ export class AddCustomerProfileComponent {
   constructor(private cusService:CustomerServices, private router:Router){}
 
   addCustomerProfile(){
-    this.cusService.addCustomerProfile(this.customerForm.value).subscribe({
+    const request:CustomerRequestDto = this.customerForm.value;
+    this.cusService.addCustomerProfile(request).subscribe({
       next:(response)=>{
         alert(response.message);
         this.router.navigate(['/myprofile']);

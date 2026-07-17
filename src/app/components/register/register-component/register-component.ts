@@ -7,6 +7,7 @@ import { AuthServices } from '../../../services/auth/auth-services';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
+import { RegisterRequestDto } from '../../../DTO/RegisterRequestDto';
 
 @Component({
   selector: 'app-register-component',
@@ -28,7 +29,8 @@ export class RegisterComponent {
   constructor(private authService: AuthServices, private router:Router){}
 
   registerUser(){
-    this.registerResponse$ = this.authService.registerUser(this.registerForm.value);
+    const request:RegisterRequestDto= this.registerForm.value;
+    this.registerResponse$ = this.authService.registerUser(request);
     this.registerResponse$.subscribe({
       next:(response)=>{
 
