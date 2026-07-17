@@ -1,0 +1,333 @@
+<div class="container d-flex justify-content-center align-items-center py-5">
+
+    <div class="card shadow-lg p-4" style="width:700px; border-radius:15px;">
+
+        <div class="text-center mb-4">
+            <h2 class="fw-bold text-primary">
+                Customer Profile
+            </h2>
+            <p class="text-muted mb-0">
+                Complete Your Profile
+            </p>
+        </div>
+
+        <form [formGroup]="customerForm" (ngSubmit)="addCustomerProfile()">
+
+            <!-- Date of Birth -->
+
+            <div class="mb-3">
+
+                <label class="form-label fw-semibold">
+                    Date of Birth
+                </label>
+
+                <input
+                    type="date"
+                    class="form-control"
+                    formControlName="dateOfBirth">
+
+                <div *ngIf="dateOfBirth.invalid && (dateOfBirth.touched || dateOfBirth.dirty)">
+
+                    <small
+                        class="text-danger"
+                        *ngIf="dateOfBirth.hasError('required')">
+
+                        Date of Birth is required.
+
+                    </small>
+
+                    <small
+                        class="text-danger"
+                        *ngIf="dateOfBirth.hasError('invalidDate')">
+
+                        Date of Birth cannot be today or a future date.
+
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- Address -->
+
+            <div class="mb-3">
+
+                <label class="form-label fw-semibold">
+                    Address
+                </label>
+
+                <textarea
+                    rows="3"
+                    class="form-control"
+                    formControlName="address"
+                    placeholder="Enter Address">
+
+                </textarea>
+
+                <div *ngIf="address.invalid && (address.touched || address.dirty)">
+
+                    <small
+                        class="text-danger"
+                        *ngIf="address.hasError('required')">
+
+                        Address is required.
+
+                    </small>
+
+                    <small
+                        class="text-danger"
+                        *ngIf="address.hasError('minlength')">
+
+                        Address should be at least 10 characters.
+
+                    </small>
+
+                    <small
+                        class="text-danger"
+                        *ngIf="address.hasError('maxlength')">
+
+                        Address cannot exceed 150 characters.
+
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <!-- State -->
+
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label fw-semibold">
+                        State
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        formControlName="state"
+                        placeholder="Enter State">
+
+                    <div *ngIf="state.invalid && (state.touched || state.dirty)">
+
+                        <small
+                            class="text-danger"
+                            *ngIf="state.hasError('required')">
+
+                            State is required.
+
+                        </small>
+
+                        <small
+                            class="text-danger"
+                            *ngIf="state.hasError('minlength')">
+
+                            Minimum 3 characters.
+
+                        </small>
+
+                        <small
+                            class="text-danger"
+                            *ngIf="state.hasError('maxlength')">
+
+                            Maximum 30 characters.
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- City -->
+
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label fw-semibold">
+                        City
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        formControlName="city"
+                        placeholder="Enter City">
+
+                    <div *ngIf="city.invalid && (city.touched || city.dirty)">
+
+                        <small
+                            class="text-danger"
+                            *ngIf="city.hasError('required')">
+
+                            City is required.
+
+                        </small>
+
+                        <small
+                            class="text-danger"
+                            *ngIf="city.hasError('minlength')">
+
+                            Minimum 3 characters.
+
+                        </small>
+
+                        <small
+                            class="text-danger"
+                            *ngIf="city.hasError('maxlength')">
+
+                            Maximum 30 characters.
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Pincode -->
+
+            <div class="mb-3">
+
+                <label class="form-label fw-semibold">
+                    Pincode
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    formControlName="pincode"
+                    placeholder="Enter Pincode">
+
+                <div *ngIf="pincode.invalid && (pincode.touched || pincode.dirty)">
+
+                    <small
+                        class="text-danger"
+                        *ngIf="pincode.hasError('required')">
+
+                        Pincode is required.
+
+                    </small>
+
+                    <small
+                        class="text-danger"
+                        *ngIf="pincode.hasError('pattern')">
+
+                        Pincode must contain exactly 6 digits.
+
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- Nominee Name -->
+
+            <div class="mb-3">
+
+                <label class="form-label fw-semibold">
+                    Nominee Name
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    formControlName="nomineeName"
+                    placeholder="Enter Nominee Name">
+
+                <div *ngIf="nomineeName.invalid && (nomineeName.touched || nomineeName.dirty)">
+
+                    <small
+                        class="text-danger"
+                        *ngIf="nomineeName.hasError('required')">
+
+                        Nominee Name is required.
+
+                    </small>
+
+                    <small
+                        class="text-danger"
+                        *ngIf="nomineeName.hasError('minlength')">
+
+                        Minimum 3 characters.
+
+                    </small>
+
+                    <small
+                        class="text-danger"
+                        *ngIf="nomineeName.hasError('maxlength')">
+
+                        Maximum 50 characters.
+
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- Nominee Relationship -->
+
+            <div class="mb-4">
+
+                <label class="form-label fw-semibold">
+                    Nominee Relationship
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    formControlName="nomineeRelationship"
+                    placeholder="Father / Mother / Brother / Sister / Spouse">
+
+                <div *ngIf="nomineeRelationship.invalid && (nomineeRelationship.touched || nomineeRelationship.dirty)">
+
+                    <small
+                        class="text-danger"
+                        *ngIf="nomineeRelationship.hasError('required')">
+
+                        Nominee Relationship is required.
+
+                    </small>
+
+                    <small
+                        class="text-danger"
+                        *ngIf="nomineeRelationship.hasError('minlength')">
+
+                        Minimum 3 characters.
+
+                    </small>
+
+                    <small
+                        class="text-danger"
+                        *ngIf="nomineeRelationship.hasError('maxlength')">
+
+                        Maximum 50 characters.
+
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn btn-primary w-100"
+                [disabled]="customerForm.invalid">
+
+                Save Profile
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>

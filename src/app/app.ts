@@ -1,5 +1,7 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
+import { UserServices } from './services/user/user-services';
+import { AuthServices } from './services/auth/auth-services';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +11,11 @@ import { RouterOutlet } from '@angular/router';
 })
 export class App {
   protected readonly title = signal('InsuranceApp');
+  constructor(private service : AuthServices, private router:Router){}
+
+  logout(){
+    this.service.logout();
+    this.router.navigate(['login']);
+  }
+
 }
