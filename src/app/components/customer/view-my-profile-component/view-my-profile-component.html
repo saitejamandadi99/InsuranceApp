@@ -1,1 +1,93 @@
-<p>view-my-profile-component works!</p>
+<div class="container-fluid py-4">
+
+    <app-page-header
+        title="My Profile"
+        subtitle="View your personal information.">
+    </app-page-header>
+
+    @if(isLoading){
+
+        <app-loading-spinner></app-loading-spinner>
+
+    } @else {
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8">
+
+                <div class="app-card">
+
+                    <div class="card-header-custom">
+                        <h4>
+                            <i class="bi bi-person-circle me-2"></i>
+                            Profile Details
+                        </h4>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row g-4">
+
+                            <div class="col-md-6">
+                                <label class="form-label-custom">Full Name</label>
+                                <p class="form-value">{{ profileDetails.data.fullName }}</p>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label-custom">Email</label>
+                                <p class="form-value">{{ profileDetails.data.email }}</p>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label-custom">Mobile Number</label>
+                                <p class="form-value">{{ profileDetails.data.mobileNumber }}</p>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label-custom">Date of Birth</label>
+                                <p class="form-value">{{ profileDetails.data.dateOfBirth | date:'dd-MM-yyyy' }}</p>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label-custom">Address</label>
+                                <p class="form-value">{{ profileDetails.data.address }}</p>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label-custom">City</label>
+                                <p class="form-value">{{ profileDetails.data.city }}</p>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label-custom">State</label>
+                                <p class="form-value">{{ profileDetails.data.state }}</p>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label-custom">Pincode</label>
+                                <p class="form-value">{{ profileDetails.data.pincode }}</p>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label-custom">Nominee Name</label>
+                                <p class="form-value">{{ profileDetails.data.nomineeName }}</p>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label-custom">Nominee Relationship</label>
+                                <p class="form-value">{{ profileDetails.data.nomineeRelationship }}</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    }
+
+</div>

@@ -1,5 +1,6 @@
 export interface CustomerResponseDto{
     customerId:number, 
+    fullName:string;
     email:string,
     mobileNumber:string,
     dateOfBirth:Date,

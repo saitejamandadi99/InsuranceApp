@@ -1,0 +1,37 @@
+.table-dark-custom{
+    width:100%;
+    border-collapse:collapse;
+    background:#fff;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.table-dark-custom thead th{
+
+    background:#1F2937;
+    color:#ffffff;
+
+    font-weight:600;
+
+    padding:16px 18px;
+
+    border:none;
+
+}
+
+.table-dark-custom tbody td{
+
+    background:#ffffff;
+    color:#1F2937;
+
+    padding:16px 18px;
+
+    border-top:1px solid #E5E7EB;
+
+}
+
+.table-dark-custom tbody tr:hover td{
+
+    background:#F8FAFC;
+
+}

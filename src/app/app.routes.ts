@@ -22,7 +22,7 @@ export const routes: Routes = [
 
 
     {path:'viewcustomers', component:ViewCustomersComponent, canActivate:[adminOfficerGuardsGuard]},
-    {path:'customerdetails', component:CustomerDetailsComponent, canActivate:[adminOfficerGuardsGuard]},
+    {path:'customerdetails/:id', component:CustomerDetailsComponent, canActivate:[adminOfficerGuardsGuard]},
     {path:'myprofile', component:ViewMyProfileComponent, canActivate:[customerGuardsGuard]},
     {path:'createprofile', component:AddCustomerProfileComponent, canActivate:[customerGuardsGuard]},
     {path:'editprofile', component:EditCustomerProfileComponent, canActivate:[customerGuardsGuard]},

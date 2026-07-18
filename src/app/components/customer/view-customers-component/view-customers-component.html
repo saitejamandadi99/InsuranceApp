@@ -1,1 +1,189 @@
-<p>view-customers-component works!</p>
+<div class="container-fluid py-4">
+
+    <app-page-header
+        title="Customers"
+        subtitle="Manage all registered customers in the insurance management system."
+        buttonText="Add Customer"
+        buttonIcon="bi bi-plus-lg"
+        (buttonClick)="navigateToAddCustomer()">
+    </app-page-header>
+
+    <app-filter-card>
+
+        <form [formGroup]="filterForm">
+
+            <div class="row">
+
+                <div class="col-12 mb-4">
+
+                    <app-search-box
+                        [searchControl]="searchControl"
+                        placeholder="Search by customer name or email..."
+                        (clear)="clearSearch()">
+                    </app-search-box>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label-custom">
+                        Sort By
+                    </label>
+
+                    <select
+                        class="form-select input-dark"
+                        formControlName="sortBy">
+
+                        <option value="fullName">Full Name</option>
+                        <option value="email">Email</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label-custom">
+                        Order
+                    </label>
+
+                    <select
+                        class="form-select input-dark"
+                        formControlName="sortDirection">
+
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label class="form-label-custom">
+                        Page Size
+                    </label>
+
+                    <select
+                        class="form-select input-dark"
+                        formControlName="pageSize">
+
+                        <option [value]="5">5</option>
+                        <option [value]="10">10</option>
+                        <option [value]="20">20</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-6 d-flex flex-column justify-content-end">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary-custom mb-3"
+                        (click)="resetFilters()">
+
+                        Reset Filters
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-primary-custom"
+                        (click)="searchCustomers()">
+
+                        Search
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </app-filter-card>
+
+    @if(isLoading){
+
+        <app-loading-spinner></app-loading-spinner>
+
+    } @else {
+
+        @if(customers.records.length === 0){
+
+            <app-empty-state
+                icon="bi bi-people"
+                title="No Customers Found"
+                message="No customers matched your search.">
+            </app-empty-state>
+
+        } @else {
+
+            
+
+                <div class="table-responsive">
+
+                    <table class="table-dark-custom">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Customer Name</th>
+                                <th>Email</th>
+                                <th>Mobile Number</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th class="text-center">Actions</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @for(customer of customers.records; track customer.customerId){
+
+                                <tr>
+
+                                    <td>{{ customer.fullName }}</td>
+                                    <td>{{ customer.email }}</td>
+                                    <td>{{ customer.mobileNumber }}</td>
+                                    <td>{{ customer.city }}</td>
+                                    <td>{{ customer.state }}</td>
+
+                                    <td class="text-center">
+
+                                        <app-action-buttons
+                                            [actions]="['view']"
+                                            (actionClick)="viewCustomer(customer.customerId)">
+                                        </app-action-buttons>
+
+                                    </td>
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            
+
+            <app-pagination
+                [currentPage]="customers.currentPage"
+                [totalPages]="customers.totalPages"
+                [totalRecords]="customers.totalRecords"
+                [pageSize]="customers.pageSize"
+                (pageChange)="$event === 'previous' ? previousPage() : nextPage()">
+            </app-pagination>
+
+        }
+
+    }
+
+</div>

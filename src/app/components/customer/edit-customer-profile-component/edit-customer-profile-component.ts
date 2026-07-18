@@ -6,10 +6,11 @@ import {Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { CustomerRequestDto } from '../../../DTO/CustomerRequestDto';
+import { PageHeader } from '../../../shared/ui/page-header/page-header';
 
 @Component({
   selector: 'app-edit-customer-profile-component',
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf, PageHeader],
   templateUrl: './edit-customer-profile-component.html',
   styleUrl: './edit-customer-profile-component.css',
 })
@@ -92,4 +93,8 @@ export class EditCustomerProfileComponent implements OnInit {
   get nomineeRelationship():FormControl{
     return this.customerForm.get('nomineeRelationship') as FormControl;
   }
+
+  navigateToProfile() {
+  this.router.navigate(['/myprofile']);
+}
 }
