@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Observable, of } from 'rxjs';
 import { LoginResponseDto } from '../../../DTO/LoginResponseDto';
 import { AuthServices } from '../../../services/auth/auth-services';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { Role } from '../../../models/Role';
@@ -12,7 +12,7 @@ import { LoginRequestDto } from '../../../DTO/LoginRequestDto';
 
 @Component({
   selector: 'app-login-component',
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf, RouterLink],
   templateUrl: './login-component.html',
   styleUrl: './login-component.css',
 })

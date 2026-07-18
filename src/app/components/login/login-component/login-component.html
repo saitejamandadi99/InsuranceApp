@@ -1,41 +1,57 @@
-<div class="container d-flex justify-content-center align-items-center vh-100">
+<div class="login-page">
+    <div class="login-container">
+        <div class="app-card login-card">
+            <!-- Brand -->
+            <div class="brand-section text-center">
+                <i class="bi bi-shield-check brand-icon"></i>
+                <h1 class="brand-title">InsuPro</h1>
+                <p class="brand-subtitle">Insurance Policy & Claims Management</p>
+            </div>
 
-    <div class="card shadow-lg p-4" style="width: 450px; border-radius:15px;">
+            <!-- Divider -->
+            <hr class="login-divider">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <h2 class="page-title">Welcome Back</h2>
+                <p class="page-subtitle">Sign in to continue to your account</p>
 
-        <div class="text-center mb-4">
-            <h2 class="fw-bold text-primary">Insurance Management and Claim System</h2>
-            <p class="text-muted mb-0">Login to your account</p>
+            </div>
+
+            <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
+                <!-- Email -->
+                <div class="mb-3">
+
+                    <label class="form-label-custom">Email</label>
+                    <input type="email" class="form-control input-dark" formControlName="email" placeholder="Enter your email" />
+
+                    <div class="mt-2" *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty ||  loginForm.get('email')?.touched)">
+                        <small class="text-danger" *ngIf="loginForm.get('email')?.hasError('required')">Email is required</small>
+                        <small class="text-danger" *ngIf="loginForm.get('email')?.hasError('email')"> Please enter a valid email address</small>
+                    </div>
+
+                </div>
+
+                <!-- Password -->
+                <div class="mb-4">
+
+                    <label class="form-label-custom">Password</label>
+                    <input type="password" class="form-control input-dark" formControlName="password" placeholder="Enter your password" />
+                    <div class="mt-2" *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty ||  loginForm.get('password')?.touched)">
+
+                        <small class="text-danger" *ngIf="loginForm.get('password')?.hasError('required')">Password is required.</small>
+                    </div>
+
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn-primary-custom" [disabled]="loginForm.invalid">Sign In</button>
+                </div>
+
+            </form>
+
+            <div class="register-section text-center mt-4">
+                <span class="text-muted">Don't have an account?</span>
+                <a routerLink="/register" class="register-link ms-2">Register</a>
+            </div>
         </div>
-
-        <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Email</label>
-
-                <input type="text" class="form-control" formControlName="email" placeholder="Enter Email">
-
-                <div *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)">
-                    <small class="text-danger" *ngIf="loginForm.get('email')?.hasError('required')"> Email is required </small>
-                    <small class="text-danger" *ngIf="loginForm.get('email')?.hasError('email')"> Email should match the required pattern </small>
-                </div>
-            </div>
-
-
-            <div class="mb-3">
-
-                <label class="form-label fw-semibold">Password</label>
-                <input type="password" class="form-control" formControlName="password" placeholder="Enter Password">
-
-                <div *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)">
-                    <small class="text-danger" *ngIf="loginForm.get('password')?.hasError('required')"> Password is required </small>
-                </div>
-            </div>
-            <button type="submit"  class="btn btn-primary w-100" [disabled]="loginForm.invalid">
-                Login
-            </button>
-
-        </form>
-
     </div>
-
 </div>
