@@ -1,0 +1,22 @@
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+    gap:20px;
+    flex-wrap:wrap;
+
+}
+
+.page-heading{
+    margin:0;
+    color:var(--text-primary);
+    font-size:2rem;
+    font-weight:700;
+}
+
+.page-description{
+    margin-top:6px;
+    color:var(--text-secondary);
+    font-size:15px;
+}

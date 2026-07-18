@@ -1,0 +1,9 @@
+<div class="empty-state">
+    <div class="empty-icon">
+        <i [class]="icon"></i>
+    </div>
+
+    <h3 class="empty-title">{{title}}</h3>
+    <p class="empty-message" *ngIf="message">{{ message }}</p>
+    <button *ngIf="buttonText" type="button" class="btn btn-primary-custom" (click)="onButtonClick()">{{buttonText}}</button>
+</div>

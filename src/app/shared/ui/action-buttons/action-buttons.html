@@ -1,0 +1,6 @@
+<div class="action-buttons">
+    <button *ngFor= "let action of actions" class="btn btn-sm" type="button" [ngClass]="getButtonClass(action)" (click) ="onAction(action)">
+        <i [class]="getIcon(action)"></i>
+        {{action|titlecase}}
+    </button>
+</div>

@@ -1,0 +1,25 @@
+.filter-card{
+    margin-bottom:24px;
+}
+
+.filter-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+    padding-bottom:12px;
+    border-bottom:1px solid var(--border-color);
+}
+
+.filter-title{
+    margin:0;
+    font-size:18px;
+    font-weight:600;
+    color:var(--text-primary);
+}
+
+.filter-body{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}

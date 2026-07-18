@@ -1,0 +1,10 @@
+<div class="page-header">
+    <div>
+        <h2 class="page-heading">{{title}}</h2>
+        <p class="page-description">{{subtitle}}</p>
+    </div>
+    <button *ngIf="buttonText" class="btn-primary-custom" (click) = "onButtonClick()">
+        <i *ngIf = "buttonIcon" class="{{buttonIcon}} me-2"></i>
+        {{buttonText}}
+    </button>
+</div>

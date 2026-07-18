@@ -1,0 +1,10 @@
+<div class="search-container">
+    <div class="search-input-wrapper">
+        <i class="bi bi-search search-icon"></i>
+        <input type="text" class="form-control input-dark search-input" [placeholder] = "placeholder" [formControl] = "searchControl">
+
+        <button *ngIf = "searchControl.value" type="button" class="clear-btn" (click)="clearSearch()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+</div>
