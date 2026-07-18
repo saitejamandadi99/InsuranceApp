@@ -1,10 +1,15 @@
 <div class="page-header">
     <div>
-        <h2 class="page-heading">{{title}}</h2>
+        <h1 class="page-heading">{{title}}</h1>
         <p class="page-description">{{subtitle}}</p>
     </div>
-    <button *ngIf="buttonText" class="btn-primary-custom" (click) = "onButtonClick()">
-        <i *ngIf = "buttonIcon" class="{{buttonIcon}} me-2"></i>
-        {{buttonText}}
-    </button>
+    <button
+    *ngIf="buttonText"
+    class="btn btn-primary-custom"
+    (click)="onButtonClick()">
+
+    <i *ngIf="buttonIcon" class="{{buttonIcon}}"></i>
+    {{buttonText}}
+
+</button>
 </div>

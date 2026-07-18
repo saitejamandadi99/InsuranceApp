@@ -2,56 +2,39 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-pagination',
-  standalone:true,
+  standalone: true,
   imports: [],
   templateUrl: './pagination.html',
-  styleUrl: './pagination.css',
+  styleUrl: './pagination.css'
 })
 export class Pagination {
-  @Input({required:true})
-  currentPage!:number;
 
-  @Input({required:true})
-  totalPages!:number;
+  @Input() currentPage = 1;
+  @Input() totalPages = 1;
+  @Input() totalRecords = 0;
+  @Input() pageSize = 10;
 
-  @Input({required:true})
-  totalRecords!:number;
-  @Input()
-  pageSize:number= 10;
   @Output()
-  pageChange=new EventEmitter<number>();
+  pageChange = new EventEmitter<'previous' | 'next'>();
 
-  previousPage(){
-    if(this.currentPage>1){
-      this.pageChange.emit(this.currentPage-1);
-    }
+  previousPage() {
+    this.pageChange.emit('previous');
   }
 
-  
-  nextPage(){
-    if(this.currentPage<this.totalPages){
-      this.pageChange.emit(this.currentPage+1);
-    }
+  nextPage() {
+    this.pageChange.emit('next');
   }
 
-  getStartRecord(){
-    if(this.totalRecords === 0){
+  getStartRecord(): number {
+    if (this.totalRecords === 0) {
       return 0;
     }
-    return (this.currentPage-1) * this.pageSize+1;
+
+    return ((this.currentPage - 1) * this.pageSize) + 1;
   }
 
-  getEndRecord(){
-    if(this.totalRecords === 0){
-      return 0;
-    }
-    let end = this.currentPage * this.pageSize;
-    if(end> this.totalRecords){
-      end= this.totalRecords;
-    }
-
-    return end;
+  getEndRecord(): number {
+    return Math.min(this.currentPage * this.pageSize, this.totalRecords);
   }
-
 
 }

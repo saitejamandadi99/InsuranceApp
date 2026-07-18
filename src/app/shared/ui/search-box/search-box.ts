@@ -23,4 +23,6 @@ export class SearchBox {
     this.searchControl.setValue('');
     this.clear.emit();
   }
+
+  
 }

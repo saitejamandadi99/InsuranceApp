@@ -1,204 +1,180 @@
-<div class="container mt-4">
+<div class="container-fluid py-4">
 
-    <div class="card shadow">
-        <div class="card-header bg-primary text-white">
-            <h4 class="mb-0">View Users</h4>
-            <button
-        class="btn btn-light"
-        routerLink="/adduser">
+    <app-page-header
+        title="Users"
+        subtitle="Manage all registered users in the insurance management system."
+        buttonText="Add User"
+        buttonIcon="bi bi-plus-lg"
+        (buttonClick)="navigateToAddUser()">
+    </app-page-header>
 
-        Add User
+    <form [formGroup]="filterForm" (ngSubmit)="searchUsers()">
 
-    </button>
-        </div>
-        
-        <div class="card-body">
+        <app-filter-card>
 
-            <!-- Filters -->
-            <form [formGroup]="filterForm" (ngSubmit)="searchUsers()">
+            <div class="row g-3">
 
-                <div class="row g-3 mb-4">
-
-                    <div class="col-md-4">
-                        <input
-                            type="text"
-                            class="form-control"
-                            formControlName="search"
-                            placeholder="Search by Name or Email">
-                    </div>
-
-                    <div class="col-md-2">
-                        <select class="form-select" formControlName="sortBy">
-                            <option value="fullName">Full Name</option>
-                            <option value="email">Email</option>
-                            <option value="role">Role</option>
-                            <option value="activeStatus">Active Status</option>
-                            <option value="createdDate">Created Date</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-2">
-                        <select class="form-select" formControlName="sortDirection">
-                            <option value="asc">Ascending</option>
-                            <option value="desc">Descending</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-2">
-                        <select class="form-select" formControlName="pageSize">
-                            <option [value]="5">5</option>
-                            <option [value]="10">10</option>
-                            <option [value]="20">20</option>
-                            <option [value]="50">50</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-2">
-                        <button class="btn btn-primary w-100" type="submit">
-                            Search
-                        </button>
-                    </div>
-
+                <div class="col-12">
+                    <app-search-box
+                        [searchControl]="searchControl"
+                        placeholder="Search by name or email..."
+                        (clear)="clearSearch()">
+                    </app-search-box>
                 </div>
 
-            </form>
+                <div class="col-lg-3 col-md-6">
+                    <label class="form-label-custom">Sort By</label>
 
-            @if(users){
-
-            <table class="table table-bordered table-hover align-middle text-center">
-
-                <thead class="table-dark">
-
-                    <tr>
-                        <th>User Id</th>
-                        <th>Full Name</th>
-                        <th>Email</th>
-                        <th>Mobile</th>
-                        <th>Role</th>
-                        <th>Status</th>
-                        <th>Created On</th>
-                        <th>Actions</th>
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    @for(user of users.records; track user.userId){
-
-                    <tr>
-
-                        <td>{{user.userId}}</td>
-                        <td>{{user.fullName}}</td>
-                        <td>{{user.email}}</td>
-                        <td>{{user.mobileNumber}}</td>
-                        <td>{{user.role}}</td>
-
-                        <td>
-
-                            @if(user.activeStatus=="Active"){
-
-                                <span class="badge bg-success">
-                                    Active
-                                </span>
-
-                            }
-
-                            @else{
-
-                                <span class="badge bg-danger">
-                                    Inactive
-                                </span>
-
-                            }
-
-                        </td>
-
-                        <td>{{user.createdDate | date:'dd-MM-yyyy'}}</td>
-
-                        <td>
-
-                            @if(user.activeStatus=="Active"){
-
-                                <button
-                                    class="btn btn-warning btn-sm"
-                                    (click)="deactivateUser(user.userId)">
-                                    Deactivate
-                                </button>
-
-                            }
-
-                            @else{
-
-                                <button
-                                    class="btn btn-success btn-sm"
-                                    (click)="activateUser(user.userId)">
-                                    Activate
-                                </button>
-
-                            }
-
-                        </td>
-
-                    </tr>
-
-                    }
-
-                </tbody>
-
-            </table>
-
-            <!-- Pagination -->
-
-            <div class="d-flex justify-content-between align-items-center mt-3">
-
-                <button
-                    class="btn btn-secondary"
-                    (click)="previousPage()"
-                    [disabled]="users.currentPage==1">
-
-                    Previous
-
-                </button>
-
-                <div>
-
-                    <strong>
-                        Page {{users.currentPage}} of {{users.totalPages}}
-                    </strong>
-
-                    <br>
-
-                    Total Records :
-                    {{users.totalRecords}}
-
+                    <select class="form-select input-dark" formControlName="sortBy">
+                        <option value="fullName">Full Name</option>
+                        <option value="email">Email</option>
+                        <option value="role">Role</option>
+                        <option value="activeStatus">Active Status</option>
+                        <option value="createdDate">Created Date</option>
+                    </select>
                 </div>
 
-                <button
-                    class="btn btn-secondary"
-                    (click)="nextPage()"
-                    [disabled]="users.isLastPage">
+                <div class="col-lg-3 col-md-6">
+                    <label class="form-label-custom">Order</label>
 
-                    Next
+                    <select class="form-select input-dark" formControlName="sortDirection">
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </div>
 
-                </button>
+                <div class="col-lg-3 col-md-6">
+                    <label class="form-label-custom">Page Size</label>
+
+                    <select class="form-select input-dark" formControlName="pageSize">
+                        <option [value]="5">5</option>
+                        <option [value]="10">10</option>
+                        <option [value]="20">20</option>
+                        <option [value]="50">50</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-3 col-md-6 d-flex align-items-end">
+                    <button
+                        type="button"
+                        class="btn btn-secondary-custom w-100"
+                        (click)="resetFilters()">
+                        Reset Filters
+                    </button>
+                </div>
+
+                <div class="col-12 d-flex justify-content-end">
+                    <button
+                        type="submit"
+                        class="btn btn-primary-custom">
+                        Search
+                    </button>
+                </div>
 
             </div>
 
-            }
+        </app-filter-card>
 
-            @else{
+    </form>
 
-            <div class="alert alert-info text-center">
+    @if(isLoading){
 
-                No users found.
+        <app-loading-spinner></app-loading-spinner>
+
+    }
+
+    @else{
+
+        @if(users.records.length > 0){
+
+            <div class="table-responsive mt-4">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+                            <th>User Id</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            <th>Role</th>
+                            <th class="text-center">Status</th>
+                            <th>Created On</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @for(user of users.records; track user.userId){
+
+                            <tr>
+
+                                <td>{{user.userId}}</td>
+
+                                <td>{{user.fullName}}</td>
+
+                                <td>{{user.email}}</td>
+
+                                <td>{{user.mobileNumber}}</td>
+
+                                <td>{{user.role}}</td>
+
+                                <td class="text-center">
+
+                                    <app-status-badge
+                                        [status]="user.activeStatus">
+                                    </app-status-badge>
+
+                                </td>
+
+                                <td>{{user.createdDate | date:'dd-MM-yyyy'}}</td>
+
+                                <td class="text-center">
+
+                                    <app-action-buttons
+                                        [actions]="user.activeStatus === 'Active' ? ['deactivate'] : ['activate']"
+                                        (actionClick)="user.activeStatus === 'Active'
+                                            ? deactivateUser(user.userId)
+                                            : activateUser(user.userId)">
+                                    </app-action-buttons>
+
+                                </td>
+
+                            </tr>
+
+                        }
+
+                    </tbody>
+
+                </table>
 
             </div>
 
-            }
+            <app-pagination
+                [currentPage]="users.currentPage"
+                [totalPages]="users.totalPages"
+                [totalRecords]="users.totalRecords"
+                [pageSize]="filterForm.value.pageSize!"
+                (pageChange)="$event === 'previous' ? previousPage() : nextPage()">
+            </app-pagination>
 
-        </div>
+        }
 
-    </div>
+        @else{
+
+            <app-empty-state
+                icon="bi bi-people"
+                title="No Users Found"
+                message="No users match your current search criteria."
+                buttonText="Reset Filters"
+                (buttonClick)="resetFilters()">
+            </app-empty-state>
+
+        }
+
+    }
 
 </div>

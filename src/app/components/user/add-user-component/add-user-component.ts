@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { NgIf } from '@angular/common';
-
+import { PageHeader } from '../../../shared/ui/page-header/page-header';
 @Component({
   selector: 'app-add-user-component',
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf, PageHeader],
   templateUrl: './add-user-component.html',
   styleUrl: './add-user-component.css',
 })
@@ -43,6 +43,10 @@ export class AddUserComponent {
       }
     })
   }
+
+  navigateToUsers(){
+    this.router.navigate(['/viewusers']);
+}
 
   getfullName():FormControl{
     return this.userForm.get('fullName') as FormControl;
