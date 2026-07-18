@@ -4,14 +4,14 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Observable, of } from 'rxjs';
 import { RegisterResponseDto } from '../../../DTO/RegisterResponseDto';
 import { AuthServices } from '../../../services/auth/auth-services';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { RegisterRequestDto } from '../../../DTO/RegisterRequestDto';
 
 @Component({
   selector: 'app-register-component',
-  imports: [ReactiveFormsModule ,NgIf],
+  imports: [ReactiveFormsModule ,NgIf, RouterLink],
   templateUrl: './register-component.html',
   styleUrl: './register-component.css',
 })
@@ -20,7 +20,7 @@ export class RegisterComponent {
   registerForm:FormGroup=new FormGroup({
     fullName:new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
     email:new FormControl('', [Validators.required, Validators.email]),
-    password:new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]),
+    password:new FormControl('', [Validators.required, Validators.pattern('^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$!]).{8,20}$'), ]),
     mobileNumber:new FormControl('', [Validators.required, Validators.pattern("^[6-9][0-9]{9}$")]),
   });
 
