@@ -1,0 +1,55 @@
+.navbar{
+    background:white;
+    min-height:70px;
+    padding:12px 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid #e9ecef;
+}
+
+.logo-section h3{
+    color:#2563eb;
+    margin:0;
+    font-weight:700;
+    cursor: pointer;
+}
+
+.logo-section small{
+    color:#6b7280;
+    cursor: pointer;
+}
+
+.navbar-right{
+    display:flex;
+    align-items:center;
+}
+
+.user-info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.user-info i{
+    font-size:38px;
+    color:#2563eb;
+}
+
+.user-info h6{
+    margin:0;
+    font-weight:600;
+    max-width:220px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.role-badge{
+    background:#dbeafe;
+    color:#1d4ed8;
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+}
