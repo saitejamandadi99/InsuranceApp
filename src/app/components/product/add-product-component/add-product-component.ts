@@ -7,10 +7,12 @@ import { ProductRequestDto } from '../../../DTO/ProductRequestDto';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { NgFor, NgIf } from '@angular/common';
+import { PageHeader } from '../../../shared/ui/page-header/page-header';
+import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinner';
 
 @Component({
   selector: 'app-add-product-component',
-  imports: [ReactiveFormsModule, NgIf, NgFor],
+  imports: [ReactiveFormsModule, NgIf, PageHeader, LoadingSpinner],
   templateUrl: './add-product-component.html',
   styleUrl: './add-product-component.css',
 })
@@ -21,15 +23,23 @@ export class AddProductComponent {
     description: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(200)])
   });
 
+  ProductType = ProductType;
+  productTypes = Object.values(ProductType);
+
+  isLoading=false;
+
   constructor(private prodService:ProductServices, private router:Router){}
 
   addProduct(){
+    this.isLoading=true;
     const request:ProductRequestDto = this.productForm.value;
     this.prodService.addProduct(request).subscribe({
       next:(response)=>{
+        this.isLoading=false;
         alert(response.message);
         this.router.navigate(['/viewproducts']);
       }, error:(err:HttpErrorResponse)=>{
+        this.isLoading=false;
         const apiError = err.error as ErrorResponseDto;
         alert(apiError.Message);
       }
@@ -48,4 +58,7 @@ export class AddProductComponent {
     return this.productForm.get('description') as FormControl;
   }
 
+  navigateToProducts(){
+  this.router.navigate(['/viewproducts']);
+}
 }

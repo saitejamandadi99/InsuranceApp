@@ -12,6 +12,9 @@ import { ViewCustomersComponent } from './components/customer/view-customers-com
 import { CustomerDetailsComponent } from './components/customer/customer-details-component/customer-details-component';
 import { officerGuardsGuard } from './guards/officer-guards-guard';
 import { adminOfficerGuardsGuard } from './guards/admin-officer-guards-guard';
+import { ViewProductsComponent } from './components/product/view-products-component/view-products-component';
+import { AddProductComponent } from './components/product/add-product-component/add-product-component';
+import { EditProductComponent } from './components/product/edit-product-component/edit-product-component';
 
 export const routes: Routes = [
     {path:'login', component:LoginComponent},
@@ -27,5 +30,8 @@ export const routes: Routes = [
     {path:'createprofile', component:AddCustomerProfileComponent, canActivate:[customerGuardsGuard]},
     {path:'editprofile', component:EditCustomerProfileComponent, canActivate:[customerGuardsGuard]},
     
+    { path: 'viewproducts', component: ViewProductsComponent, canActivate: [adminOfficerGuardsGuard] },
+    { path: 'addproduct', component: AddProductComponent, canActivate: [adminGuardsGuard] },
+    { path: 'editproduct/:id', component: EditProductComponent, canActivate: [adminGuardsGuard] },
 
 ];
