@@ -1,0 +1,197 @@
+<div class="container-fluid py-4">
+
+    <app-page-header
+        title="Payments"
+        subtitle="Manage and monitor all premium payments in the insurance management system.">
+    </app-page-header>
+
+    <form [formGroup]="filterForm" (ngSubmit)="searchPayments()">
+
+        <app-filter-card>
+
+            <div class="row g-3">
+
+                <div class="col-12">
+
+                    <app-search-box
+                        [searchControl]="searchControl"
+                        placeholder="Search by policy number or transaction reference..."
+                        (clear)="clearSearch()">
+                    </app-search-box>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <label class="form-label-custom">Sort By</label>
+
+                    <select class="form-select input-dark" formControlName="sortBy">
+                        <option value="paymentDate">Payment Date</option>
+                        <option value="policyNumber">Policy Number</option>
+                        <option value="amount">Amount</option>
+                        <option value="paymentMode">Payment Mode</option>
+                        <option value="paymentStatus">Payment Status</option>
+                    </select>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <label class="form-label-custom">Order</label>
+
+                    <select class="form-select input-dark" formControlName="sortDirection">
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <label class="form-label-custom">Page Size</label>
+
+                    <select class="form-select input-dark" formControlName="pageSize">
+                        <option [value]="5">5</option>
+                        <option [value]="10">10</option>
+                        <option [value]="20">20</option>
+                        <option [value]="50">50</option>
+                    </select>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6 d-flex align-items-end">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary-custom w-100"
+                        (click)="resetFilters()">
+
+                        Reset Filters
+
+                    </button>
+
+                </div>
+
+                <div class="col-12 d-flex justify-content-end">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary-custom">
+
+                        Search
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </app-filter-card>
+
+    </form>
+
+    @if(isLoading){
+
+        <app-loading-spinner></app-loading-spinner>
+
+    }
+
+    @else{
+
+        @if(payments.records.length > 0){
+
+            <div class="app-card mt-4">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-dark">
+
+                            <tr>
+
+                                <th>Payment #</th>
+                                <th>Policy #</th>
+                                <th>Amount</th>
+                                <th>Payment Date</th>
+                                <th>Payment Mode</th>
+                                <th>Transaction Reference</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Actions</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @for(payment of payments.records; track payment.paymentId){
+
+                                <tr>
+
+                                    <td>{{payment.paymentId}}</td>
+
+                                    <td>{{payment.policyNumber}}</td>
+
+                                    <td>{{payment.amount | currency:'INR':'symbol':'1.2-2'}}</td>
+
+                                    <td>{{payment.paymentDate | date:'dd-MM-yyyy'}}</td>
+
+                                    <td>{{payment.paymentMode}}</td>
+
+                                    <td>{{payment.transactionReference}}</td>
+
+                                    <td class="text-center">
+
+                                        <app-status-badge
+                                            [status]="payment.paymentStatus">
+                                        </app-status-badge>
+
+                                    </td>
+
+                                    <td class="text-center">
+
+                                        <app-action-buttons
+                                            [actions]="['view']"
+                                            (actionClick)="navigateToPaymentDetails(payment.paymentId)">
+                                        </app-action-buttons>
+
+                                    </td>
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <app-pagination
+                [currentPage]="payments.currentPage"
+                [totalPages]="payments.totalPages"
+                [totalRecords]="payments.totalRecords"
+                [pageSize]="filterForm.value.pageSize!"
+                (pageChange)="$event === 'previous' ? previousPage() : nextPage()">
+            </app-pagination>
+
+        }
+
+        @else{
+
+            <app-empty-state
+                icon="bi bi-credit-card"
+                title="No Payments Found"
+                message="No payments match your current search criteria."
+                buttonText="Reset Filters"
+                (buttonClick)="resetFilters()">
+            </app-empty-state>
+
+        }
+
+    }
+
+</div>

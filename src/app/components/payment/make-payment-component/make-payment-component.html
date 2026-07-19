@@ -1,0 +1,195 @@
+<div class="container-fluid py-4">
+
+    <app-page-header
+        title="Make Payment"
+        subtitle="Complete premium payment for the selected insurance policy.">
+    </app-page-header>
+
+    @if(isLoading){
+
+        <app-loading-spinner></app-loading-spinner>
+
+    }
+
+    @else{
+
+        <div class="row">
+
+            <div class="col-lg-5">
+
+                <div class="app-card p-4 h-100">
+
+                    <h4 class="mb-4">Policy Information</h4>
+
+                    <div class="mb-3">
+                        <label class="form-label-custom">Policy Number</label>
+                        <div class="form-control input-dark">{{policy.policyNumber}}</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label-custom">Customer</label>
+                        <div class="form-control input-dark">{{policy.customerName}}</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label-custom">Plan</label>
+                        <div class="form-control input-dark">{{policy.planName}}</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label-custom">Policy Status</label>
+                        <div class="form-control input-dark">{{policy.policyStatus}}</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label-custom">Start Date</label>
+                        <div class="form-control input-dark">
+                            {{policy.startDate | date:'dd-MM-yyyy'}}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label-custom">End Date</label>
+                        <div class="form-control input-dark">
+                            {{policy.endDate | date:'dd-MM-yyyy'}}
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="form-label-custom">Total Premium Paid</label>
+                        <div class="form-control input-dark">
+                            {{policy.totalPremiumPaid | currency:'INR':'symbol':'1.2-2'}}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-7">
+
+                <div class="app-card p-4">
+
+                    <h4 class="mb-4">Payment Details</h4>
+
+                    <form
+                        [formGroup]="paymentForm"
+                        (ngSubmit)="makePayment()">
+
+                        <div class="mb-3">
+
+                            <label class="form-label-custom">
+                                Amount
+                            </label>
+
+                            <input
+                                type="number"
+                                class="form-control input-dark"
+                                formControlName="amount">
+
+                            @if(amount.invalid && amount.touched){
+
+                                <small class="text-danger">
+
+                                    Enter a valid payment amount.
+
+                                </small>
+
+                            }
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label-custom">
+                                Payment Mode
+                            </label>
+
+                            <select
+                                class="form-select input-dark"
+                                formControlName="paymentMode">
+
+                                <option value="">
+                                    Select Payment Mode
+                                </option>
+
+                                @for(mode of paymentModes; track mode){
+
+                                    <option [value]="mode">
+
+                                        {{mode}}
+
+                                    </option>
+
+                                }
+
+                            </select>
+
+                            @if(paymentMode.invalid && paymentMode.touched){
+
+                                <small class="text-danger">
+
+                                    Payment mode is required.
+
+                                </small>
+
+                            }
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label-custom">
+                                Transaction Reference
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control input-dark"
+                                formControlName="transactionReference">
+
+                            @if(transactionReference.invalid && transactionReference.touched){
+
+                                <small class="text-danger">
+
+                                    Transaction reference is required.
+
+                                </small>
+
+                            }
+
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+
+                            <button
+                                type="button"
+                                class="btn btn-secondary-custom"
+                                (click)="navigateBack()">
+
+                                Cancel
+
+                            </button>
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary-custom"
+                                [disabled]="paymentForm.invalid">
+
+                                {{ role === 'Customer' ? 'Pay Premium' : 'Record Payment' }}
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    }
+
+</div>

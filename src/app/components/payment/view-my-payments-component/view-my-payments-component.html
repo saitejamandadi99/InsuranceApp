@@ -1,0 +1,100 @@
+<div class="container-fluid py-4">
+
+    <app-page-header
+        title="My Payments"
+        subtitle="View your premium payment history.">
+    </app-page-header>
+
+    @if(isLoading){
+
+        <app-loading-spinner></app-loading-spinner>
+
+    }
+
+    @else{
+
+        @if(payments.length > 0){
+
+            <div class="app-card mt-4">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-dark">
+
+                            <tr>
+                                <th>Payment #</th>
+                                <th>Policy #</th>
+                                <th>Amount</th>
+                                <th>Payment Date</th>
+                                <th>Payment Mode</th>
+                                <th>Transaction Reference</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @for(payment of payments; track payment.paymentId){
+
+                                <tr>
+
+                                    <td>{{payment.paymentId}}</td>
+
+                                    <td>{{payment.policyNumber}}</td>
+
+                                    <td>{{payment.amount | currency:'INR':'symbol':'1.2-2'}}</td>
+
+                                    <td>{{payment.paymentDate | date:'dd-MM-yyyy'}}</td>
+
+                                    <td>{{payment.paymentMode}}</td>
+
+                                    <td>{{payment.transactionReference}}</td>
+
+                                    <td class="text-center">
+
+                                        <app-status-badge
+                                            [status]="payment.paymentStatus">
+                                        </app-status-badge>
+
+                                    </td>
+
+                                    <td class="text-center">
+
+                                        <app-action-buttons
+                                            [actions]="['view']"
+                                            (actionClick)="navigateToPaymentDetails(payment.paymentId)">
+                                        </app-action-buttons>
+
+                                    </td>
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        }
+
+        @else{
+
+            <app-empty-state
+                icon="bi bi-credit-card"
+                title="No Payments Found"
+                message="You haven't made any premium payments yet.">
+            </app-empty-state>
+
+        }
+
+    }
+
+</div>
