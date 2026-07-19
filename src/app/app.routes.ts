@@ -35,9 +35,20 @@ import { PaymentDetailsComponent } from './components/payment/payment-details-co
 import { allGuardsGuard } from './guards/all-guards-guard';
 import { ViewClaimStatusHistoryComponent } from './components/history/view-claim-status-history-component/view-claim-status-history-component';
 import { ViewMyClaimStatusHistoryComponent } from './components/history/view-my-claim-status-history-component/view-my-claim-status-history-component';
+import { UploadDocumentComponent } from './components/document/upload-document-component/upload-document-component';
+import { ViewMyDocumentsComponent } from './components/document/view-my-documents-component/view-my-documents-component';
+import { ViewDocumentsComponent } from './components/document/view-documents-component/view-documents-component';
+import { DocumentDetailsComponent } from './components/document/document-details-component/document-details-component';
+import { AdminDashboardComponent } from './components/dashboards/admin-dashboard-component/admin-dashboard-component';
+import { OfficerDashboardComponent } from './components/dashboards/officer-dashboard-component/officer-dashboard-component';
+import { CustomerDashboardComponent } from './components/dashboards/customer-dashboard-component/customer-dashboard-component';
 export const routes: Routes = [
     {path:'login', component:LoginComponent},
     {path:'register', component:RegisterComponent},
+
+    { path: 'admindashboard', component: AdminDashboardComponent, canActivate: [adminGuardsGuard] },
+    { path: 'officerdashboard', component: OfficerDashboardComponent, canActivate: [officerGuardsGuard] },
+    { path: 'customerdashboard', component: CustomerDashboardComponent, canActivate: [customerGuardsGuard] },
 
     {path:'viewusers', component:ViewUsersComponent, canActivate:[adminGuardsGuard]},
     {path:'adduser', component:AddUserComponent, canActivate:[adminGuardsGuard]}, 
@@ -62,8 +73,6 @@ export const routes: Routes = [
     { path: 'mypolicies', component: ViewMyPoliciesComponent, canActivate: [customerGuardsGuard] },
     { path: 'purchasepolicy', component: PurchasePolicyComponent, canActivate: [customerGuardsGuard] },
 
-    
-
     { path: 'raiseclaim/:policyId', component: RaiseClaimComponent, canActivate: [customerGuardsGuard] },
     { path: 'myclaims', component: ViewMyClaimsComponent, canActivate: [customerGuardsGuard] },
     { path: 'viewclaimdetails/:claimId', component: ViewClaimDetailsComponent, canActivate: [customerGuardsGuard] },
@@ -78,4 +87,9 @@ export const routes: Routes = [
     { path: 'mypayments', component: ViewMyPaymentsComponent, canActivate: [customerGuardsGuard] },
     { path: 'viewpayments', component: ViewPaymentsComponent, canActivate: [adminOfficerGuardsGuard] },
     { path: 'paymentdetails/:paymentId', component: PaymentDetailsComponent, canActivate:[allGuardsGuard] },
+
+    { path: 'uploaddocument/:claimId', component: UploadDocumentComponent, canActivate: [customerGuardsGuard] },
+    { path: 'mydocuments', component: ViewMyDocumentsComponent, canActivate: [customerGuardsGuard] },
+    { path: 'viewdocuments', component: ViewDocumentsComponent, canActivate: [adminOfficerGuardsGuard] },
+    { path: 'documentdetails/:documentId', component: DocumentDetailsComponent, canActivate: [allGuardsGuard] },
 ];
