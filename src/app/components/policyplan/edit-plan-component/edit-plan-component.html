@@ -1,1 +1,322 @@
-<p>edit-plan-component works!</p>
+<div class="container-fluid py-4">
+
+    <app-page-header
+        title="Edit Policy Plan"
+        subtitle="Update the details of an existing policy plan."
+        buttonText="Back to Plans"
+        buttonIcon="bi bi-arrow-left"
+        (buttonClick)="navigateToPlans()">
+    </app-page-header>
+
+    @if(isLoading){
+        <app-loading-spinner></app-loading-spinner>
+    }
+
+    @else{
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <div class="app-card">
+                    <div class="card-header-custom">
+                        <h4 class="mb-0">
+                            <i class="bi bi-pencil-square me-2"></i>
+                            Edit Policy Plan
+                        </h4>
+                    </div>
+
+                    <div class="card-body">
+                        <form [formGroup]="planForm" (ngSubmit)="editPlan()">
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <label class="form-label-custom">Product</label>
+                                    <select
+                                        class="form-select input-dark"
+                                        formControlName="productId">
+                                        <option value="">Select Product</option>
+                                        @for(product of products; track product.productId){
+                                            <option [value]="product.productId">
+                                                {{product.productName}}
+                                            </option>
+                                        }
+
+                                    </select>
+
+                                    <div
+                                        class="mt-1"
+                                        *ngIf="productId.invalid && (productId.dirty || productId.touched)">
+
+                                        <small class="text-danger">
+                                            Product is required.
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+
+                                    <label class="form-label-custom">
+                                        Plan Name
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        class="form-control input-dark"
+                                        formControlName="planName"
+                                        placeholder="Enter plan name">
+
+                                    <div
+                                        class="mt-1"
+                                        *ngIf="planName.invalid && (planName.dirty || planName.touched)">
+
+                                        <small
+                                            class="text-danger"
+                                            *ngIf="planName.hasError('required')">
+
+                                            Plan Name is required.
+
+                                        </small>
+
+                                        <small
+                                            class="text-danger"
+                                            *ngIf="planName.hasError('minlength')">
+
+                                            Minimum 3 characters required.
+
+                                        </small>
+
+                                        <small
+                                            class="text-danger"
+                                            *ngIf="planName.hasError('maxlength')">
+
+                                            Maximum 100 characters allowed.
+
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+
+                                    <label class="form-label-custom">
+                                        Coverage Amount
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        class="form-control input-dark"
+                                        formControlName="coverageAmount">
+
+                                    <div
+                                        class="mt-1"
+                                        *ngIf="coverageAmount.invalid && (coverageAmount.dirty || coverageAmount.touched)">
+
+                                        <small
+                                            class="text-danger"
+                                            *ngIf="coverageAmount.hasError('required')">
+
+                                            Coverage Amount is required.
+
+                                        </small>
+
+                                        <small
+                                            class="text-danger"
+                                            *ngIf="coverageAmount.hasError('min')">
+
+                                            Coverage Amount must be at least 1000.
+
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+
+                                    <label class="form-label-custom">
+                                        Premium Amount
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        class="form-control input-dark"
+                                        formControlName="premiumAmount">
+
+                                    <div
+                                        class="mt-1"
+                                        *ngIf="premiumAmount.invalid && (premiumAmount.dirty || premiumAmount.touched)">
+
+                                        <small
+                                            class="text-danger"
+                                            *ngIf="premiumAmount.hasError('required')">
+
+                                            Premium Amount is required.
+
+                                        </small>
+
+                                        <small
+                                            class="text-danger"
+                                            *ngIf="premiumAmount.hasError('min')">
+
+                                            Premium Amount must be at least 1000.
+
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+
+                                    <label class="form-label-custom">
+                                        Premium Type
+                                    </label>
+
+                                    <select
+                                        class="form-select input-dark"
+                                        formControlName="premiumType">
+
+                                        <option value="">
+                                            Select Premium Type
+                                        </option>
+
+                                        @for(type of premiumTypes; track type){
+
+                                            <option [value]="type">
+                                                {{type}}
+                                            </option>
+
+                                        }
+
+                                    </select>
+
+                                    <div
+                                        class="mt-1"
+                                        *ngIf="premiumType.invalid && (premiumType.dirty || premiumType.touched)">
+
+                                        <small class="text-danger">
+                                            Premium Type is required.
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+
+                                    <label class="form-label-custom">
+                                        Duration (Years)
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        class="form-control input-dark"
+                                        formControlName="duration">
+
+                                    <div
+                                        class="mt-1"
+                                        *ngIf="duration.invalid && (duration.dirty || duration.touched)">
+
+                                        <small
+                                            class="text-danger"
+                                            *ngIf="duration.hasError('required')">
+
+                                            Duration is required.
+
+                                        </small>
+
+                                        <small
+                                            class="text-danger"
+                                            *ngIf="duration.hasError('min')">
+
+                                            Minimum duration is 1 year.
+
+                                        </small>
+
+                                        <small
+                                            class="text-danger"
+                                            *ngIf="duration.hasError('max')">
+
+                                            Maximum duration is 100 years.
+
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-12 mb-4">
+
+                                    <label class="form-label-custom">
+                                        Terms & Conditions
+                                    </label>
+
+                                    <textarea
+                                        rows="5"
+                                        class="form-control input-dark"
+                                        formControlName="termsAndConditions"
+                                        placeholder="Enter terms and conditions (optional)">
+                                    </textarea>
+
+                                    <div
+                                        class="mt-1"
+                                        *ngIf="termsAndConditions.invalid && (termsAndConditions.dirty || termsAndConditions.touched)">
+
+                                        <small
+                                            class="text-danger"
+                                            *ngIf="termsAndConditions.hasError('minlength')">
+
+                                            Minimum 3 characters required.
+
+                                        </small>
+
+                                        <small
+                                            class="text-danger"
+                                            *ngIf="termsAndConditions.hasError('maxlength')">
+
+                                            Maximum 300 characters allowed.
+
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="d-flex justify-content-end gap-3 mt-4">
+
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary-custom"
+                                    (click)="navigateToPlans()">
+
+                                    Cancel
+
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary-custom"
+                                    [disabled]="planForm.invalid">
+
+                                    <i class="bi bi-pencil-square me-2"></i>
+                                    Update Policy Plan
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    }
+
+</div>

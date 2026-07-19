@@ -1,1 +1,249 @@
-<p>view-plans-component works!</p>
+<div class="container-fluid py-4">
+
+    <app-page-header
+        title="Policy Plans"
+        subtitle="Manage all insurance policy plans in the system."
+        buttonText="Add Policy Plan"
+        buttonIcon="bi bi-plus-lg"
+        (buttonClick)="navigateToAddPlan()">
+    </app-page-header>
+
+    <form [formGroup]="filterForm" (ngSubmit)="searchPlans()">
+
+        <app-filter-card>
+
+            <div class="row g-3">
+
+                <div class="col-12">
+
+                    <app-search-box
+                        [searchControl]="searchControl"
+                        placeholder="Search by plan name or product name..."
+                        (clear)="clearSearch()">
+                    </app-search-box>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <label class="form-label-custom">
+                        Sort By
+                    </label>
+
+                    <select
+                        class="form-select input-dark"
+                        formControlName="sortBy">
+
+                        <option value="planName">
+                            Plan Name
+                        </option>
+
+                        <option value="coverageAmount">
+                            Coverage Amount
+                        </option>
+
+                        <option value="premiumAmount">
+                            Premium Amount
+                        </option>
+
+                        <option value="duration">
+                            Duration
+                        </option>
+
+                        <option value="createdDate">
+                            Created Date
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <label class="form-label-custom">
+                        Order
+                    </label>
+
+                    <select
+                        class="form-select input-dark"
+                        formControlName="sortDirection">
+
+                        <option value="asc">
+                            Ascending
+                        </option>
+
+                        <option value="desc">
+                            Descending
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <label class="form-label-custom">
+                        Page Size
+                    </label>
+
+                    <select
+                        class="form-select input-dark"
+                        formControlName="pageSize">
+
+                        <option [value]="5">5</option>
+                        <option [value]="10">10</option>
+                        <option [value]="20">20</option>
+                        <option [value]="50">50</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6 d-flex align-items-end">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary-custom w-100"
+                        (click)="resetFilters()">
+
+                        Reset Filters
+
+                    </button>
+
+                </div>
+
+                <div class="col-12 d-flex justify-content-end">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary-custom">
+
+                        Search
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </app-filter-card>
+
+    </form>
+
+    @if(isLoading){
+
+        <app-loading-spinner></app-loading-spinner>
+
+    }
+
+    @else{
+
+        @if(lstPlans.records.length > 0){
+
+            <div class="table-responsive mt-4">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>Plan Id</th>
+                            <th>Product Name</th>
+                            <th>Product Type</th>
+                            <th>Plan Name</th>
+                            <th>Coverage Amount</th>
+                            <th>Premium Amount</th>
+                            <th>Premium Type</th>
+                            <th>Duration</th>
+                            <th class="text-center">Status</th>
+                            <th>Created On</th>
+                            <th class="text-center">Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @for(plan of lstPlans.records; track plan.planId){
+
+                            <tr>
+
+                                <td>{{plan.planId}}</td>
+
+                                <td>{{plan.productName}}</td>
+
+                                <td>{{plan.productType}}</td>
+
+                                <td>{{plan.planName}}</td>
+
+                                <td>{{plan.coverageAmount | currency:'INR':'symbol':'1.2-2'}}</td>
+
+                                <td>{{plan.premiumAmount | currency:'INR':'symbol':'1.2-2'}}</td>
+
+                                <td>{{plan.premiumType}}</td>
+
+                                <td>{{plan.duration}} Years</td>
+
+                                <td class="text-center">
+
+                                    <app-status-badge
+                                        [status]="plan.activeStatus">
+                                    </app-status-badge>
+
+                                </td>
+
+                                <td>{{plan.createdDate | date:'dd-MM-yyyy'}}</td>
+
+                                <td class="text-center">
+
+                                    <app-action-buttons
+                                        [actions]="plan.activeStatus === 'Active'
+                                            ? ['edit','deactivate']
+                                            : ['edit','activate']"
+                                        (actionClick)="
+                                            $event === 'edit'
+                                                ? editPlan(plan.planId)
+                                                : $event === 'activate'
+                                                    ? activatePlan(plan.planId)
+                                                    : deactivatePlan(plan.planId)">
+                                    </app-action-buttons>
+
+                                </td>
+
+                            </tr>
+
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <app-pagination
+                [currentPage]="lstPlans.currentPage"
+                [totalPages]="lstPlans.totalPages"
+                [totalRecords]="lstPlans.totalRecords"
+                [pageSize]="filterForm.value.pageSize!"
+                (pageChange)="$event === 'previous' ? previousPage() : nextPage()">
+            </app-pagination>
+
+        }
+
+        @else{
+
+            <app-empty-state
+                icon="bi bi-file-earmark-text"
+                title="No Policy Plans Found"
+                message="No policy plans match your current search criteria."
+                buttonText="Reset Filters"
+                (buttonClick)="resetFilters()">
+            </app-empty-state>
+
+        }
+
+    }
+
+</div>

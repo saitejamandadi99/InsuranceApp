@@ -1,21 +1,26 @@
-import { NgFor, NgForOf, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PolicyPlanServices } from '../../../services/PolicyPlan/policy-plan-services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PolicyPlanRequestDto } from '../../../DTO/PolicyPlanRequestDto';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
+import { PageHeader } from '../../../shared/ui/page-header/page-header';
+import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinner';
+import { PremiumType } from '../../../models/PremiumType';
+import { ProductResponseDto } from '../../../DTO/ProductResponseDto';
+import { ProductServices } from '../../../services/Product/product-services';
 
 @Component({
   selector: 'app-edit-plan-component',
-  imports: [ReactiveFormsModule,NgIf, NgFor],
+  imports: [ReactiveFormsModule,NgIf, PageHeader,LoadingSpinner],
   templateUrl: './edit-plan-component.html',
   styleUrl: './edit-plan-component.css',
 })
 export class EditPlanComponent implements OnInit {
   planForm:FormGroup=new FormGroup({
-    productId:new FormControl(''),
+    productId:new FormControl('', [Validators.required]),
     planName:new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
     coverageAmount:new FormControl(1000, [Validators.required, Validators.min(1000)]),
     premiumAmount:new FormControl(1000,[Validators.required, Validators.min(1000)]),
@@ -26,11 +31,24 @@ export class EditPlanComponent implements OnInit {
 
   id!:number;
 
-  constructor(private planService:PolicyPlanServices, private router:Router, private activatedRoute:ActivatedRoute){}
+  PremiumType=PremiumType;
+  premiumTypes= Object.values(PremiumType);
+  isLoading=false;
+  products : ProductResponseDto[] = [];
+
+  constructor(private planService:PolicyPlanServices, private router:Router, private activatedRoute:ActivatedRoute,private cdr:ChangeDetectorRef, private prodService:ProductServices){}
 
   ngOnInit(): void {
-      this.id=this.activatedRoute.snapshot.params['id'];
-      this.planService.getPolicyPlanById(this.id).subscribe({
+    this.id=this.activatedRoute.snapshot.params['id'];
+    this.loadProducts();
+    this.loadPlan();
+      
+  }
+
+  loadPlan(){
+
+    this.isLoading=true;
+    this.planService.getPolicyPlanById(this.id).subscribe({
         next:(response)=>{
           this.planForm.patchValue({
             productId:response.data.productId,
@@ -40,21 +58,43 @@ export class EditPlanComponent implements OnInit {
             premiumType:response.data.premiumType,
             duration:response.data.duration,
             termsAndConditions:response.data.termsAndConditions
-          })
+          });
+          this.isLoading=false;
+          this.cdr.detectChanges();
         },error:(err:HttpErrorResponse)=>{
+          this.isLoading=false;
           const apiError = err.error as ErrorResponseDto;
           alert(apiError.Message);
         }
       })
   }
 
+  loadProducts(){
+    this.isLoading=true;
+    this.prodService.listProducts(1,99, 'productName', 'asc', '').subscribe({
+      next:(response)=>{
+        this.products=response.data?.records ?? [];
+        this.isLoading=false;
+        this.cdr.detectChanges();
+      },
+      error:(err:HttpErrorResponse)=>{
+        this.isLoading=false;
+        const apiError=err.error as ErrorResponseDto;
+        alert(apiError.Message);
+      }
+    })
+  }
+
   editPlan(){
+    this.isLoading=true;
     const request:PolicyPlanRequestDto= this.planForm.value;
     this.planService.updatePolicyPlan(this.id, request).subscribe({
       next:(response)=>{
+        this.isLoading=false;
         alert(response.message);
         this.router.navigate(['/viewplans']);
       },error:(err:HttpErrorResponse)=>{
+        this.isLoading=false;
         const apiError = err.error as ErrorResponseDto;
         alert(apiError.Message);
       }
@@ -89,6 +129,9 @@ export class EditPlanComponent implements OnInit {
     return this.planForm.get('termsAndConditions') as FormControl;
   }
 
+  navigateToPlans(){
+    this.router.navigate(['/viewplans']);
+  }
 
 }
 

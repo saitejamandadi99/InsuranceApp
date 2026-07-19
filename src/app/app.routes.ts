@@ -15,6 +15,9 @@ import { adminOfficerGuardsGuard } from './guards/admin-officer-guards-guard';
 import { ViewProductsComponent } from './components/product/view-products-component/view-products-component';
 import { AddProductComponent } from './components/product/add-product-component/add-product-component';
 import { EditProductComponent } from './components/product/edit-product-component/edit-product-component';
+import { ViewPlansComponent } from './components/policyplan/view-plans-component/view-plans-component';
+import { AddPlanComponent } from './components/policyplan/add-plan-component/add-plan-component';
+import { EditPlanComponent } from './components/policyplan/edit-plan-component/edit-plan-component';
 
 export const routes: Routes = [
     {path:'login', component:LoginComponent},
@@ -34,4 +37,7 @@ export const routes: Routes = [
     { path: 'addproduct', component: AddProductComponent, canActivate: [adminGuardsGuard] },
     { path: 'editproduct/:id', component: EditProductComponent, canActivate: [adminGuardsGuard] },
 
+    { path: 'viewplans', component: ViewPlansComponent, canActivate: [adminOfficerGuardsGuard] },
+    { path: 'addplan', component: AddPlanComponent, canActivate: [adminGuardsGuard] },
+    { path: 'editplan/:id', component: EditPlanComponent, canActivate: [adminGuardsGuard] },
 ];
