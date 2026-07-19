@@ -132,4 +132,9 @@ get searchControl(): FormControl {
     }
   });
 }
+
+
+navigateToRecordPayment(policyId: number) {
+  this.router.navigate(['/recordpayment', policyId]);
+}
 }

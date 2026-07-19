@@ -165,24 +165,32 @@
 
                                 <td class="text-center">
 
-                                    @if(policy.policyStatus === PolicyStatus.Active){
+                                        @if(policy.policyStatus === PolicyStatus.Active){
+
+                                    <div class="d-flex justify-content-center gap-2">
+
+                                        <button
+                                            class="btn btn-primary-custom btn-sm"
+                                            (click)="navigateToRecordPayment(policy.policyId)">
+                                            Record Payment
+                                        </button>
 
                                         <app-action-buttons
                                             [actions]="['cancel']"
                                             (actionClick)="cancelPolicy(policy.policyId)">
                                         </app-action-buttons>
 
-                                    }
-                                    @else{
+                                            </div>
 
-                                        <span class="text-muted">-</span>
+                                        }
+                                        @else{
 
-                                    }
+                                            <span class="text-muted">-</span>
+
+                                        }
 
                                 </td>
-
                             </tr>
-
                         }
 
                     </tbody>

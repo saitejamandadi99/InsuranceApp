@@ -9,6 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { StatusBadge } from '../../../shared/ui/status-badge/status-badge';
 import { Router } from '@angular/router';
+import { PolicyStatus } from '../../../models/PolicyStatus';
 
 @Component({
   selector: 'app-view-my-policies-component',
@@ -22,6 +23,7 @@ export class ViewMyPoliciesComponent implements OnInit {
   
   lstMyPolicies: PolicyResponseDto[] = [];
   isLoading=false;
+  PolicyStatus=PolicyStatus
   ngOnInit(): void {
    this.loadMyPolicies();
   }
@@ -44,6 +46,14 @@ export class ViewMyPoliciesComponent implements OnInit {
 
   navigateToPurchasePolicy(){
   this.router.navigate(['/purchasepolicy']);
+}
+
+navigateToMakePayment(policyId: number) {
+  this.router.navigate(['/makepayment', policyId]);
+}
+
+navigateToRaiseClaim(policyId: number) {
+  this.router.navigate(['/raiseclaim', policyId]);
 }
 
 }
