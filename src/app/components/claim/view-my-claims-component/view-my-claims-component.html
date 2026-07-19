@@ -1,0 +1,109 @@
+<div class="container-fluid py-4">
+
+    <app-page-header
+        title="My Claims"
+        subtitle="View and track your insurance claims.">
+    </app-page-header>
+
+    @if(isLoading){
+
+        <app-loading-spinner></app-loading-spinner>
+
+    }
+
+    @else{
+
+        @if(lstMyClaims.length > 0){
+
+            <div class="table-responsive mt-4">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>Claim #</th>
+                            <th>Policy #</th>
+                            <th>Amount</th>
+                            <th>Reason</th>
+                            <th>Incident Date</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @for(claim of lstMyClaims; track claim.claimId){
+
+                            <tr>
+
+                                <td>{{claim.claimNumber}}</td>
+
+                                <td>{{claim.policyNumber}}</td>
+
+                                <td>{{claim.claimAmount | currency:'INR':'symbol':'1.2-2'}}</td>
+
+                                <td>{{claim.claimReason}}</td>
+
+                                <td>{{claim.incidentDate | date:'dd-MM-yyyy'}}</td>
+
+                                <td class="text-center">
+
+                                    <app-status-badge
+                                        [status]="claim.claimStatus">
+                                    </app-status-badge>
+
+                                </td>
+
+                                <td class="text-center">
+
+                                    <app-action-buttons
+                                        [actions]="['view']"
+                                        (actionClick)="navigateToViewClaimDetails(claim.claimId)">
+                                    </app-action-buttons>
+
+                                </td>
+
+                            </tr>
+
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        }
+
+        @else{
+
+            <div class="app-card mt-4">
+
+                <div class="card-body text-center py-5">
+
+                    <i class="bi bi-file-earmark-medical display-4 text-muted"></i>
+
+                    <h4 class="mt-3">No Claims Found</h4>
+
+                    <p class="text-muted">
+                        You haven't raised any insurance claims yet.
+                    </p>
+
+                    <p class="text-muted mb-0">
+                        Visit <strong>My Policies</strong> to submit a new claim.
+                    </p>
+
+                </div>
+
+            </div>
+
+        }
+
+    }
+
+</div>

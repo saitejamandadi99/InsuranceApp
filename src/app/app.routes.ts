@@ -22,6 +22,12 @@ import { ViewPoliciesComponent } from './components/policy/view-policies-compone
 import { ViewMyPoliciesComponent } from './components/policy/view-my-policies-component/view-my-policies-component';
 import { IssuePolicyComponent } from './components/policy/issue-policy-component/issue-policy-component';
 import { PurchasePolicyComponent } from './components/policy/purchase-policy-component/purchase-policy-component';
+import { RaiseClaimComponent } from './components/claim/raise-claim-component/raise-claim-component';
+import { ViewMyClaimsComponent } from './components/claim/view-my-claims-component/view-my-claims-component';
+import { ViewClaimDetailsComponent } from './components/claim/view-claim-details-component/view-claim-details-component';
+import { ViewClaimsComponent } from './components/claim/view-claims-component/view-claims-component';
+import { OfficerClaimReviewComponent } from './components/claim/officer-claim-review-component/officer-claim-review-component';
+import { AdminClaimReviewComponent } from './components/claim/admin-claim-review-component/admin-claim-review-component';
 export const routes: Routes = [
     {path:'login', component:LoginComponent},
     {path:'register', component:RegisterComponent},
@@ -48,4 +54,13 @@ export const routes: Routes = [
     { path: 'issuepolicy', component: IssuePolicyComponent, canActivate: [adminOfficerGuardsGuard] },
     { path: 'mypolicies', component: ViewMyPoliciesComponent, canActivate: [customerGuardsGuard] },
     { path: 'purchasepolicy', component: PurchasePolicyComponent, canActivate: [customerGuardsGuard] },
+
+    
+
+    { path: 'raiseclaim/:policyId', component: RaiseClaimComponent, canActivate: [customerGuardsGuard] },
+    { path: 'myclaims', component: ViewMyClaimsComponent, canActivate: [customerGuardsGuard] },
+    { path: 'viewclaimdetails/:claimId', component: ViewClaimDetailsComponent, canActivate: [customerGuardsGuard] },
+    { path: 'viewclaims', component: ViewClaimsComponent, canActivate: [adminOfficerGuardsGuard] },
+    { path: 'officerreview/:claimId', component: OfficerClaimReviewComponent, canActivate: [officerGuardsGuard] },
+    { path: 'adminreview/:claimId', component: AdminClaimReviewComponent, canActivate: [adminGuardsGuard] },
 ];

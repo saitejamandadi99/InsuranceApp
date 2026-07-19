@@ -6,7 +6,7 @@ import { ClaimResponseDto } from '../../DTO/ClaimResponseDto';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ClaimRequestDto } from '../../DTO/ClaimRequestDto';
-import { OfficerRemarkRequestDto } from '../../DTO/OfficerRemarkRequest';
+import { OfficerRemarkRequestDto } from '../../DTO/OfficerRemarkRequestDto';
 import { AdminRemarkRequestDto } from '../../DTO/AdminRemarkRequestDto';
 
 @Injectable({

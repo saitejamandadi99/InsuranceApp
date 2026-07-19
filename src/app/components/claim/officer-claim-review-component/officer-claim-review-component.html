@@ -1,0 +1,146 @@
+<div class="container-fluid py-4">
+
+    <app-page-header
+        title="Officer Claim Review"
+        subtitle="Review the submitted claim and provide your recommendation.">
+    </app-page-header>
+
+    @if(isLoading){
+
+        <app-loading-spinner></app-loading-spinner>
+
+    }
+
+    @else if(claim){
+
+        <div class="card card-custom shadow-sm mb-4">
+
+            <div class="card-header">
+                <h4>Claim Information</h4>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+                        <label class="form-label-custom">Claim Number</label>
+                        <p>{{claim.claimNumber}}</p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label-custom">Policy Number</label>
+                        <p>{{claim.policyNumber}}</p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label-custom">Customer Name</label>
+                        <p>{{claim.customerName}}</p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label-custom">Claim Amount</label>
+                        <p>{{claim.claimAmount | currency:'INR'}}</p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label-custom">Incident Date</label>
+                        <p>{{claim.incidentDate | date:'dd-MM-yyyy'}}</p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label-custom">Current Status</label>
+                        <div>
+                            <app-status-badge
+                                [status]="claim.claimStatus">
+                            </app-status-badge>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label-custom">Claim Reason</label>
+                        <p>{{claim.claimReason}}</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card card-custom shadow-sm">
+
+            <div class="card-header">
+                <h4>Officer Recommendation</h4>
+            </div>
+
+            <div class="card-body">
+
+                <form [formGroup]="reviewForm" (ngSubmit)="reviewClaim()">
+
+                    <div class="mb-3">
+
+                        <label class="form-label-custom">Recommendation</label>
+
+                        <select
+                            class="form-select input-dark"
+                            formControlName="claimStatus">
+
+                            <option value="">Select Recommendation</option>
+
+                            <option [value]="claimStatus.RecommendedForApproval">
+                                Recommend for Approval
+                            </option>
+
+                            <option [value]="claimStatus.RecommendedForRejection">
+                                Recommend for Rejection
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label class="form-label-custom">Officer Remarks</label>
+
+                        <textarea
+                            rows="5"
+                            class="form-control input-dark"
+                            formControlName="officerRemarks"
+                            placeholder="Enter your review remarks">
+                        </textarea>
+
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2">
+
+                        <button
+                            type="button"
+                            class="btn btn-outline-secondary"
+                            (click)="navigateToClaims()">
+
+                            Cancel
+
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary-custom"
+                            [disabled]="reviewForm.invalid">
+
+                            Submit Recommendation
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    }
+
+</div>

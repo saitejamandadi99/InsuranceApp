@@ -1,74 +1,99 @@
 <div class="container-fluid py-4">
 
     <app-page-header
-        title="Users"
-        subtitle="Manage all registered users in the insurance management system."
-        buttonText="Add User"
-        buttonIcon="bi bi-plus-lg"
-        (buttonClick)="navigateToAddUser()">
+        title="Claims"
+        subtitle="Review and manage insurance claims.">
     </app-page-header>
 
-    <form [formGroup]="filterForm" (ngSubmit)="searchUsers()">
+    <form [formGroup]="filterForm" (ngSubmit)="searchClaims()">
 
         <app-filter-card>
 
             <div class="row g-3">
 
                 <div class="col-12">
+
                     <app-search-box
                         [searchControl]="searchControl"
-                        placeholder="Search by name or email..."
+                        placeholder="Search by Claim Number, Policy Number or Customer"
                         (clear)="clearSearch()">
-                </app-search-box>
+                    </app-search-box>
+
                 </div>
 
                 <div class="col-lg-3 col-md-6">
+
                     <label class="form-label-custom">Sort By</label>
 
-                    <select class="form-select input-dark" formControlName="sortBy">
-                        <option value="fullName">Full Name</option>
-                        <option value="email">Email</option>
-                        <option value="role">Role</option>
-                        <option value="activeStatus">Active Status</option>
+                    <select
+                        class="form-select input-dark"
+                        formControlName="sortBy">
+
                         <option value="createdDate">Created Date</option>
+                        <option value="claimNumber">Claim Number</option>
+                        <option value="policyNumber">Policy Number</option>
+                        <option value="claimAmount">Claim Amount</option>
+                        <option value="claimStatus">Status</option>
+
                     </select>
+
                 </div>
 
                 <div class="col-lg-3 col-md-6">
-                    <label class="form-label-custom">Order</label>
 
-                    <select class="form-select input-dark" formControlName="sortDirection">
+                    <label class="form-label-custom">Direction</label>
+
+                    <select
+                        class="form-select input-dark"
+                        formControlName="sortDirection">
+
                         <option value="asc">Ascending</option>
                         <option value="desc">Descending</option>
+
                     </select>
+
                 </div>
 
                 <div class="col-lg-3 col-md-6">
+
                     <label class="form-label-custom">Page Size</label>
 
-                    <select class="form-select input-dark" formControlName="pageSize">
+                    <select
+                        class="form-select input-dark"
+                        formControlName="pageSize">
+
                         <option [value]="5">5</option>
                         <option [value]="10">10</option>
                         <option [value]="20">20</option>
                         <option [value]="50">50</option>
+
                     </select>
+
                 </div>
 
                 <div class="col-lg-3 col-md-6 d-flex align-items-end">
+
                     <button
                         type="button"
                         class="btn btn-secondary-custom w-100"
                         (click)="resetFilters()">
+
                         Reset Filters
+
                     </button>
+
                 </div>
 
                 <div class="col-12 d-flex justify-content-end">
+
                     <button
                         type="submit"
                         class="btn btn-primary-custom">
+
                         Search
+
                     </button>
+
                 </div>
 
             </div>
@@ -85,7 +110,7 @@
 
     @else{
 
-        @if(users.records.length > 0){
+        @if(claims.records.length > 0){
 
             <div class="table-responsive mt-4">
 
@@ -94,51 +119,44 @@
                     <thead class="table-dark">
 
                         <tr>
-                            <th>User Id</th>
-                            <th>Full Name</th>
-                            <th>Email</th>
-                            <th>Mobile</th>
-                            <th>Role</th>
-                            <th class="text-center">Status</th>
-                            <th>Created On</th>
+
+                            <th>Claim #</th>
+                            <th>Policy #</th>
+                            <th>Customer</th>
+                            <th>Amount</th>
+                            <th>Incident Date</th>
+                            <th>Status</th>
                             <th class="text-center">Actions</th>
+
                         </tr>
 
                     </thead>
 
                     <tbody>
 
-                        @for(user of users.records; track user.userId){
+                        @for(claim of claims.records; track claim.claimId){
 
                             <tr>
 
-                                <td>{{user.userId}}</td>
+                                <td>{{claim.claimNumber}}</td>
+                                <td>{{claim.policyNumber}}</td>
+                                <td>{{claim.customerName}}</td>
+                                <td>{{claim.claimAmount | currency:'INR':'symbol':'1.2-2'}}</td>
+                                <td>{{claim.incidentDate | date:'dd-MM-yyyy'}}</td>
 
-                                <td>{{user.fullName}}</td>
-
-                                <td>{{user.email}}</td>
-
-                                <td>{{user.mobileNumber}}</td>
-
-                                <td>{{user.role}}</td>
-
-                                <td class="text-center">
+                                <td>
 
                                     <app-status-badge
-                                        [status]="user.activeStatus">
+                                        [status]="claim.claimStatus">
                                     </app-status-badge>
 
                                 </td>
 
-                                <td>{{user.createdDate | date:'dd-MM-yyyy'}}</td>
-
                                 <td class="text-center">
 
                                     <app-action-buttons
-                                        [actions]="user.activeStatus === 'Active' ? ['deactivate'] : ['activate']"
-                                        (actionClick)="user.activeStatus === 'Active'
-                                            ? deactivateUser(user.userId)
-                                            : activateUser(user.userId)">
+                                        [actions]="['view']"
+                                        (actionClick)="navigateToReview(claim.claimId)">
                                     </app-action-buttons>
 
                                 </td>
@@ -154,10 +172,10 @@
             </div>
 
             <app-pagination
-                [currentPage]="users.currentPage"
-                [totalPages]="users.totalPages"
-                [totalRecords]="users.totalRecords"
-                [pageSize]="filterForm.value.pageSize!"
+                [currentPage]="claims.currentPage"
+                [totalPages]="claims.totalPages"
+                [totalRecords]="claims.totalRecords"
+                [pageSize]="claims.pageSize"
                 (pageChange)="$event === 'previous' ? previousPage() : nextPage()">
             </app-pagination>
 
@@ -166,9 +184,9 @@
         @else{
 
             <app-empty-state
-                icon="bi bi-people"
-                title="No Users Found"
-                message="No users match your current search criteria."
+                icon="bi bi-file-earmark-medical"
+                title="No Claims Found"
+                message="No insurance claims match your current search criteria."
                 buttonText="Reset Filters"
                 (buttonClick)="resetFilters()">
             </app-empty-state>

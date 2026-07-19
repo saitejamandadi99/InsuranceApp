@@ -1,0 +1,229 @@
+<div class="container-fluid py-4">
+
+    <app-page-header
+        title="Raise Claim"
+        subtitle="Submit a new insurance claim for your policy."
+        buttonText="Back to My Policies"
+        buttonIcon="bi bi-arrow-left"
+        (buttonClick)="navigateToMyPolicies()">
+    </app-page-header>
+
+    @if(isLoading){
+
+        <app-loading-spinner></app-loading-spinner>
+
+    }
+
+    @else{
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8">
+
+                <div class="app-card">
+
+                    <div class="card-header-custom">
+
+                        <h4 class="mb-0">
+
+                            <i class="bi bi-file-earmark-medical me-2"></i>
+                            Raise Insurance Claim
+
+                        </h4>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row mb-4">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label-custom">Policy Number</label>
+
+                                <input
+                                    type="text"
+                                    class="form-control input-dark"
+                                    [value]="policy.policyNumber"
+                                    readonly>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label-custom">Plan Name</label>
+
+                                <input
+                                    type="text"
+                                    class="form-control input-dark"
+                                    [value]="policy.planName"
+                                    readonly>
+
+                            </div>
+
+                        </div>
+
+                        <hr class="mb-4">
+
+                        <form
+                            [formGroup]="raiseClaimForm"
+                            (ngSubmit)="raiseClaim()">
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-4">
+
+                                    <label class="form-label-custom">Claim Amount</label>
+
+                                    <input
+                                        type="number"
+                                        class="form-control input-dark"
+                                        formControlName="claimAmount"
+                                        placeholder="Enter claim amount">
+
+                                    @if(raiseClaimForm.controls['claimAmount'].invalid && (raiseClaimForm.controls['claimAmount'].dirty || raiseClaimForm.controls['claimAmount'].touched)){
+
+                                        <div class="mt-1">
+
+                                            @if(raiseClaimForm.controls['claimAmount'].hasError('required')){
+                                                <small class="text-danger">Claim Amount is required.</small>
+                                            }
+
+                                            @if(raiseClaimForm.controls['claimAmount'].hasError('min')){
+                                                <small class="text-danger">Claim Amount must be greater than zero.</small>
+                                            }
+
+                                        </div>
+
+                                    }
+
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+
+                                    <label class="form-label-custom">Incident Date</label>
+
+                                    <input
+                                        type="date"
+                                        class="form-control input-dark"
+                                        formControlName="incidentDate"
+                                        [max]="today">
+
+                                    @if(raiseClaimForm.controls['incidentDate'].invalid && (raiseClaimForm.controls['incidentDate'].dirty || raiseClaimForm.controls['incidentDate'].touched)){
+
+                                        <div class="mt-1">
+
+                                            @if(raiseClaimForm.controls['incidentDate'].hasError('required')){
+                                                <small class="text-danger">Incident Date is required.</small>
+                                            }
+
+                                            @if(raiseClaimForm.controls['incidentDate'].hasError('futureDate')){
+                                                <small class="text-danger">Incident Date cannot be greater than today.</small>
+                                            }
+
+                                        </div>
+
+                                    }
+
+                                </div>
+
+                                <div class="col-12 mb-4">
+
+                                    <label class="form-label-custom">Claim Reason</label>
+
+                                    <textarea
+                                        rows="4"
+                                        class="form-control input-dark"
+                                        formControlName="claimReason"
+                                        placeholder="Describe what happened">
+                                    </textarea>
+
+                                    @if(raiseClaimForm.controls['claimReason'].invalid && (raiseClaimForm.controls['claimReason'].dirty || raiseClaimForm.controls['claimReason'].touched)){
+
+                                        <div class="mt-1">
+
+                                            @if(raiseClaimForm.controls['claimReason'].hasError('required')){
+                                                <small class="text-danger">Claim Reason is required.</small>
+                                            }
+
+                                            @if(raiseClaimForm.controls['claimReason'].hasError('minlength')){
+                                                <small class="text-danger">Minimum 5 characters required.</small>
+                                            }
+
+                                            @if(raiseClaimForm.controls['claimReason'].hasError('maxlength')){
+                                                <small class="text-danger">Maximum 300 characters allowed.</small>
+                                            }
+
+                                        </div>
+
+                                    }
+
+                                </div>
+
+                                <div class="col-12 mb-4">
+
+                                    <label class="form-label-custom">Document References</label>
+
+                                    <textarea
+                                        rows="5"
+                                        class="form-control input-dark"
+                                        formControlName="documentReferences"
+                                        placeholder="Enter one document reference per line&#10;&#10;hospital_bill.pdf&#10;invoice.pdf&#10;medical_report.pdf">
+                                    </textarea>
+
+                                    <small class="text-muted">
+                                        Enter one document reference on each line.
+                                    </small>
+
+                                    @if(raiseClaimForm.controls['documentReferences'].invalid && (raiseClaimForm.controls['documentReferences'].dirty || raiseClaimForm.controls['documentReferences'].touched)){
+
+                                        <div class="mt-1">
+
+                                            @if(raiseClaimForm.controls['documentReferences'].hasError('required')){
+                                                <small class="text-danger">At least one document reference is required.</small>
+                                            }
+
+                                        </div>
+
+                                    }
+
+                                </div>
+
+                            </div>
+
+                            <div class="d-flex justify-content-end gap-3 mt-4">
+
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary-custom"
+                                    (click)="navigateToMyPolicies()">
+
+                                    Cancel
+
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary-custom"
+                                    [disabled]="raiseClaimForm.invalid">
+
+                                    <i class="bi bi-send me-2"></i>
+                                    Submit Claim
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    }
+
+</div>
