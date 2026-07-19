@@ -1,0 +1,210 @@
+<div class="container-fluid py-4">
+
+    <app-page-header
+        title="Issue Policy"
+        subtitle="Issue a new insurance policy to a customer."
+        buttonText="Back to Policies"
+        buttonIcon="bi bi-arrow-left"
+        (buttonClick)="navigateToPolicies()">
+    </app-page-header>
+
+    @if(isLoading){
+
+        <app-loading-spinner></app-loading-spinner>
+
+    }
+
+    @else{
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8">
+
+                <div class="app-card">
+
+                    <div class="card-header-custom">
+
+                        <h4 class="mb-0">
+
+                            <i class="bi bi-file-earmark-plus me-2"></i>
+                            Policy Information
+
+                        </h4>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <form
+                            [formGroup]="issuePolicyForm"
+                            (ngSubmit)="issuePolicy()">
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-4">
+
+                                    <label class="form-label-custom">
+                                        Customer
+                                    </label>
+
+                                    <select
+                                        class="form-select input-dark"
+                                        formControlName="customerId">
+
+                                        <option value="">
+                                            Select Customer
+                                        </option>
+
+                                        @for(customer of lstCustomers; track customer.customerId){
+
+                                            <option [value]="customer.customerId">
+
+                                                {{customer.fullName}} ({{customer.email}})
+
+                                            </option>
+
+                                        }
+
+                                    </select>
+
+                                    <div
+                                        class="mt-1"
+                                        *ngIf="customerId.invalid && (customerId.dirty || customerId.touched)">
+
+                                        <small
+                                            class="text-danger"
+                                            *ngIf="customerId.hasError('required')">
+
+                                            Customer is required.
+
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+
+                                    <label class="form-label-custom">
+                                        Policy Plan
+                                    </label>
+
+                                    <select
+                                        class="form-select input-dark"
+                                        formControlName="planId">
+
+                                        <option value="">
+                                            Select Policy Plan
+                                        </option>
+
+                                        @for(plan of lstPlans; track plan.planId){
+
+                                            <option [value]="plan.planId">
+
+                                                {{plan.planName}} - {{plan.productName}} ({{plan.productType}})
+
+                                            </option>
+
+                                        }
+
+                                    </select>
+
+                                    <div
+                                        class="mt-1"
+                                        *ngIf="planId.invalid && (planId.dirty || planId.touched)">
+
+                                        <small
+                                            class="text-danger"
+                                            *ngIf="planId.hasError('required')">
+
+                                            Policy Plan is required.
+
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+
+                                    <label class="form-label-custom">
+                                        Policy Start Date
+                                    </label>
+
+                                    <input
+                                        type="date"
+                                        class="form-control input-dark"
+                                        formControlName="startDate"
+                                        [min]="today"
+                                        [max]="maxDate">
+
+                                    <div
+                                        class="mt-1"
+                                        *ngIf="startDate.invalid && (startDate.dirty || startDate.touched)">
+
+                                        <small
+                                            class="text-danger"
+                                            *ngIf="startDate.hasError('required')">
+
+                                            Start Date is required.
+
+                                        </small>
+
+                                        <small
+                                            class="text-danger"
+                                            *ngIf="startDate.hasError('minDate')">
+
+                                            Start Date cannot be before today.
+
+                                        </small>
+
+                                        <small
+                                            class="text-danger"
+                                            *ngIf="startDate.hasError('maxDate')">
+
+                                            Start Date cannot be more than 100 days from today.
+
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="d-flex justify-content-end gap-3 mt-4">
+
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary-custom"
+                                    (click)="navigateToPolicies()">
+
+                                    Cancel
+
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary-custom"
+                                    [disabled]="issuePolicyForm.invalid">
+
+                                    <i class="bi bi-check-circle me-2"></i>
+                                    Issue Policy
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    }
+
+</div>

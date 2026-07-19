@@ -27,7 +27,7 @@ export class ActionButtons {
         case 'edit':
             return 'btn-outline-primary';
 
-        case 'delete':
+        case 'delete': case 'cancel':
             return 'btn-outline-danger';
         case 'activate':
             return 'btn-outline-success';
@@ -54,7 +54,7 @@ getIcon(action: string): string {
         case 'edit':
             return 'bi bi-pencil-square';
 
-        case 'delete':
+        case 'delete': case 'cancel':
             return 'bi bi-trash';
         case 'activate':
             return 'bi bi-check-circle';

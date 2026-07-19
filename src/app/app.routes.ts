@@ -18,7 +18,10 @@ import { EditProductComponent } from './components/product/edit-product-componen
 import { ViewPlansComponent } from './components/policyplan/view-plans-component/view-plans-component';
 import { AddPlanComponent } from './components/policyplan/add-plan-component/add-plan-component';
 import { EditPlanComponent } from './components/policyplan/edit-plan-component/edit-plan-component';
-
+import { ViewPoliciesComponent } from './components/policy/view-policies-component/view-policies-component';
+import { ViewMyPoliciesComponent } from './components/policy/view-my-policies-component/view-my-policies-component';
+import { IssuePolicyComponent } from './components/policy/issue-policy-component/issue-policy-component';
+import { PurchasePolicyComponent } from './components/policy/purchase-policy-component/purchase-policy-component';
 export const routes: Routes = [
     {path:'login', component:LoginComponent},
     {path:'register', component:RegisterComponent},
@@ -40,4 +43,9 @@ export const routes: Routes = [
     { path: 'viewplans', component: ViewPlansComponent, canActivate: [adminOfficerGuardsGuard] },
     { path: 'addplan', component: AddPlanComponent, canActivate: [adminGuardsGuard] },
     { path: 'editplan/:id', component: EditPlanComponent, canActivate: [adminGuardsGuard] },
+
+    { path: 'viewpolicies', component: ViewPoliciesComponent, canActivate: [adminOfficerGuardsGuard] },
+    { path: 'issuepolicy', component: IssuePolicyComponent, canActivate: [adminOfficerGuardsGuard] },
+    { path: 'mypolicies', component: ViewMyPoliciesComponent, canActivate: [customerGuardsGuard] },
+    { path: 'purchasepolicy', component: PurchasePolicyComponent, canActivate: [customerGuardsGuard] },
 ];

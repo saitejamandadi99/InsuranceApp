@@ -1,0 +1,106 @@
+<p>view-my-policies-component works!</p>
+<div class="container-fluid py-4">
+
+    <app-page-header
+        title="My Policies"
+        subtitle="View and manage your purchased insurance policies."
+        buttonText="Purchase Policy"
+        buttonIcon="bi bi-plus-lg"
+        (buttonClick)="navigateToPurchasePolicy()">
+    </app-page-header>
+
+    @if(isLoading){
+
+        <app-loading-spinner></app-loading-spinner>
+
+    }
+
+    @else{
+
+        @if(lstMyPolicies.length > 0){
+
+            <div class="table-responsive mt-4">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>Policy Number</th>
+                            <th>Plan Name</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Premium Paid</th>
+                            <th class="text-center">Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @for(policy of lstMyPolicies; track policy.policyId){
+
+                            <tr>
+
+                                <td>{{policy.policyNumber}}</td>
+
+                                <td>{{policy.planName}}</td>
+
+                                <td>{{policy.startDate | date:'dd-MM-yyyy'}}</td>
+
+                                <td>{{policy.endDate | date:'dd-MM-yyyy'}}</td>
+
+                                <td>{{policy.totalPremiumPaid | currency:'INR':'symbol':'1.2-2'}}</td>
+
+                                <td class="text-center">
+
+                                    <app-status-badge
+                                        [status]="policy.policyStatus">
+                                    </app-status-badge>
+
+                                </td>
+
+                            </tr>
+
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        }
+
+        @else{
+
+            <div class="app-card mt-4">
+
+                <div class="card-body text-center py-5">
+
+                    <i class="bi bi-file-earmark-text display-4 text-muted"></i>
+
+                    <h4 class="mt-3">No Policies Found</h4>
+
+                    <p class="text-muted mb-4">You haven't purchased any insurance policies yet.</p>
+
+                    <button
+                        class="btn btn-primary-custom"
+                        (click)="navigateToPurchasePolicy()">
+
+                        <i class="bi bi-plus-lg me-2"></i>
+                        Purchase Policy
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        }
+
+    }
+
+</div>

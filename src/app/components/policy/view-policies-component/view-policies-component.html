@@ -1,0 +1,218 @@
+<div class="container-fluid py-4">
+
+    <app-page-header
+        title="Policies"
+        subtitle="Manage all insurance policies in the system."
+        buttonText="Issue Policy"
+        buttonIcon="bi bi-plus-lg"
+        (buttonClick)="navigateToIssuePolicy()">
+    </app-page-header>
+
+    <form [formGroup]="filterForm" (ngSubmit)="searchPolicies()">
+
+        <app-filter-card>
+
+            <div class="row g-3">
+
+                <div class="col-12">
+
+                    <app-search-box
+                        [searchControl]="searchControl"
+                        placeholder="Search by customer name, plan name or policy number..."
+                        (clear)="clearSearch()">
+                    </app-search-box>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <label class="form-label-custom">Sort By</label>
+
+                    <select
+                        class="form-select input-dark"
+                        formControlName="sortBy">
+
+                        <option value="policyNumber">Policy Number</option>
+                        <option value="customerName">Customer Name</option>
+                        <option value="planName">Plan Name</option>
+                        <option value="startDate">Start Date</option>
+                        <option value="endDate">End Date</option>
+                        <option value="totalPremiumPaid">Premium Paid</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <label class="form-label-custom">Order</label>
+
+                    <select
+                        class="form-select input-dark"
+                        formControlName="sortDirection">
+
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <label class="form-label-custom">Page Size</label>
+
+                    <select
+                        class="form-select input-dark"
+                        formControlName="pageSize">
+
+                        <option [value]="5">5</option>
+                        <option [value]="10">10</option>
+                        <option [value]="20">20</option>
+                        <option [value]="50">50</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6 d-flex align-items-end">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary-custom w-100"
+                        (click)="resetFilters()">
+
+                        Reset Filters
+
+                    </button>
+
+                </div>
+
+                <div class="col-12 d-flex justify-content-end">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary-custom">
+
+                        Search
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </app-filter-card>
+
+    </form>
+
+    @if(isLoading){
+
+        <app-loading-spinner></app-loading-spinner>
+
+    }
+
+    @else{
+
+        @if(lstPolicies.records.length > 0){
+
+            <div class="table-responsive mt-4">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>Policy Number</th>
+                            <th>Customer Name</th>
+                            <th>Plan Name</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Premium Paid</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @for(policy of lstPolicies.records; track policy.policyId){
+
+                            <tr>
+
+                                <td>{{policy.policyNumber}}</td>
+
+                                <td>{{policy.customerName}}</td>
+
+                                <td>{{policy.planName}}</td>
+
+                                <td>{{policy.startDate | date:'dd-MM-yyyy'}}</td>
+
+                                <td>{{policy.endDate | date:'dd-MM-yyyy'}}</td>
+
+                                <td>{{policy.totalPremiumPaid | currency:'INR':'symbol':'1.2-2'}}</td>
+
+                                <td class="text-center">
+
+                                    <app-status-badge
+                                        [status]="policy.policyStatus">
+                                    </app-status-badge>
+
+                                </td>
+
+                                <td class="text-center">
+
+                                    @if(policy.policyStatus === PolicyStatus.Active){
+
+                                        <app-action-buttons
+                                            [actions]="['cancel']"
+                                            (actionClick)="cancelPolicy(policy.policyId)">
+                                        </app-action-buttons>
+
+                                    }
+                                    @else{
+
+                                        <span class="text-muted">-</span>
+
+                                    }
+
+                                </td>
+
+                            </tr>
+
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <app-pagination
+                [currentPage]="lstPolicies.currentPage"
+                [totalPages]="lstPolicies.totalPages"
+                [totalRecords]="lstPolicies.totalRecords"
+                [pageSize]="filterForm.value.pageSize!"
+                (pageChange)="$event === 'previous' ? previousPage() : nextPage()">
+            </app-pagination>
+
+        }
+
+        @else{
+
+            <app-empty-state
+                icon="bi bi-shield-x"
+                title="No Policies Found"
+                message="No insurance policies match your current search criteria."
+                buttonText="Reset Filters"
+                (buttonClick)="resetFilters()">
+            </app-empty-state>
+
+        }
+
+    }
+
+</div>
