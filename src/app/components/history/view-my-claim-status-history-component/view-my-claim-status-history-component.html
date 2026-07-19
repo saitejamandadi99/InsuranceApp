@@ -1,0 +1,99 @@
+<div class="container-fluid py-4">
+
+    <app-page-header
+        title="My Claim Status History"
+        subtitle="View the history of status updates for your claims.">
+    </app-page-header>
+
+    @if(isLoading){
+
+        <app-loading-spinner></app-loading-spinner>
+
+    }
+
+    @else{
+
+        @if(histories.length > 0){
+
+            <div class="app-card mt-4">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-dark">
+
+                            <tr>
+
+                                <th>Claim Number</th>
+                                <th>Previous Status</th>
+                                <th>New Status</th>
+                                <th>Updated By</th>
+                                <th>Updated Date</th>
+                                <th>Remarks</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @for(history of histories; track history.historyId){
+
+                                <tr>
+
+                                    <td>{{history.claimNumber}}</td>
+
+                                    <td>
+
+                                        <app-status-badge
+                                            [status]="history.previousStatus">
+                                        </app-status-badge>
+
+                                    </td>
+
+                                    <td>
+
+                                        <app-status-badge
+                                            [status]="history.newStatus">
+                                        </app-status-badge>
+
+                                    </td>
+
+                                    <td>{{history.updatedBy}}</td>
+
+                                    <td>
+
+                                        {{history.updatedDate | date:'dd-MM-yyyy hh:mm a'}}
+
+                                    </td>
+
+                                    <td>{{history.remarks}}</td>
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        }
+
+        @else{
+
+            <app-empty-state
+                icon="bi bi-clock-history"
+                title="No Claim Status History Found"
+                message="You don't have any claim status history yet.">
+            </app-empty-state>
+
+        }
+
+    }
+
+</div>

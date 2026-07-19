@@ -1,0 +1,201 @@
+<div class="container-fluid py-4">
+
+    <app-page-header
+        title="Claim Status History"
+        subtitle="Track all claim status updates.">
+    </app-page-header>
+
+    <form [formGroup]="filterForm">
+
+        <app-filter-card>
+
+            <div class="row g-3">
+
+                <div class="col-md-5">
+
+                    <label class="form-label">Search</label>
+
+                    <app-search-box
+                        [searchControl]="searchControl"
+                        placeholder="Search by Claim Number, Updated By or Remarks...">
+                    </app-search-box>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <label class="form-label">Sort By</label>
+
+                    <select
+                        class="form-select"
+                        formControlName="sortBy">
+
+                        <option value="updatedDate">Updated Date</option>
+                        <option value="newStatus">New Status</option>
+                        <option value="previousStatus">Previous Status</option>
+                        <option value="updatedBy">Updated By</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <label class="form-label">Direction</label>
+
+                    <select
+                        class="form-select"
+                        formControlName="sortDirection">
+
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-1">
+
+                    <label class="form-label">Size</label>
+
+                    <select
+                        class="form-select"
+                        formControlName="pageSize">
+
+                        <option [value]="5">5</option>
+                        <option [value]="10">10</option>
+                        <option [value]="20">20</option>
+                        <option [value]="50">50</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end gap-2">
+
+                    <button
+                        type="button"
+                        class="btn btn-primary-custom flex-fill"
+                        (click)="loadHistories()">
+
+                        Apply
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary-custom"
+                        (click)="resetFilters()">
+
+                        Reset
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </app-filter-card>
+
+    </form>
+
+    @if(isLoading){
+
+        <app-loading-spinner></app-loading-spinner>
+
+    }
+
+    @else{
+
+        @if(histories.records.length > 0){
+
+            <div class="app-card mt-4">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-dark">
+
+                            <tr>
+
+                                <th>Claim Number</th>
+                                <th>Previous Status</th>
+                                <th>New Status</th>
+                                <th>Updated By</th>
+                                <th>Updated Date</th>
+                                <th>Remarks</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @for(history of histories.records; track history.historyId){
+
+                                <tr>
+
+                                    <td>{{history.claimNumber}}</td>
+
+                                    <td>
+
+                                        <app-status-badge
+                                            [status]="history.previousStatus">
+                                        </app-status-badge>
+
+                                    </td>
+
+                                    <td>
+
+                                        <app-status-badge
+                                            [status]="history.newStatus">
+                                        </app-status-badge>
+
+                                    </td>
+
+                                    <td>{{history.updatedBy}}</td>
+
+                                    <td>{{history.updatedDate | date:'dd-MM-yyyy hh:mm a'}}</td>
+
+                                    <td>{{history.remarks}}</td>
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <app-pagination
+                [currentPage]="histories.currentPage"
+                [totalPages]="histories.totalPages"
+                [totalRecords]="histories.totalRecords"
+                [pageSize]="histories.pageSize"
+                (pageChange)="
+                    $event === 'previous'
+                    ? previousPage()
+                    : nextPage()
+                ">
+            </app-pagination>
+
+        }
+
+        @else{
+
+            <app-empty-state
+                icon="bi bi-clock-history"
+                title="No Claim Status History Found"
+                message="No claim status history records match your search criteria.">
+            </app-empty-state>
+
+        }
+
+    }
+
+</div>

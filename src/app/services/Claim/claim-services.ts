@@ -41,8 +41,8 @@ export class ClaimServices {
     }
 
 
-    raiseClaim(claim:ClaimRequestDto):Observable<SuccessResponseDto<ClaimResponseDto>>{
-        return this.http.post<SuccessResponseDto<ClaimResponseDto>>(`${environment.apiUrl}/Claim/raise`,claim);
+    raiseClaim(formData:FormData):Observable<SuccessResponseDto<ClaimResponseDto>>{
+        return this.http.post<SuccessResponseDto<ClaimResponseDto>>(`${environment.apiUrl}/Claim/raise`,formData);
     }
 
     officerReviewByClaimId(claimId:number, remarks:OfficerRemarkRequestDto):Observable<SuccessResponseDto<ClaimResponseDto>>{

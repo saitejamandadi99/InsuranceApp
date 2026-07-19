@@ -33,6 +33,8 @@ import { ViewMyPaymentsComponent } from './components/payment/view-my-payments-c
 import { ViewPaymentsComponent } from './components/payment/view-payments-component/view-payments-component';
 import { PaymentDetailsComponent } from './components/payment/payment-details-component/payment-details-component';
 import { allGuardsGuard } from './guards/all-guards-guard';
+import { ViewClaimStatusHistoryComponent } from './components/history/view-claim-status-history-component/view-claim-status-history-component';
+import { ViewMyClaimStatusHistoryComponent } from './components/history/view-my-claim-status-history-component/view-my-claim-status-history-component';
 export const routes: Routes = [
     {path:'login', component:LoginComponent},
     {path:'register', component:RegisterComponent},
@@ -68,6 +70,8 @@ export const routes: Routes = [
     { path: 'viewclaims', component: ViewClaimsComponent, canActivate: [adminOfficerGuardsGuard] },
     { path: 'officerreview/:claimId', component: OfficerClaimReviewComponent, canActivate: [officerGuardsGuard] },
     { path: 'adminreview/:claimId', component: AdminClaimReviewComponent, canActivate: [adminGuardsGuard] },
+    { path: 'claimstatushistory', component: ViewClaimStatusHistoryComponent, canActivate: [adminOfficerGuardsGuard] },
+    { path: 'myclaimstatushistory', component: ViewMyClaimStatusHistoryComponent, canActivate: [customerGuardsGuard] },
 
     { path: 'makepayment/:policyId', component: MakePaymentComponent, canActivate: [customerGuardsGuard] },
     { path: 'recordpayment/:policyId', component: MakePaymentComponent, canActivate: [adminOfficerGuardsGuard] },

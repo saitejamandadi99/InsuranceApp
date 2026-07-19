@@ -3,5 +3,5 @@ export interface ClaimRequestDto{
     claimAmount:number, 
     claimReason:string,
     incidentDate:Date,
-    documentReferences:string[]
+    files : File[]
 }

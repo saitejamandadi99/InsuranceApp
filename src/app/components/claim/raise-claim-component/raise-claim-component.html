@@ -162,28 +162,52 @@
 
                                 <div class="col-12 mb-4">
 
-                                    <label class="form-label-custom">Document References</label>
+                                <label class="form-label-custom">Supporting Documents</label>
 
-                                    <textarea
-                                        rows="5"
+                                    <input
+                                        type="file"
                                         class="form-control input-dark"
-                                        formControlName="documentReferences"
-                                        placeholder="Enter one document reference per line&#10;&#10;hospital_bill.pdf&#10;invoice.pdf&#10;medical_report.pdf">
-                                    </textarea>
+                                        multiple
+                                        (change)="onFilesSelected($event)"
+                                        accept=".pdf,.jpg,.jpeg,.png,.docx">
 
                                     <small class="text-muted">
-                                        Enter one document reference on each line.
+                                        You can select multiple files.
                                     </small>
 
-                                    @if(raiseClaimForm.controls['documentReferences'].invalid && (raiseClaimForm.controls['documentReferences'].dirty || raiseClaimForm.controls['documentReferences'].touched)){
-
+                                    @if(filesTouched && selectedFiles.length === 0){
                                         <div class="mt-1">
+                                            <small class="text-danger">At least one document is required.</small>
+                                        </div>
+                                    }
 
-                                            @if(raiseClaimForm.controls['documentReferences'].hasError('required')){
-                                                <small class="text-danger">At least one document reference is required.</small>
+                                    @if(selectedFiles.length > 0){
+
+                                        <ul class="list-group mt-2">
+
+                                            @for(file of selectedFiles; track file.name; let i = $index){
+
+                                                <li class="list-group-item d-flex justify-content-between align-items-center input-dark">
+
+                                                    <span>
+                                                        <i class="bi bi-file-earmark me-2"></i>
+                                                        {{ file.name }}
+                                                    </span>
+
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-sm btn-outline-danger"
+                                                        (click)="removeFile(i)">
+
+                                                        <i class="bi bi-x"></i>
+
+                                                    </button>
+
+                                                </li>
+
                                             }
 
-                                        </div>
+                                        </ul>
 
                                     }
 
@@ -205,7 +229,7 @@
                                 <button
                                     type="submit"
                                     class="btn btn-primary-custom"
-                                    [disabled]="raiseClaimForm.invalid">
+                                    [disabled]="raiseClaimForm.invalid || selectedFiles.length === 0">
 
                                     <i class="bi bi-send me-2"></i>
                                     Submit Claim

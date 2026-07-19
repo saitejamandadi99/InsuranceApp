@@ -22,13 +22,15 @@ export class RaiseClaimComponent implements OnInit {
     claimAmount:new FormControl('', [Validators.required, Validators.min(1)]),
     claimReason:new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(300)]),
     incidentDate:new FormControl('', [Validators.required, this.validateIncidentDate]),
-    documentReferences:new FormControl('', [Validators.required])
   });
 
   isLoading=false;
   policyId!:number;
   today!:string;
   policy!:PolicyResponseDto;
+
+  selectedFiles :File[] = [];
+  filesTouched=false; //required message only shows after an attempt
 
   validateIncidentDate(control:AbstractControl):ValidationErrors | null{
     if(!control.value){
@@ -76,16 +78,38 @@ export class RaiseClaimComponent implements OnInit {
      })
   }
 
+  onFilesSelected(event:Event){
+    this.filesTouched = true;
+    const input = event.target as HTMLInputElement;
+    if(input.files){
+      //append new selection to whatever's already picked
+      this.selectedFiles=[...this.selectedFiles, ...Array.from(input.files)];
+    }
+    input.value = ''//allwos re-selecting the same fie if removed and re-added
+  }
+
+  removeFile(index:number){
+    this.selectedFiles.splice(index,1);
+  }
 
   raiseClaim(){
+    this.filesTouched= true;
+    if(this.selectedFiles.length ===0){
+      return;
+    }
     this.isLoading=true;
-    const request:ClaimRequestDto = this.raiseClaimForm.value;
-    request.policyId = this.policyId;
-    
-    const documentReferences: string = this.raiseClaimForm.value.documentReferences ?? '';
+    const formValue = this.raiseClaimForm.value;
 
-    request.documentReferences = documentReferences.split('\n').map(reference => reference.trim()).filter(reference => reference.length > 0);
-    this.claimServices.raiseClaim(request).subscribe({
+    const formData = new FormData();
+    formData.append('policyId', this.policyId.toString());
+    formData.append('claimAmount', formValue.claimAmount);
+    formData.append('claimReason', formValue.claimReason);
+    formData.append('IncidentDate', formValue.incidentDate);
+
+    this.selectedFiles.forEach((file)=>{
+      formData.append('Files', file, file.name);
+    })
+    this.claimServices.raiseClaim(formData).subscribe({
       next:(response)=>{
         this.isLoading=false;
         alert(response.message);
