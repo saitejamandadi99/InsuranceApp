@@ -73,7 +73,7 @@ export class CustomerDashboardComponent implements OnInit {
     {
       heading: 'Claim Documents',
       cards: [
-        { icon: 'bi bi-cloud-upload', title: 'Upload Document', subtitle: 'Select a claim to add documents', route: '/myclaims', color: 'info' },
+        { icon: 'bi bi-cloud-upload', title: 'Upload Document', subtitle: 'Select a claim to add documents', route: '/adddocument', color: 'info' },
         { icon: 'bi bi-file-earmark-text', title: 'My Documents', subtitle: 'View your uploaded documents', route: '/mydocuments', color: 'primary' },
       ],
     },

@@ -15,7 +15,7 @@ import { ActionButtons } from '../../../shared/ui/action-buttons/action-buttons'
 import { Pagination } from '../../../shared/ui/pagination/pagination';
 import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinner';
 import { EmptyState } from '../../../shared/ui/empty-state/empty-state';
-
+import { Role } from '../../../models/Role';
 @Component({
   selector: 'app-view-plans-component',
   imports: [ReactiveFormsModule,NgIf,DatePipe,PageHeader,FilterCard,SearchBox,StatusBadge,ActionButtons,Pagination,LoadingSpinner,EmptyState, CurrencyPipe],
@@ -27,6 +27,9 @@ export class ViewPlansComponent implements OnInit {
   constructor(private planService: PolicyPlanServices,private router: Router, private cdr:ChangeDetectorRef) {}
   isLoading = true;
   lstPlans!: PaginationResponseDto<PolicyPlanResponseDto>;
+  role:string = localStorage.getItem('role') ?? '';
+  isOfficer:boolean = this.role === Role.Officer;
+  
 
   filterForm: FormGroup = new FormGroup({
     search: new FormControl(''),

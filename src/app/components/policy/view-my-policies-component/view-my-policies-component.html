@@ -64,7 +64,7 @@
 
                                 <td class="text-center">
 
-                                    @if(policy.policyStatus === PolicyStatus.Active){
+                                    @if(policy.policyStatus === PolicyStatus.PendingPayment){
 
                                         <div class="d-flex justify-content-center gap-2">
 
@@ -75,7 +75,11 @@
                                                 Pay Premium
 
                                             </button>
-
+                                    
+                                        </div>
+                                    }        
+                                        @if(policy.policyStatus ===  PolicyStatus.Active){
+                                            
                                             <button
                                                 class="btn btn-secondary-custom btn-sm"
                                                 (click)="navigateToRaiseClaim(policy.policyId)">
@@ -83,10 +87,9 @@
                                                 Raise Claim
 
                                             </button>
+                                        }
 
-                                        </div>
-
-                                    }
+                                    
 
                                     @else{
 

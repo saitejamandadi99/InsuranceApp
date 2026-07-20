@@ -15,7 +15,7 @@ import { ActionButtons } from '../../../shared/ui/action-buttons/action-buttons'
 import { Pagination } from '../../../shared/ui/pagination/pagination';
 import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinner';
 import { EmptyState } from '../../../shared/ui/empty-state/empty-state';
-
+import { Role } from '../../../models/Role';
 @Component({
   selector: 'app-view-products-component',
   imports: [ReactiveFormsModule, DatePipe, PageHeader, FilterCard, SearchBox, StatusBadge, ActionButtons, Pagination, LoadingSpinner, EmptyState],
@@ -31,6 +31,9 @@ export class ViewProductsComponent implements OnInit {
     pageNumber:new FormControl(1),
     pageSize:new FormControl(10)
   });
+
+  role:string = localStorage.getItem('role') ?? '';
+  isAdmin:boolean = this.role === Role.Admin;
 
   searchProducts(){
     this.filterForm.patchValue({

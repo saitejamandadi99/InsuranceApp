@@ -94,7 +94,6 @@
                     <thead class="table-dark">
 
                         <tr>
-                            <th>User Id</th>
                             <th>Full Name</th>
                             <th>Email</th>
                             <th>Mobile</th>
@@ -111,29 +110,17 @@
                         @for(user of users.records; track user.userId){
 
                             <tr>
-
-                                <td>{{user.userId}}</td>
-
                                 <td>{{user.fullName}}</td>
-
                                 <td>{{user.email}}</td>
-
                                 <td>{{user.mobileNumber}}</td>
-
                                 <td>{{user.role}}</td>
-
                                 <td class="text-center">
-
                                     <app-status-badge
                                         [status]="user.activeStatus">
                                     </app-status-badge>
-
                                 </td>
-
                                 <td>{{user.createdDate | date:'dd-MM-yyyy'}}</td>
-
                                 <td class="text-center">
-
                                     <app-action-buttons
                                         [actions]="user.activeStatus === 'Active' ? ['deactivate'] : ['activate']"
                                         (actionClick)="user.activeStatus === 'Active'

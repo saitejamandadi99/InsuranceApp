@@ -41,6 +41,7 @@ import { DocumentDetailsComponent } from './components/document/document-details
 import { AdminDashboardComponent } from './components/dashboards/admin-dashboard-component/admin-dashboard-component';
 import { OfficerDashboardComponent } from './components/dashboards/officer-dashboard-component/officer-dashboard-component';
 import { CustomerDashboardComponent } from './components/dashboards/customer-dashboard-component/customer-dashboard-component';
+import { AddClaimDocumentComponent } from './components/document/add-claim-document-component/add-claim-document-component';
 export const routes: Routes = [
     {path:'login', component:LoginComponent},
     {path:'register', component:RegisterComponent},
@@ -59,7 +60,7 @@ export const routes: Routes = [
     {path:'createprofile', component:AddCustomerProfileComponent, canActivate:[customerGuardsGuard]},
     {path:'editprofile', component:EditCustomerProfileComponent, canActivate:[customerGuardsGuard]},
     
-    { path: 'viewproducts', component: ViewProductsComponent, canActivate: [adminOfficerGuardsGuard] },
+    { path: 'viewproducts', component: ViewProductsComponent, canActivate: [allGuardsGuard] },
     { path: 'addproduct', component: AddProductComponent, canActivate: [adminGuardsGuard] },
     { path: 'editproduct/:id', component: EditProductComponent, canActivate: [adminGuardsGuard] },
 
@@ -87,6 +88,7 @@ export const routes: Routes = [
     { path: 'viewpayments', component: ViewPaymentsComponent, canActivate: [adminOfficerGuardsGuard] },
     { path: 'paymentdetails/:paymentId', component: PaymentDetailsComponent, canActivate:[allGuardsGuard] },
 
+    { path:'adddocument', component:AddClaimDocumentComponent, canActivate:[customerGuardsGuard]},
     { path: 'mydocuments', component: ViewMyDocumentsComponent, canActivate: [customerGuardsGuard] },
     { path: 'viewdocuments', component: ViewDocumentsComponent, canActivate: [adminOfficerGuardsGuard] },
     { path: 'documentdetails/:documentId', component: DocumentDetailsComponent, canActivate: [allGuardsGuard] },
