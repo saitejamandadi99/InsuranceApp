@@ -19,7 +19,7 @@
 
                 <div class="app-card p-4 h-100">
 
-                    <h4 class="mb-4">Policy Information</h4>
+                    <h4 class="mb-4 section-title">Policy Information</h4>
 
                     <div class="mb-3">
                         <label class="form-label-custom">Policy Number</label>
@@ -55,10 +55,24 @@
                         </div>
                     </div>
 
-                    <div>
+                    <div class="mb-3">
+                        <label class="form-label-custom">Premium Amount</label>
+                        <div class="form-control input-dark">
+                            {{policy.premiumAmount | currency:'INR':'symbol':'1.2-2'}}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
                         <label class="form-label-custom">Total Premium Paid</label>
                         <div class="form-control input-dark">
                             {{policy.totalPremiumPaid | currency:'INR':'symbol':'1.2-2'}}
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="form-label-custom">Remaining Due</label>
+                        <div class="form-control input-dark">
+                            {{remainingAmount | currency:'INR':'symbol':'1.2-2'}}
                         </div>
                     </div>
 
@@ -70,7 +84,7 @@
 
                 <div class="app-card p-4">
 
-                    <h4 class="mb-4">Payment Details</h4>
+                    <h4 class="mb-4 section-title">Payment Details</h4>
 
                     <form
                         [formGroup]="paymentForm"
@@ -87,15 +101,21 @@
                                 class="form-control input-dark"
                                 formControlName="amount">
 
-                            @if(amount.invalid && amount.touched){
+                            <div *ngIf="amount.invalid && amount.touched" class="mt-1">
 
-                                <small class="text-danger">
-
-                                    Enter a valid payment amount.
-
+                                <small class="text-danger" *ngIf="amount.hasError('required')">
+                                    Amount is required.
                                 </small>
 
-                            }
+                                <small class="text-danger" *ngIf="amount.hasError('min')">
+                                    Amount must be greater than 0.
+                                </small>
+
+                                <small class="text-danger" *ngIf="amount.hasError('max')">
+                                    Amount cannot exceed the remaining due of {{remainingAmount | currency:'INR':'symbol':'1.2-2'}}.
+                                </small>
+
+                            </div>
 
                         </div>
 

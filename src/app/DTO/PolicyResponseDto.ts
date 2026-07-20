@@ -10,5 +10,6 @@ export interface PolicyResponseDto{
     startDate:string,
     endDate:string,
     policyStatus:PolicyStatus,
-    totalPremiumPaid:number
+    totalPremiumPaid:number,
+    premiumAmount:number
 }

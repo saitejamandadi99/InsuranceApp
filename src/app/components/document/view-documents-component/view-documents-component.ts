@@ -1,4 +1,4 @@
-import { DatePipe, NgIf } from '@angular/common';
+import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -19,7 +19,7 @@ import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 @Component({
   selector: 'app-view-documents-component',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, DatePipe, PageHeader, FilterCard, SearchBox, Pagination, LoadingSpinner, EmptyState, ActionButtons],
+  imports: [ReactiveFormsModule, NgIf,NgFor, DatePipe, PageHeader, FilterCard, SearchBox, Pagination, LoadingSpinner, EmptyState, ActionButtons],
   templateUrl: './view-documents-component.html',
   styleUrl: './view-documents-component.css',
 })
