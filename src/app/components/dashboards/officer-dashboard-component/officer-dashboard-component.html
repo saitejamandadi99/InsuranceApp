@@ -1,6 +1,6 @@
 <div class="container-fluid py-4">
 
-    <div class="mb-4">
+    <div class="mb-4 dashboard-header">
         <h1 class="page-title">
             <i class="bi bi-person-badge-fill me-2"></i>
             Officer Dashboard
@@ -8,37 +8,25 @@
         <p class="page-subtitle">Review claims, manage policies, and track customer records.</p>
     </div>
 
-    @for(section of sections; track section.heading){
+    <div class="dashboard-grid">
 
-        <div class="mb-4">
+        @for(section of sections; track section.heading){
+            @for(card of section.cards; track card.title){
 
-            <h5 class="section-heading">{{ section.heading }}</h5>
+                <div class="app-card dashboard-card" [routerLink]="card.route">
 
-            <div class="row g-3">
-
-                @for(card of section.cards; track card.title){
-
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-
-                        <div class="app-card dashboard-card" [routerLink]="card.route">
-
-                            <div class="icon-chip" [ngClass]="'chip-' + card.color">
-                                <i [class]="card.icon"></i>
-                            </div>
-
-                            <h6 class="card-title-custom">{{ card.title }}</h6>
-                            <p class="card-subtitle-custom">{{ card.subtitle }}</p>
-
-                        </div>
-
+                    <div class="icon-chip" [ngClass]="'chip-' + card.color">
+                        <i [class]="card.icon"></i>
                     </div>
 
-                }
+                    <h6 class="card-title-custom">{{ card.title }}</h6>
+                    <p class="card-subtitle-custom">{{ card.subtitle }}</p>
 
-            </div>
+                </div>
 
-        </div>
+            }
+        }
 
-    }
+    </div>
 
 </div>

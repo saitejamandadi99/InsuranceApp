@@ -1,6 +1,6 @@
 <div class="container-fluid py-4">
 
-    <div class="mb-4">
+    <div class="mb-4 dashboard-header">
         <h1 class="page-title">
             <i class="bi bi-emoji-smile-fill me-2"></i>
             Welcome back!
@@ -8,77 +8,38 @@
         <p class="page-subtitle">Here's what's happening with your insurance.</p>
     </div>
 
-    <div class="mb-4">
+    <div class="dashboard-grid">
 
-        <h5 class="section-heading">Profile</h5>
-
-        <div class="row g-3">
-
-            <div class="col-lg-3 col-md-4 col-sm-6">
-
-                <div class="app-card dashboard-card" [routerLink]="profileCard.route">
-
-                    <div class="icon-chip" [ngClass]="'chip-' + profileCard.color">
-                        <i [class]="profileCard.icon"></i>
-                    </div>
-
-                    <h6 class="card-title-custom">{{ profileCard.title }}</h6>
-                    <p class="card-subtitle-custom">{{ profileCard.subtitle }}</p>
-
-                </div>
-
+        <div class="app-card dashboard-card" [routerLink]="profileCard.route">
+            <div class="icon-chip" [ngClass]="'chip-' + profileCard.color">
+                <i [class]="profileCard.icon"></i>
             </div>
-
-            <div class="col-lg-3 col-md-4 col-sm-6" *ngIf="hasProfile">
-
-                <div class="app-card dashboard-card" [routerLink]="editProfileCard.route">
-
-                    <div class="icon-chip" [ngClass]="'chip-' + editProfileCard.color">
-                        <i [class]="editProfileCard.icon"></i>
-                    </div>
-
-                    <h6 class="card-title-custom">{{ editProfileCard.title }}</h6>
-                    <p class="card-subtitle-custom">{{ editProfileCard.subtitle }}</p>
-
-                </div>
-
-            </div>
-
+            <h6 class="card-title-custom">{{ profileCard.title }}</h6>
+            <p class="card-subtitle-custom">{{ profileCard.subtitle }}</p>
         </div>
+
+        <div class="app-card dashboard-card" *ngIf="hasProfile" [routerLink]="editProfileCard.route">
+            <div class="icon-chip" [ngClass]="'chip-' + editProfileCard.color">
+                <i [class]="editProfileCard.icon"></i>
+            </div>
+            <h6 class="card-title-custom">{{ editProfileCard.title }}</h6>
+            <p class="card-subtitle-custom">{{ editProfileCard.subtitle }}</p>
+        </div>
+
+        @for(section of sections; track section.heading){
+            @for(card of section.cards; track card.title){
+
+                <div class="app-card dashboard-card" [routerLink]="card.route">
+                    <div class="icon-chip" [ngClass]="'chip-' + card.color">
+                        <i [class]="card.icon"></i>
+                    </div>
+                    <h6 class="card-title-custom">{{ card.title }}</h6>
+                    <p class="card-subtitle-custom">{{ card.subtitle }}</p>
+                </div>
+
+            }
+        }
 
     </div>
-
-    @for(section of sections; track section.heading){
-
-        <div class="mb-4">
-
-            <h5 class="section-heading">{{ section.heading }}</h5>
-
-            <div class="row g-3">
-
-                @for(card of section.cards; track card.title){
-
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-
-                        <div class="app-card dashboard-card" [routerLink]="card.route">
-
-                            <div class="icon-chip" [ngClass]="'chip-' + card.color">
-                                <i [class]="card.icon"></i>
-                            </div>
-
-                            <h6 class="card-title-custom">{{ card.title }}</h6>
-                            <p class="card-subtitle-custom">{{ card.subtitle }}</p>
-
-                        </div>
-
-                    </div>
-
-                }
-
-            </div>
-
-        </div>
-
-    }
 
 </div>

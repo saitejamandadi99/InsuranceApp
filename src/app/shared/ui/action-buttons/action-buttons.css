@@ -10,17 +10,16 @@
     align-items:center;
     gap:6px;
     min-width:90px;
-
     justify-content:center;
+    border-radius:var(--radius-md);
     transition:var(--transition);
-
 }
 
 .action-buttons .btn i{
     font-size:14px;
-
 }
 
 .action-buttons .btn:hover{
     transform: translateY(-2px);
+    box-shadow:0 6px 14px rgba(0,0,0,.35);
 }
