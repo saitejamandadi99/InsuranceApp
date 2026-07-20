@@ -1,3 +1,18 @@
+.register-text{
+    color: var(--text-primary);
+}
+
+.register-link{
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link:hover{
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
 .brand-section{
     text-align:center;
     margin-bottom:24px;

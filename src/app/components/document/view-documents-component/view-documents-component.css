@@ -1,0 +1,53 @@
+.table-dark-custom{
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: var(--surface);
+    color-scheme: dark;
+}
+
+.table-dark-custom thead{
+    background-color: var(--table-header);
+}
+
+.table-dark-custom thead th{
+    background-color: var(--table-header);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+.table-dark-custom tbody tr{
+    background-color: var(--surface);
+}
+
+.table-dark-custom tbody td{
+    padding: 14px 16px;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    background-color: transparent;
+}
+
+.table-dark-custom tbody tr:last-child td{
+    border-bottom: none;
+}
+
+/* Override Bootstrap's default light hover background */
+.table-dark-custom.table-hover tbody tr:hover{
+    --bs-table-hover-bg: var(--table-row-hover);
+    background-color: var(--table-row-hover);
+}
+
+.table-dark-custom.table-hover tbody tr:hover td{
+    background-color: transparent;
+}
+
+.table-responsive.app-card{
+    padding: 0;
+    overflow: hidden;
+}

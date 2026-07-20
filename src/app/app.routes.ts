@@ -60,7 +60,7 @@ export const routes: Routes = [
     {path:'createprofile', component:AddCustomerProfileComponent, canActivate:[customerGuardsGuard]},
     {path:'editprofile', component:EditCustomerProfileComponent, canActivate:[customerGuardsGuard]},
     
-    { path: 'viewproducts', component: ViewProductsComponent, canActivate: [allGuardsGuard] },
+    { path: 'viewproducts', component: ViewProductsComponent, canActivate: [adminOfficerGuardsGuard] },
     { path: 'addproduct', component: AddProductComponent, canActivate: [adminGuardsGuard] },
     { path: 'editproduct/:id', component: EditProductComponent, canActivate: [adminGuardsGuard] },
 
