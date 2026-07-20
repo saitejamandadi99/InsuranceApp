@@ -1,1 +1,73 @@
-<p>view-my-documents-component works!</p>
+<div class="container-fluid py-4">
+
+    <app-page-header
+        title="My Documents"
+        subtitle="View and manage documents you've uploaded for your claims."
+        buttonText="Upload Document"
+        buttonIcon="bi bi-cloud-upload"
+        (buttonClick)="navigateToAddDocument()">
+    </app-page-header>
+
+    <app-search-box
+        [searchControl]="searchControl"
+        placeholder="Search by Document Name, Type, or Claim Number"
+        (clear)="clearSearch()">
+    </app-search-box>
+
+    <div *ngIf="isLoading">
+        <app-loading-spinner></app-loading-spinner>
+    </div>
+
+    <div *ngIf="!isLoading">
+
+        <div *ngIf="filteredDocuments.length > 0" class="table-responsive mt-4">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th>Claim #</th>
+                        <th>Document Name</th>
+                        <th>Document Type</th>
+                        <th>Uploaded Date</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr *ngFor="let doc of filteredDocuments">
+
+                        <td>{{ doc.claimNumber }}</td>
+                        <td>{{ doc.documentName }}</td>
+                        <td>{{ doc.documentType }}</td>
+                        <td>{{ doc.uploadedDate | date:'dd-MM-yyyy hh:mm a' }}</td>
+
+                        <td class="text-center">
+                            <app-action-buttons
+                                [actions]="['view', 'delete']"
+                                (actionClick)="onDocAction($event, doc.documentId)">
+                            </app-action-buttons>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div *ngIf="filteredDocuments.length === 0">
+            <app-empty-state
+                icon="bi bi-file-earmark-text"
+                title="No Documents Found"
+                message="You haven't uploaded any claim documents yet."
+                buttonText="Upload Document"
+                (buttonClick)="navigateToAddDocument()">
+            </app-empty-state>
+        </div>
+
+    </div>
+
+</div>

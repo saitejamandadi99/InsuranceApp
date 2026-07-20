@@ -22,8 +22,8 @@ export class ClaimDocumentServices {
         return this.http.get<SuccessResponseDto<PaginationResponseDto<ClaimDocumentResponseDto>>>(`${environment.apiUrl}/ClaimDocument`, {params})
     }
 
-    addClaimDocument(document: ClaimDocumentRequestDto):Observable<SuccessResponseDto<ClaimDocumentResponseDto>>{
-        return this.http.post<SuccessResponseDto<ClaimDocumentResponseDto>>(`${environment.apiUrl}/ClaimDocument`, document);
+    addClaimDocument(formData:FormData):Observable<SuccessResponseDto<ClaimDocumentResponseDto>>{
+        return this.http.post<SuccessResponseDto<ClaimDocumentResponseDto>>(`${environment.apiUrl}/ClaimDocument`, formData);
     }
 
     getClaimDocumentsById(id:number):Observable<SuccessResponseDto<ClaimDocumentResponseDto>>{

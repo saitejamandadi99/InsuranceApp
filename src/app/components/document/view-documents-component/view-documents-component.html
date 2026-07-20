@@ -1,1 +1,131 @@
-<p>view-documents-component works!</p>
+<div class="container-fluid py-4">
+
+    <app-page-header
+        title="Claim Documents"
+        subtitle="Review documents submitted for insurance claims.">
+    </app-page-header>
+
+    <form [formGroup]="filterForm" (ngSubmit)="searchDocuments()">
+
+        <app-filter-card>
+
+            <div class="row g-3">
+
+                <div class="col-12">
+                    <app-search-box
+                        [searchControl]="searchControl"
+                        placeholder="Search by Document Name, Type, or Claim Number"
+                        (clear)="clearSearch()">
+                    </app-search-box>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <label class="form-label-custom">Sort By</label>
+                    <select class="form-select input-dark" formControlName="sortBy">
+                        <option value="uploadeddate">Uploaded Date</option>
+                        <option value="documentname">Document Name</option>
+                        <option value="documenttype">Document Type</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <label class="form-label-custom">Direction</label>
+                    <select class="form-select input-dark" formControlName="sortDirection">
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <label class="form-label-custom">Page Size</label>
+                    <select class="form-select input-dark" formControlName="pageSize">
+                        <option [value]="5">5</option>
+                        <option [value]="10">10</option>
+                        <option [value]="20">20</option>
+                        <option [value]="50">50</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-3 col-md-6 d-flex align-items-end">
+                    <button type="button" class="btn btn-secondary-custom w-100" (click)="resetFilters()">
+                        Reset Filters
+                    </button>
+                </div>
+
+                <div class="col-12 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary-custom">Search</button>
+                </div>
+
+            </div>
+
+        </app-filter-card>
+
+    </form>
+
+    <div *ngIf="isLoading">
+        <app-loading-spinner></app-loading-spinner>
+    </div>
+
+    <div *ngIf="!isLoading">
+
+        <div *ngIf="documents.records.length > 0">
+
+            <div class="table-responsive mt-4">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Claim #</th>
+                            <th>Document Name</th>
+                            <th>Document Type</th>
+                            <th>Uploaded Date</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr *ngFor="let doc of documents.records">
+                            <td>{{ doc.claimNumber }}</td>
+                            <td>{{ doc.documentName }}</td>
+                            <td>{{ doc.documentType }}</td>
+                            <td>{{ doc.uploadedDate | date:'dd-MM-yyyy hh:mm a' }}</td>
+
+                            <td class="text-center">
+                                <app-action-buttons
+                                    [actions]="['view']"
+                                    (actionClick)="navigateToView(doc.documentId)">
+                                </app-action-buttons>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <app-pagination
+                [currentPage]="documents.currentPage"
+                [totalPages]="documents.totalPages"
+                [totalRecords]="documents.totalRecords"
+                [pageSize]="documents.pageSize"
+                (pageChange)="$event === 'previous' ? previousPage() : nextPage()">
+            </app-pagination>
+
+        </div>
+
+        <div *ngIf="documents.records.length === 0">
+            <app-empty-state
+                icon="bi bi-file-earmark-text"
+                title="No Documents Found"
+                message="No claim documents match your current search criteria."
+                buttonText="Reset Filters"
+                (buttonClick)="resetFilters()">
+            </app-empty-state>
+        </div>
+
+    </div>
+
+</div>

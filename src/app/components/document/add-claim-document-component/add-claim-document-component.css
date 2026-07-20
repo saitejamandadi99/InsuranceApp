@@ -1,0 +1,21 @@
+.claim-select-list{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.claim-select-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.claim-select-row:hover{
+    border-color: var(--primary);
+    background: var(--surface-hover);
+}

@@ -1,0 +1,146 @@
+<div class="container-fluid py-4">
+
+    <app-page-header
+        title="Upload Claim Document"
+        subtitle="Add a supporting document to one of your claims."
+        buttonText="Back to My Documents"
+        buttonIcon="bi bi-arrow-left"
+        (buttonClick)="navigateToMyDocuments()">
+    </app-page-header>
+
+    <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+
+    <div *ngIf="!isLoading" class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="app-card">
+
+                <div class="card-header-custom">
+                    <h4 class="mb-0">
+                        <i class="bi bi-cloud-upload me-2"></i>
+                        Upload Document
+                    </h4>
+                </div>
+
+                <div class="card-body">
+
+                    <form [formGroup]="documentForm" (ngSubmit)="addDocument()">
+
+                        <div class="form-group">
+
+                            <label class="form-label-custom">Claim</label>
+
+                            <select class="form-select input-dark" formControlName="claimId">
+                                <option value="" disabled>Select a claim</option>
+                                <option *ngFor="let claim of claims" [value]="claim.claimId">
+                                    {{ claim.claimNumber }} — {{ claim.policyNumber }}
+                                </option>
+                            </select>
+
+                            <div *ngIf="claimId.invalid && claimId.touched" class="mt-1">
+                                <small class="text-danger">Claim is required.</small>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label-custom">Document Name</label>
+
+                            <input
+                                type="text"
+                                class="form-control input-dark"
+                                formControlName="documentName"
+                                placeholder="e.g. Hospital Bill">
+
+                            <div *ngIf="documentName.invalid && documentName.touched" class="mt-1">
+                                <small class="text-danger">Document Name is required (3-100 characters).</small>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label-custom">Document Type</label>
+
+                            <input
+                                type="text"
+                                class="form-control input-dark"
+                                formControlName="documentType"
+                                placeholder="e.g. Medical Report">
+
+                            <div *ngIf="documentType.invalid && documentType.touched" class="mt-1">
+                                <small class="text-danger">Document Type is required (3-50 characters).</small>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label-custom">Files</label>
+
+                            <input
+                                type="file"
+                                class="form-control input-dark"
+                                multiple
+                                (change)="onFilesSelected($event)"
+                                accept=".pdf,.jpg,.jpeg,.png,.docx">
+
+                            <small class="text-muted">You can select multiple files.</small>
+
+                            <div *ngIf="filesTouched && selectedFiles.length === 0" class="mt-1">
+                                <small class="text-danger">At least one file is required.</small>
+                            </div>
+
+                            <ul class="list-group mt-2" *ngIf="selectedFiles.length > 0">
+
+                                <li
+                                    *ngFor="let file of selectedFiles; let i = index"
+                                    class="list-group-item d-flex justify-content-between align-items-center input-dark">
+
+                                    <span>
+                                        <i class="bi bi-file-earmark me-2"></i>
+                                        {{ file.name }}
+                                    </span>
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm btn-outline-danger"
+                                        (click)="removeFile(i)">
+                                        <i class="bi bi-x"></i>
+                                    </button>
+
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-3 mt-4">
+
+                            <button type="button" class="btn btn-secondary-custom" (click)="navigateToMyDocuments()">
+                                Cancel
+                            </button>
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary-custom"
+                                [disabled]="documentForm.invalid || selectedFiles.length === 0">
+                                <i class="bi bi-upload me-2"></i>
+                                Upload Document
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
