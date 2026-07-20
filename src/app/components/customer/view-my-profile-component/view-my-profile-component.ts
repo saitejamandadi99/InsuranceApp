@@ -29,7 +29,6 @@ export class ViewMyProfileComponent implements OnInit {
             this.profileDetails = response;
             this.isLoading=false;
             this.cdr.detectChanges();
-            alert('profile fetched successfully')
         }
         ,error:(err:HttpErrorResponse)=>{
           this.isLoading=false;

@@ -12,11 +12,12 @@ import { EmptyState } from '../../../shared/ui/empty-state/empty-state';
 import { ClaimDocumentServices } from '../../../services/ClaimDocument/claim-document-services';
 import { ClaimDocumentResponseDto } from '../../../DTO/ClaimDocumentResponseDto';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
+import { FilterCard } from '../../../shared/ui/filter-card/filter-card';
 
 @Component({
   selector: 'app-view-my-documents-component',
   standalone: true,
-  imports: [NgFor, NgIf, DatePipe, PageHeader, LoadingSpinner, SearchBox, ActionButtons, EmptyState],
+  imports: [NgFor, NgIf, DatePipe, PageHeader, LoadingSpinner, SearchBox, ActionButtons, EmptyState,FilterCard],
   templateUrl: './view-my-documents-component.html',
   styleUrl: './view-my-documents-component.css',
 })
@@ -103,6 +104,6 @@ export class ViewMyDocumentsComponent implements OnInit {
   }
 
   navigateToAddDocument() {
-    this.router.navigate(['/addclaimdocument']);
+    this.router.navigate(['/adddocument']);
   }
 }

@@ -26,7 +26,9 @@
 
                 <div class="col-lg-3 col-md-6">
 
-                    <label class="form-label-custom">Sort By</label>
+                    <label class="form-label-custom">
+                        Sort By
+                    </label>
 
                     <select
                         class="form-select input-dark"
@@ -45,7 +47,9 @@
 
                 <div class="col-lg-3 col-md-6">
 
-                    <label class="form-label-custom">Order</label>
+                    <label class="form-label-custom">
+                        Order
+                    </label>
 
                     <select
                         class="form-select input-dark"
@@ -60,7 +64,9 @@
 
                 <div class="col-lg-3 col-md-6">
 
-                    <label class="form-label-custom">Page Size</label>
+                    <label class="form-label-custom">
+                        Page Size
+                    </label>
 
                     <select
                         class="form-select input-dark"
@@ -116,11 +122,11 @@
 
         @if(lstPolicies.records.length > 0){
 
-            <div class="table-responsive mt-4">
+            <div class="table-responsive mt-4 app-card">
 
-                <table class="table table-hover align-middle">
+                <table class="table table-hover align-middle table-dark-custom">
 
-                    <thead class="table-dark">
+                    <thead>
 
                         <tr>
 
@@ -144,15 +150,10 @@
                             <tr>
 
                                 <td>{{policy.policyNumber}}</td>
-
                                 <td>{{policy.customerName}}</td>
-
                                 <td>{{policy.planName}}</td>
-
                                 <td>{{policy.startDate | date:'dd-MM-yyyy'}}</td>
-
                                 <td>{{policy.endDate | date:'dd-MM-yyyy'}}</td>
-
                                 <td>{{policy.totalPremiumPaid | currency:'INR':'symbol':'1.2-2'}}</td>
 
                                 <td class="text-center">
@@ -165,32 +166,39 @@
 
                                 <td class="text-center">
 
-                                        @if(policy.policyStatus === PolicyStatus.PendingPayment){
+                                    @if(policy.policyStatus === PolicyStatus.PendingPayment){
 
-                                    <div class="d-flex justify-content-center gap-2">
+                                        <div class="d-flex justify-content-center gap-2">
 
-                                        <button
-                                            class="btn btn-primary-custom btn-sm"
-                                            (click)="navigateToRecordPayment(policy.policyId)">
-                                            Record Payment
-                                        </button>
+                                            <button
+                                                class="btn btn-primary-custom btn-sm"
+                                                (click)="navigateToRecordPayment(policy.policyId)">
 
-                                        <app-action-buttons
-                                            [actions]="['cancel']"
-                                            (actionClick)="cancelPolicy(policy.policyId)">
-                                        </app-action-buttons>
+                                                Record Payment
 
-                                            </div>
+                                            </button>
 
-                                        }
-                                        @else{
+                                            <app-action-buttons
+                                                [actions]="['cancel']"
+                                                (actionClick)="cancelPolicy(policy.policyId)">
+                                            </app-action-buttons>
 
-                                            <span class="text-muted">-</span>
+                                        </div>
 
-                                        }
+                                    }
+
+                                    @else{
+
+                                        <span class="text-muted">
+                                            -
+                                        </span>
+
+                                    }
 
                                 </td>
+
                             </tr>
+
                         }
 
                     </tbody>

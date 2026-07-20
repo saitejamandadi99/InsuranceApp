@@ -18,14 +18,13 @@
 
         @if(lstMyPolicies.length > 0){
 
-            <div class="table-responsive mt-4">
+            <div class="table-responsive mt-4 app-card">
 
-                <table class="table table-hover align-middle">
+                <table class="table table-hover align-middle table-dark-custom">
 
-                    <thead class="table-dark">
+                    <thead>
 
                         <tr>
-
                             <th>Policy Number</th>
                             <th>Plan Name</th>
                             <th>Start Date</th>
@@ -33,7 +32,6 @@
                             <th>Premium Paid</th>
                             <th class="text-center">Status</th>
                             <th class="text-center">Actions</th>
-
                         </tr>
 
                     </thead>
@@ -45,13 +43,9 @@
                             <tr>
 
                                 <td>{{policy.policyNumber}}</td>
-
                                 <td>{{policy.planName}}</td>
-
                                 <td>{{policy.startDate | date:'dd-MM-yyyy'}}</td>
-
                                 <td>{{policy.endDate | date:'dd-MM-yyyy'}}</td>
-
                                 <td>{{policy.totalPremiumPaid | currency:'INR':'symbol':'1.2-2'}}</td>
 
                                 <td class="text-center">
@@ -66,30 +60,27 @@
 
                                     @if(policy.policyStatus === PolicyStatus.PendingPayment){
 
-                                        <div class="d-flex justify-content-center gap-2">
+                                        <button
+                                            class="btn btn-primary-custom btn-sm"
+                                            (click)="navigateToMakePayment(policy.policyId)">
 
-                                            <button
-                                                class="btn btn-primary-custom btn-sm"
-                                                (click)="navigateToMakePayment(policy.policyId)">
+                                            Pay Premium
 
-                                                Pay Premium
+                                        </button>
 
-                                            </button>
-                                    
-                                        </div>
-                                    }        
-                                        @if(policy.policyStatus ===  PolicyStatus.Active){
-                                            
-                                            <button
-                                                class="btn btn-secondary-custom btn-sm"
-                                                (click)="navigateToRaiseClaim(policy.policyId)">
+                                    }
 
-                                                Raise Claim
+                                    @else if(policy.policyStatus === PolicyStatus.Active){
 
-                                            </button>
-                                        }
+                                        <button
+                                            class="btn btn-secondary-custom btn-sm"
+                                            (click)="navigateToRaiseClaim(policy.policyId)">
 
-                                    
+                                            Raise Claim
+
+                                        </button>
+
+                                    }
 
                                     @else{
 
@@ -119,7 +110,9 @@
 
                     <i class="bi bi-file-earmark-text display-4 text-muted"></i>
 
-                    <h4 class="mt-3">No Policies Found</h4>
+                    <h4 class="mt-3">
+                        No Policies Found
+                    </h4>
 
                     <p class="text-muted mb-4">
                         You haven't purchased any insurance policies yet.

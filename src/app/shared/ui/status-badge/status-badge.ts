@@ -17,8 +17,10 @@ export class StatusBadge {
       case 'active':
       case 'approved':
       case 'completed':
+      case 'success':
         return 'success';
       case 'pending':
+      case 'pendingpayment':
         return 'warning';
 
       case 'inactive':

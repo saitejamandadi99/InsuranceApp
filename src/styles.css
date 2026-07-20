@@ -152,6 +152,12 @@ body{
     margin-bottom:8px;
 }
 
+.form-value-heading{
+    font-size:1.4rem;
+    font-weight:700;
+    color:var(--text-primary);
+}
+
 .table-dark-custom{
     border-collapse: separate;
     border-spacing: 0;
@@ -230,8 +236,8 @@ body{
 .card-header-custom h4{
     margin:0;
     color:#ffffff;
-    font-size:1.4rem;
-    font-weight:600;
+    font-size:1.6rem;
+    font-weight:700;
 }
 
 .card-header-custom i{

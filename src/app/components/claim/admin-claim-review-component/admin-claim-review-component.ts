@@ -108,33 +108,21 @@ export class AdminClaimReviewComponent implements OnInit {
     this.claimService.adminReviewByClaimId(this.claimId, request).subscribe({
 
       next: (response) => {
-
         this.isLoading = false;
-
         alert(response.message);
-
-        this.router.navigate(['/claims']);
-
+        this.router.navigate(['/viewclaims']);
       },
-
       error: (err: HttpErrorResponse) => {
-
         this.isLoading = false;
-
         const apiError = err.error as ErrorResponseDto;
-
         alert(apiError.Message);
-
       }
-
     });
 
   }
 
   navigateToClaims() {
-
-    this.router.navigate(['/claims']);
-
+    this.router.navigate(['/viewclaims']);
   }
 
 }

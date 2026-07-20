@@ -72,24 +72,13 @@
 
                 <div class="col-lg-3 col-md-6">
 
-                    <label class="form-label-custom">
-                        Order
-                    </label>
-
+                    <label class="form-label-custom">Order</label>
                     <select
                         class="form-select input-dark"
                         formControlName="sortDirection">
-
-                        <option value="asc">
-                            Ascending
-                        </option>
-
-                        <option value="desc">
-                            Descending
-                        </option>
-
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
                     </select>
-
                 </div>
 
                 <div class="col-lg-3 col-md-6">
@@ -152,14 +141,13 @@
 
         @if(lstPlans.records.length > 0){
 
-            <div class="table-responsive mt-4">
+            <div class="table-responsive mt-4 app-card">
 
-                <table class="table table-hover align-middle">
+                <table class="table table-hover align-middle table-dark-custom">
 
-                    <thead class="table-dark">
+                    <thead>
 
                         <tr>
-
                             <th>Product Name</th>
                             <th>Product Type</th>
                             <th>Plan Name</th>
@@ -170,71 +158,45 @@
                             <th class="text-center">Status</th>
                             <th>Created On</th>
                             @if(!isOfficer){
-
                                 <th class="text-center">Actions</th>
                             }
-
                         </tr>
-
                     </thead>
-
                     <tbody>
-
                         @for(plan of lstPlans.records; track plan.planId){
-
                             <tr>
-
-
                                 <td>{{plan.productName}}</td>
-
                                 <td>{{plan.productType}}</td>
-
                                 <td>{{plan.planName}}</td>
-
                                 <td>{{plan.coverageAmount | currency:'INR':'symbol':'1.2-2'}}</td>
-
                                 <td>{{plan.premiumAmount | currency:'INR':'symbol':'1.2-2'}}</td>
-
                                 <td>{{plan.premiumType}}</td>
-
                                 <td>{{plan.duration}} Years</td>
-
                                 <td class="text-center">
-
                                     <app-status-badge
                                         [status]="plan.activeStatus">
                                     </app-status-badge>
-
                                 </td>
-
                                 <td>{{plan.createdDate | date:'dd-MM-yyyy'}}</td>
-
                                 @if(!isOfficer){
                                     <td class="text-center">
-
-                                
-                                    <app-action-buttons
-                                        [actions]="plan.activeStatus === 'Active'
-                                            ? ['edit','deactivate']
-                                            : ['edit','activate']"
-                                        (actionClick)="
-                                            $event === 'edit'
-                                                ? editPlan(plan.planId)
-                                                : $event === 'activate'
-                                                    ? activatePlan(plan.planId)
-                                                    : deactivatePlan(plan.planId)">
-                                    </app-action-buttons>
-                                </td>
-                                }    
-
+                                        <app-action-buttons
+                                            [actions]="plan.activeStatus === 'Active'
+                                                ? ['edit','deactivate']
+                                                : ['edit','activate']"
+                                            (actionClick)="
+                                                $event === 'edit'
+                                                    ? editPlan(plan.planId)
+                                                    : $event === 'activate'
+                                                        ? activatePlan(plan.planId)
+                                                        : deactivatePlan(plan.planId)">
+                                        </app-action-buttons>
+                                    </td>
+                                }
                             </tr>
-
                         }
-
                     </tbody>
-
                 </table>
-
             </div>
 
             <app-pagination

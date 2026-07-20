@@ -5,99 +5,108 @@
         subtitle="Track all claim status updates.">
     </app-page-header>
 
-    <form [formGroup]="filterForm">
+    <div class="row justify-content-center">
 
-        <app-filter-card>
+        <div class="col-12 col-xl-12 col-xxl-11">
 
-            <div class="row g-3">
+            <form [formGroup]="filterForm" (ngSubmit)="loadHistories()">
 
-                <div class="col-md-5">
+                <app-filter-card>
 
-                    <label class="form-label">Search</label>
+                    <div class="row g-3">
 
-                    <app-search-box
-                        [searchControl]="searchControl"
-                        placeholder="Search by Claim Number, Updated By or Remarks...">
-                    </app-search-box>
+                        <div class="col-12">
 
-                </div>
+                            <app-search-box
+                                [searchControl]="searchControl"
+                                placeholder="Search by Claim Number, Updated By or Remarks...">
+                            </app-search-box>
 
-                <div class="col-md-2">
+                        </div>
 
-                    <label class="form-label">Sort By</label>
+                        <div class="col-lg-3 col-md-6">
 
-                    <select
-                        class="form-select"
-                        formControlName="sortBy">
+                            <label class="form-label-custom">Sort By</label>
 
-                        <option value="updatedDate">Updated Date</option>
-                        <option value="newStatus">New Status</option>
-                        <option value="previousStatus">Previous Status</option>
-                        <option value="updatedBy">Updated By</option>
+                            <select
+                                class="form-select input-dark"
+                                formControlName="sortBy">
 
-                    </select>
+                                <option value="updatedDate">Updated Date</option>
+                                <option value="newStatus">New Status</option>
+                                <option value="previousStatus">Previous Status</option>
+                                <option value="updatedBy">Updated By</option>
 
-                </div>
+                            </select>
 
-                <div class="col-md-2">
+                        </div>
 
-                    <label class="form-label">Direction</label>
+                        <div class="col-lg-3 col-md-6">
 
-                    <select
-                        class="form-select"
-                        formControlName="sortDirection">
+                            <label class="form-label-custom">Direction</label>
 
-                        <option value="asc">Ascending</option>
-                        <option value="desc">Descending</option>
+                            <select
+                                class="form-select input-dark"
+                                formControlName="sortDirection">
 
-                    </select>
+                                <option value="asc">Ascending</option>
+                                <option value="desc">Descending</option>
 
-                </div>
+                            </select>
 
-                <div class="col-md-1">
+                        </div>
 
-                    <label class="form-label">Size</label>
+                        <div class="col-lg-3 col-md-6">
 
-                    <select
-                        class="form-select"
-                        formControlName="pageSize">
+                            <label class="form-label-custom">Page Size</label>
 
-                        <option [value]="5">5</option>
-                        <option [value]="10">10</option>
-                        <option [value]="20">20</option>
-                        <option [value]="50">50</option>
+                            <select
+                                class="form-select input-dark"
+                                formControlName="pageSize">
 
-                    </select>
+                                <option [value]="5">5</option>
+                                <option [value]="10">10</option>
+                                <option [value]="20">20</option>
+                                <option [value]="50">50</option>
 
-                </div>
+                            </select>
 
-                <div class="col-md-2 d-flex align-items-end gap-2">
+                        </div>
 
-                    <button
-                        type="button"
-                        class="btn btn-primary-custom flex-fill"
-                        (click)="loadHistories()">
+                        <div class="col-lg-3 col-md-6 d-flex align-items-end">
 
-                        Apply
+                            <button
+                                type="button"
+                                class="btn btn-secondary-custom w-100"
+                                (click)="resetFilters()">
 
-                    </button>
+                                Reset Filters
 
-                    <button
-                        type="button"
-                        class="btn btn-secondary-custom"
-                        (click)="resetFilters()">
+                            </button>
 
-                        Reset
+                        </div>
 
-                    </button>
+                        <div class="col-12 d-flex justify-content-end">
 
-                </div>
+                            <button
+                                type="submit"
+                                class="btn btn-primary-custom">
 
-            </div>
+                                Search
 
-        </app-filter-card>
+                            </button>
 
-    </form>
+                        </div>
+
+                    </div>
+
+                </app-filter-card>
+
+            </form>
+
+        </div>
+
+    </div>
 
     @if(isLoading){
 
@@ -109,64 +118,62 @@
 
         @if(histories.records.length > 0){
 
-            <div class="app-card mt-4">
+            <div class="row justify-content-center mt-4">
 
-                <div class="table-responsive">
+                <div class="col-12 col-xl-12 col-xxl-11">
 
-                    <table class="table table-hover align-middle mb-0">
+                    <div class="table-responsive app-card">
 
-                        <thead class="table-dark">
+                        <table class="table table-hover align-middle table-dark-custom">
 
-                            <tr>
-
-                                <th>Claim Number</th>
-                                <th>Previous Status</th>
-                                <th>New Status</th>
-                                <th>Updated By</th>
-                                <th>Updated Date</th>
-                                <th>Remarks</th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                            @for(history of histories.records; track history.historyId){
+                            <thead>
 
                                 <tr>
 
-                                    <td>{{history.claimNumber}}</td>
-
-                                    <td>
-
-                                        <app-status-badge
-                                            [status]="history.previousStatus">
-                                        </app-status-badge>
-
-                                    </td>
-
-                                    <td>
-
-                                        <app-status-badge
-                                            [status]="history.newStatus">
-                                        </app-status-badge>
-
-                                    </td>
-
-                                    <td>{{history.updatedBy}}</td>
-
-                                    <td>{{history.updatedDate | date:'dd-MM-yyyy hh:mm a'}}</td>
-
-                                    <td>{{history.remarks}}</td>
+                                    <th>Claim Number</th>
+                                    <th>Previous Status</th>
+                                    <th>New Status</th>
+                                    <th>Updated By</th>
+                                    <th>Updated Date</th>
+                                    <th>Remarks</th>
 
                                 </tr>
 
-                            }
+                            </thead>
 
-                        </tbody>
+                            <tbody>
 
-                    </table>
+                                @for(history of histories.records; track history.historyId){
+
+                                    <tr>
+
+                                        <td>{{history.claimNumber}}</td>
+
+                                        <td>
+                                            <app-status-badge
+                                                [status]="history.previousStatus">
+                                            </app-status-badge>
+                                        </td>
+
+                                        <td>
+                                            <app-status-badge
+                                                [status]="history.newStatus">
+                                            </app-status-badge>
+                                        </td>
+
+                                        <td>{{history.updatedBy}}</td>
+                                        <td>{{history.updatedDate | date:'dd-MM-yyyy hh:mm a'}}</td>
+                                        <td>{{history.remarks}}</td>
+
+                                    </tr>
+
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
 
                 </div>
 
@@ -177,11 +184,7 @@
                 [totalPages]="histories.totalPages"
                 [totalRecords]="histories.totalRecords"
                 [pageSize]="histories.pageSize"
-                (pageChange)="
-                    $event === 'previous'
-                    ? previousPage()
-                    : nextPage()
-                ">
+                (pageChange)="$event === 'previous' ? previousPage() : nextPage()">
             </app-pagination>
 
         }
@@ -191,7 +194,9 @@
             <app-empty-state
                 icon="bi bi-clock-history"
                 title="No Claim Status History Found"
-                message="No claim status history records match your search criteria.">
+                message="No claim status history records match your search criteria."
+                buttonText="Reset Filters"
+                (buttonClick)="resetFilters()">
             </app-empty-state>
 
         }

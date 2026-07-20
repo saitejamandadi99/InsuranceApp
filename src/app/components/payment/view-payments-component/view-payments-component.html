@@ -23,38 +23,56 @@
 
                 <div class="col-lg-3 col-md-6">
 
-                    <label class="form-label-custom">Sort By</label>
+                    <label class="form-label-custom">
+                        Sort By
+                    </label>
 
-                    <select class="form-select input-dark" formControlName="sortBy">
+                    <select
+                        class="form-select input-dark"
+                        formControlName="sortBy">
+
                         <option value="paymentDate">Payment Date</option>
                         <option value="policyNumber">Policy Number</option>
                         <option value="amount">Amount</option>
                         <option value="paymentMode">Payment Mode</option>
                         <option value="paymentStatus">Payment Status</option>
+
                     </select>
 
                 </div>
 
                 <div class="col-lg-3 col-md-6">
 
-                    <label class="form-label-custom">Order</label>
+                    <label class="form-label-custom">
+                        Order
+                    </label>
 
-                    <select class="form-select input-dark" formControlName="sortDirection">
+                    <select
+                        class="form-select input-dark"
+                        formControlName="sortDirection">
+
                         <option value="asc">Ascending</option>
                         <option value="desc">Descending</option>
+
                     </select>
 
                 </div>
 
                 <div class="col-lg-3 col-md-6">
 
-                    <label class="form-label-custom">Page Size</label>
+                    <label class="form-label-custom">
+                        Page Size
+                    </label>
 
-                    <select class="form-select input-dark" formControlName="pageSize">
+                    <select
+                        class="form-select input-dark"
+                        formControlName="pageSize">
+
                         <option [value]="5">5</option>
                         <option [value]="10">10</option>
                         <option [value]="20">20</option>
                         <option [value]="50">50</option>
+
                     </select>
 
                 </div>
@@ -100,71 +118,62 @@
 
         @if(payments.records.length > 0){
 
-            <div class="app-card mt-4">
+            <div class="table-responsive mt-4 app-card">
 
-                <div class="table-responsive">
+                <table class="table table-hover align-middle table-dark-custom">
 
-                    <table class="table table-hover align-middle mb-0">
+                    <thead>
 
-                        <thead class="table-dark">
+                        <tr>
+
+                            <th>Policy #</th>
+                            <th>Amount</th>
+                            <th>Payment Date</th>
+                            <th>Payment Mode</th>
+                            <th>Transaction Reference</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @for(payment of payments.records; track payment.paymentId){
 
                             <tr>
 
-                                <th>Policy #</th>
-                                <th>Amount</th>
-                                <th>Payment Date</th>
-                                <th>Payment Mode</th>
-                                <th>Transaction Reference</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-center">Actions</th>
+                                <td>{{payment.policyNumber}}</td>
+                                <td>{{payment.amount | currency:'INR':'symbol':'1.2-2'}}</td>
+                                <td>{{payment.paymentDate | date:'dd-MM-yyyy'}}</td>
+                                <td>{{payment.paymentMode}}</td>
+                                <td>{{payment.transactionReference}}</td>
+
+                                <td class="text-center">
+
+                                    <app-status-badge
+                                        [status]="payment.paymentStatus">
+                                    </app-status-badge>
+
+                                </td>
+
+                                <td class="text-center">
+
+                                    <app-action-buttons
+                                        [actions]="['view']"
+                                        (actionClick)="navigateToPaymentDetails(payment.paymentId)">
+                                    </app-action-buttons>
+
+                                </td>
 
                             </tr>
 
-                        </thead>
+                        }
 
-                        <tbody>
+                    </tbody>
 
-                            @for(payment of payments.records; track payment.paymentId){
-
-                                <tr>
-
-
-                                    <td>{{payment.policyNumber}}</td>
-
-                                    <td>{{payment.amount | currency:'INR':'symbol':'1.2-2'}}</td>
-
-                                    <td>{{payment.paymentDate | date:'dd-MM-yyyy'}}</td>
-
-                                    <td>{{payment.paymentMode}}</td>
-
-                                    <td>{{payment.transactionReference}}</td>
-
-                                    <td class="text-center">
-
-                                        <app-status-badge
-                                            [status]="payment.paymentStatus">
-                                        </app-status-badge>
-
-                                    </td>
-
-                                    <td class="text-center">
-
-                                        <app-action-buttons
-                                            [actions]="['view']"
-                                            (actionClick)="navigateToPaymentDetails(payment.paymentId)">
-                                        </app-action-buttons>
-
-                                    </td>
-
-                                </tr>
-
-                            }
-
-                        </tbody>
-
-                    </table>
-
-                </div>
+                </table>
 
             </div>
 

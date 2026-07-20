@@ -116,7 +116,7 @@ export class OfficerClaimReviewComponent implements OnInit {
 
       alert(response.message);
 
-      this.router.navigate(['/claims']);
+      this.router.navigate(['/viewclaims']);
 
     },
 
@@ -136,7 +136,7 @@ export class OfficerClaimReviewComponent implements OnInit {
 
   navigateToClaims() {
 
-    this.router.navigate(['/claims']);
+    this.router.navigate(['/viewclaims']);
 
   }
 

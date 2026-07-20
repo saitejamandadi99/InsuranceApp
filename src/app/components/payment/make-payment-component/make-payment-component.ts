@@ -13,10 +13,11 @@ import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { PaymentMode } from '../../../models/PaymentMode';
 import { Role } from '../../../models/Role';
 import { PaymentRequestDto } from '../../../DTO/PaymentRequestDto';
+import { StatusBadge } from '../../../shared/ui/status-badge/status-badge';
 
 @Component({
   selector: 'app-make-payment-component',
-  imports: [ReactiveFormsModule, NgIf, DatePipe, CurrencyPipe, PageHeader, LoadingSpinner, ActionButtons],
+  imports: [ReactiveFormsModule, NgIf, DatePipe, CurrencyPipe, PageHeader, LoadingSpinner, ActionButtons, StatusBadge],
   templateUrl: './make-payment-component.html',
   styleUrl: './make-payment-component.css',
 })

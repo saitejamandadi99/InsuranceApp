@@ -13,127 +13,135 @@
 
     @else{
 
-        <div class="app-card p-4">
+    <div class="row justify-content-center">
 
-            <div class="row g-4">
+        <div class="col-12 col-xl-10 col-xxl-9">
 
-                <div class="col-md-6">
+            <div class="app-card p-4">
 
-                    <label class="form-label-custom">
-                        Payment #
-                    </label>
+                <div class="row g-4">
 
-                    <div class="form-control input-dark">
+                    <div class="col-md-6">
 
-                        {{payment.paymentId}}
+                        <label class="form-label-custom">
+                            Payment #
+                        </label>
+
+                        <div class="form-control input-dark">
+
+                            {{payment.paymentId}}
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label-custom">
+                            Policy Number
+                        </label>
+
+                        <div class="form-control input-dark">
+
+                            {{payment.policyNumber}}
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label-custom">
+                            Amount
+                        </label>
+
+                        <div class="form-control input-dark">
+
+                            {{payment.amount | currency:'INR':'symbol':'1.2-2'}}
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label-custom">
+                            Payment Date
+                        </label>
+
+                        <div class="form-control input-dark">
+
+                            {{payment.paymentDate | date:'dd-MM-yyyy'}}
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label-custom">
+                            Payment Mode
+                        </label>
+
+                        <div class="form-control input-dark">
+
+                            {{payment.paymentMode}}
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label-custom">
+                            Payment Status
+                        </label>
+
+                        <div class="pt-2">
+
+                            <app-status-badge
+                                [status]="payment.paymentStatus">
+                            </app-status-badge>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-12">
+
+                        <label class="form-label-custom">
+                            Transaction Reference
+                        </label>
+
+                        <div class="form-control input-dark">
+
+                            {{payment.transactionReference}}
+
+                        </div>
 
                     </div>
 
                 </div>
 
-                <div class="col-md-6">
+                <div class="d-flex justify-content-end mt-4">
 
-                    <label class="form-label-custom">
-                        Policy Number
-                    </label>
+                    <button
+                        type="button"
+                        class="btn btn-secondary-custom"
+                        (click)="navigateBack()">
 
-                    <div class="form-control input-dark">
+                        Back
 
-                        {{payment.policyNumber}}
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-6">
-
-                    <label class="form-label-custom">
-                        Amount
-                    </label>
-
-                    <div class="form-control input-dark">
-
-                        {{payment.amount | currency:'INR':'symbol':'1.2-2'}}
-
-                    </div>
+                    </button>
 
                 </div>
-
-                <div class="col-md-6">
-
-                    <label class="form-label-custom">
-                        Payment Date
-                    </label>
-
-                    <div class="form-control input-dark">
-
-                        {{payment.paymentDate | date:'dd-MM-yyyy'}}
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-6">
-
-                    <label class="form-label-custom">
-                        Payment Mode
-                    </label>
-
-                    <div class="form-control input-dark">
-
-                        {{payment.paymentMode}}
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-6">
-
-                    <label class="form-label-custom">
-                        Payment Status
-                    </label>
-
-                    <div class="pt-2">
-
-                        <app-status-badge
-                            [status]="payment.paymentStatus">
-                        </app-status-badge>
-
-                    </div>
-
-                </div>
-
-                <div class="col-12">
-
-                    <label class="form-label-custom">
-                        Transaction Reference
-                    </label>
-
-                    <div class="form-control input-dark">
-
-                        {{payment.transactionReference}}
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="d-flex justify-content-end mt-4">
-
-                <button
-                    type="button"
-                    class="btn btn-secondary-custom"
-                    (click)="navigateBack()">
-
-                    Back
-
-                </button>
 
             </div>
 
         </div>
 
-    }
+    </div>
+
+}
 
 </div>

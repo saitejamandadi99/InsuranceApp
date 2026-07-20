@@ -8,57 +8,90 @@
         (buttonClick)="navigateToAddDocument()">
     </app-page-header>
 
-    <app-search-box
-        [searchControl]="searchControl"
-        placeholder="Search by Document Name, Type, or Claim Number"
-        (clear)="clearSearch()">
-    </app-search-box>
+    <div class="row justify-content-center">
 
-    <div *ngIf="isLoading">
-        <app-loading-spinner></app-loading-spinner>
-    </div>
+        <div class="col-12 col-xl-12 col-xxl-11">
 
-    <div *ngIf="!isLoading">
+            <app-filter-card>
 
-        <div *ngIf="filteredDocuments.length > 0" class="table-responsive mt-4">
+                <app-search-box
+                    [searchControl]="searchControl"
+                    placeholder="Search by Document Name, Type, or Claim Number"
+                    (clear)="clearSearch()">
+                </app-search-box>
 
-            <table class="table table-hover align-middle">
-
-                <thead class="table-dark">
-                    <tr>
-                        <th>Claim #</th>
-                        <th>Document Name</th>
-                        <th>Document Type</th>
-                        <th>Uploaded Date</th>
-                        <th class="text-center">Actions</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    <tr *ngFor="let doc of filteredDocuments">
-
-                        <td>{{ doc.claimNumber }}</td>
-                        <td>{{ doc.documentName }}</td>
-                        <td>{{ doc.documentType }}</td>
-                        <td>{{ doc.uploadedDate | date:'dd-MM-yyyy hh:mm a' }}</td>
-
-                        <td class="text-center">
-                            <app-action-buttons
-                                [actions]="['view', 'delete']"
-                                (actionClick)="onDocAction($event, doc.documentId)">
-                            </app-action-buttons>
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
+            </app-filter-card>
 
         </div>
 
-        <div *ngIf="filteredDocuments.length === 0">
+    </div>
+
+    @if(isLoading){
+
+        <app-loading-spinner></app-loading-spinner>
+
+    }
+
+    @else{
+
+        @if(filteredDocuments.length > 0){
+
+            <div class="row justify-content-center mt-4">
+
+                <div class="col-12 col-xl-12 col-xxl-11">
+
+                    <div class="table-responsive app-card">
+
+                        <table class="table table-hover align-middle table-dark-custom">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Claim #</th>
+                                    <th>Document Name</th>
+                                    <th>Document Type</th>
+                                    <th>Uploaded Date</th>
+                                    <th class="text-center">Actions</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr *ngFor="let doc of filteredDocuments">
+
+                                    <td>{{doc.claimNumber}}</td>
+                                    <td>{{doc.documentName}}</td>
+                                    <td>{{doc.documentType}}</td>
+                                    <td>{{doc.uploadedDate | date:'dd-MM-yyyy hh:mm a'}}</td>
+
+                                    <td class="text-center">
+
+                                        <app-action-buttons
+                                            [actions]="['view','delete']"
+                                            (actionClick)="onDocAction($event, doc.documentId)">
+                                        </app-action-buttons>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        }
+
+        @else{
+
             <app-empty-state
                 icon="bi bi-file-earmark-text"
                 title="No Documents Found"
@@ -66,8 +99,9 @@
                 buttonText="Upload Document"
                 (buttonClick)="navigateToAddDocument()">
             </app-empty-state>
-        </div>
 
-    </div>
+        }
+
+    }
 
 </div>

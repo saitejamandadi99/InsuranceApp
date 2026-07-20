@@ -5,102 +5,110 @@
         subtitle="Review and manage insurance claims.">
     </app-page-header>
 
-    <form [formGroup]="filterForm" (ngSubmit)="searchClaims()">
+    <div class="row justify-content-center">
 
-        <app-filter-card>
+        <div class="col-12 col-xl-12 col-xxl-11">
 
-            <div class="row g-3">
+            <form [formGroup]="filterForm" (ngSubmit)="searchClaims()">
 
-                <div class="col-12">
+                <app-filter-card>
 
-                    <app-search-box
-                        [searchControl]="searchControl"
-                        placeholder="Search by Claim Number, Policy Number or Customer"
-                        (clear)="clearSearch()">
-                    </app-search-box>
+                    <div class="row g-3">
 
-                </div>
+                        <div class="col-12">
 
-                <div class="col-lg-3 col-md-6">
+                            <app-search-box
+                                [searchControl]="searchControl"
+                                placeholder="Search by Claim Number, Policy Number or Customer"
+                                (clear)="clearSearch()">
+                            </app-search-box>
 
-                    <label class="form-label-custom">Sort By</label>
+                        </div>
 
-                    <select
-                        class="form-select input-dark"
-                        formControlName="sortBy">
+                        <div class="col-lg-3 col-md-6">
 
-                        <option value="createdDate">Created Date</option>
-                        <option value="claimNumber">Claim Number</option>
-                        <option value="policyNumber">Policy Number</option>
-                        <option value="claimAmount">Claim Amount</option>
-                        <option value="claimStatus">Status</option>
+                            <label class="form-label-custom">Sort By</label>
 
-                    </select>
+                            <select
+                                class="form-select input-dark"
+                                formControlName="sortBy">
 
-                </div>
+                                <option value="createdDate">Created Date</option>
+                                <option value="claimNumber">Claim Number</option>
+                                <option value="policyNumber">Policy Number</option>
+                                <option value="claimAmount">Claim Amount</option>
+                                <option value="claimStatus">Status</option>
 
-                <div class="col-lg-3 col-md-6">
+                            </select>
 
-                    <label class="form-label-custom">Direction</label>
+                        </div>
 
-                    <select
-                        class="form-select input-dark"
-                        formControlName="sortDirection">
+                        <div class="col-lg-3 col-md-6">
 
-                        <option value="asc">Ascending</option>
-                        <option value="desc">Descending</option>
+                            <label class="form-label-custom">Direction</label>
 
-                    </select>
+                            <select
+                                class="form-select input-dark"
+                                formControlName="sortDirection">
 
-                </div>
+                                <option value="asc">Ascending</option>
+                                <option value="desc">Descending</option>
 
-                <div class="col-lg-3 col-md-6">
+                            </select>
 
-                    <label class="form-label-custom">Page Size</label>
+                        </div>
 
-                    <select
-                        class="form-select input-dark"
-                        formControlName="pageSize">
+                        <div class="col-lg-3 col-md-6">
 
-                        <option [value]="5">5</option>
-                        <option [value]="10">10</option>
-                        <option [value]="20">20</option>
-                        <option [value]="50">50</option>
+                            <label class="form-label-custom">Page Size</label>
 
-                    </select>
+                            <select
+                                class="form-select input-dark"
+                                formControlName="pageSize">
 
-                </div>
+                                <option [value]="5">5</option>
+                                <option [value]="10">10</option>
+                                <option [value]="20">20</option>
+                                <option [value]="50">50</option>
 
-                <div class="col-lg-3 col-md-6 d-flex align-items-end">
+                            </select>
 
-                    <button
-                        type="button"
-                        class="btn btn-secondary-custom w-100"
-                        (click)="resetFilters()">
+                        </div>
 
-                        Reset Filters
+                        <div class="col-lg-3 col-md-6 d-flex align-items-end">
 
-                    </button>
+                            <button
+                                type="button"
+                                class="btn btn-secondary-custom w-100"
+                                (click)="resetFilters()">
 
-                </div>
+                                Reset Filters
 
-                <div class="col-12 d-flex justify-content-end">
+                            </button>
 
-                    <button
-                        type="submit"
-                        class="btn btn-primary-custom">
+                        </div>
 
-                        Search
+                        <div class="col-12 d-flex justify-content-end">
 
-                    </button>
+                            <button
+                                type="submit"
+                                class="btn btn-primary-custom">
 
-                </div>
+                                Search
 
-            </div>
+                            </button>
 
-        </app-filter-card>
+                        </div>
 
-    </form>
+                    </div>
+
+                </app-filter-card>
+
+            </form>
+
+        </div>
+
+    </div>
 
     @if(isLoading){
 
@@ -112,62 +120,70 @@
 
         @if(claims.records.length > 0){
 
-            <div class="table-responsive mt-4">
+            <div class="row justify-content-center mt-4">
 
-                <table class="table table-hover align-middle">
+                <div class="col-12 col-xl-12 col-xxl-11">
 
-                    <thead class="table-dark">
+                    <div class="table-responsive app-card">
 
-                        <tr>
+                        <table class="table table-hover align-middle table-dark-custom">
 
-                            <th>Claim #</th>
-                            <th>Policy #</th>
-                            <th>Customer</th>
-                            <th>Amount</th>
-                            <th>Incident Date</th>
-                            <th>Status</th>
-                            <th class="text-center">Actions</th>
+                            <thead>
 
-                        </tr>
+                                <tr>
 
-                    </thead>
+                                    <th>Claim #</th>
+                                    <th>Policy #</th>
+                                    <th>Customer</th>
+                                    <th>Amount</th>
+                                    <th>Incident Date</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Actions</th>
 
-                    <tbody>
+                                </tr>
 
-                        @for(claim of claims.records; track claim.claimId){
+                            </thead>
 
-                            <tr>
+                            <tbody>
 
-                                <td>{{claim.claimNumber}}</td>
-                                <td>{{claim.policyNumber}}</td>
-                                <td>{{claim.customerName}}</td>
-                                <td>{{claim.claimAmount | currency:'INR':'symbol':'1.2-2'}}</td>
-                                <td>{{claim.incidentDate | date:'dd-MM-yyyy'}}</td>
+                                @for(claim of claims.records; track claim.claimId){
 
-                                <td>
+                                    <tr>
 
-                                    <app-status-badge
-                                        [status]="claim.claimStatus">
-                                    </app-status-badge>
+                                        <td>{{claim.claimNumber}}</td>
+                                        <td>{{claim.policyNumber}}</td>
+                                        <td>{{claim.customerName}}</td>
+                                        <td>{{claim.claimAmount | currency:'INR':'symbol':'1.2-2'}}</td>
+                                        <td>{{claim.incidentDate | date:'dd-MM-yyyy'}}</td>
 
-                                </td>
+                                        <td>
 
-                                <td class="text-center">
+                                            <app-status-badge
+                                                [status]="claim.claimStatus">
+                                            </app-status-badge>
 
-                                    <app-action-buttons
-                                        [actions]="['view']"
-                                        (actionClick)="navigateToReview(claim.claimId)">
-                                    </app-action-buttons>
+                                        </td>
 
-                                </td>
+                                        <td class="text-center">
 
-                            </tr>
+                                            <app-action-buttons
+                                                [actions]="['view']"
+                                                (actionClick)="navigateToReview(claim.claimId)">
+                                            </app-action-buttons>
 
-                        }
+                                        </td>
 
-                    </tbody>
+                                    </tr>
 
-                </table>
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
 
             </div>
 

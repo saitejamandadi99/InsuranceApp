@@ -23,14 +23,7 @@
                 <div class="app-card">
 
                     <div class="card-header-custom">
-
-                        <h4 class="mb-0">
-
-                            <i class="bi bi-file-earmark-medical me-2"></i>
-                            Claim Information
-
-                        </h4>
-
+                        <h4 class="mb-0"><i class="bi bi-file-earmark-medical me-2"></i>Claim Information</h4>
                     </div>
 
                     <div class="card-body">
@@ -38,134 +31,80 @@
                         <div class="row">
 
                             <div class="col-md-6 mb-4">
-
                                 <label class="form-label-custom">Claim Number</label>
-
-                                <input
-                                    type="text"
-                                    class="form-control input-dark"
-                                    [value]="claim.claimNumber"
-                                    readonly>
-
+                                <p class="mb-0 fw-semibold text-light">{{claim.claimNumber}}</p>
                             </div>
 
                             <div class="col-md-6 mb-4">
-
                                 <label class="form-label-custom">Claim Status</label>
-
-                                <div class="mt-2">
-
-                                    <app-status-badge
-                                        [status]="claim.claimStatus">
-                                    </app-status-badge>
-
+                                <div class="mt-1">
+                                    <app-status-badge [status]="claim.claimStatus"></app-status-badge>
                                 </div>
-
                             </div>
 
                             <div class="col-md-6 mb-4">
-
                                 <label class="form-label-custom">Policy Number</label>
-
-                                <input
-                                    type="text"
-                                    class="form-control input-dark"
-                                    [value]="claim.policyNumber"
-                                    readonly>
-
+                                <p class="mb-0 fw-semibold text-light">{{claim.policyNumber}}</p>
                             </div>
 
                             <div class="col-md-6 mb-4">
-
                                 <label class="form-label-custom">Claim Amount</label>
-
-                                <input
-                                    type="text"
-                                    class="form-control input-dark"
-                                    [value]="claim.claimAmount | currency:'INR':'symbol':'1.2-2'"
-                                    readonly>
-
+                                <p class="mb-0 fw-semibold text-light">{{claim.claimAmount | currency:'INR':'symbol':'1.2-2'}}</p>
                             </div>
 
                             <div class="col-md-6 mb-4">
-
                                 <label class="form-label-custom">Incident Date</label>
-
-                                <input
-                                    type="text"
-                                    class="form-control input-dark"
-                                    [value]="claim.incidentDate | date:'dd-MM-yyyy'"
-                                    readonly>
-
+                                <p class="mb-0 fw-semibold text-light">{{claim.incidentDate | date:'dd-MM-yyyy'}}</p>
                             </div>
 
                             <div class="col-md-6 mb-4">
-
                                 <label class="form-label-custom">Created Date</label>
-
-                                <input
-                                    type="text"
-                                    class="form-control input-dark"
-                                    [value]="claim.createdDate | date:'dd-MM-yyyy hh:mm a'"
-                                    readonly>
-
+                                <p class="mb-0 fw-semibold text-light">{{claim.createdDate | date:'dd-MM-yyyy hh:mm a'}}</p>
                             </div>
 
                             <div class="col-md-6 mb-4">
-
                                 <label class="form-label-custom">Last Updated</label>
-
-                                <input
-                                    type="text"
-                                    class="form-control input-dark"
-                                    [value]="claim.updatedDate | date:'dd-MM-yyyy hh:mm a'"
-                                    readonly>
-
+                                <p class="mb-0 fw-semibold text-light">{{claim.updatedDate | date:'dd-MM-yyyy hh:mm a'}}</p>
                             </div>
 
                             <div class="col-12 mb-4">
-
                                 <label class="form-label-custom">Claim Reason</label>
 
-                                <textarea
-                                    rows="4"
-                                    class="form-control input-dark"
-                                    readonly>{{claim.claimReason}}</textarea>
+                                <div class="app-card p-3 mt-2">
+                                    <p class="mb-0 text-light">{{claim.claimReason}}</p>
+                                </div>
 
                             </div>
 
                         </div>
 
-                        <hr class="my-4">
+                        <div class="card-header-custom mt-2">
+                            <h5 class="mb-0 text-light"><i class="bi bi-chat-left-text me-2"></i>Review Information</h5>
+                        </div>
 
-                        <h5 class="mb-4">
-
-                            <i class="bi bi-chat-left-text me-2"></i>
-                            Review Information
-
-                        </h5>
-
-                        <div class="row">
+                        <div class="row mt-4">
 
                             <div class="col-12 mb-4">
 
                                 <label class="form-label-custom">Officer Remarks</label>
 
-                                <textarea
-                                    rows="4"
-                                    class="form-control input-dark"
-                                    readonly>{{claim.officerRemarks || 'No remarks available.'}}</textarea>
+                                <div class="app-card p-3 mt-2">
+                                    <p class="mb-0 text-light">
+                                        {{claim.officerRemarks || 'No remarks available.'}}
+                                    </p>
+                                </div>
 
                             </div>
 
-                            <div class="col-12 mb-4">
+                            <div class="col-12">
 
                                 <label class="form-label-custom">Admin Remarks</label>
 
-                                <textarea
-                                    rows="4"
-                                    class="form-control input-dark"
-                                    readonly>{{claim.adminRemarks || 'No remarks available.'}}</textarea>
+                                <div class="app-card p-3 mt-2">
+                                    <p class="mb-0 text-light">
+                                        {{claim.adminRemarks || 'No remarks available.'}}
+                                    </p>
+                                </div>
 
                             </div>
 

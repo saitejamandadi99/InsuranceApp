@@ -1,21 +1,25 @@
 <div class="container-fluid py-4">
-@if(isAdmin){
 
+    @if(isAdmin){
 
-    <app-page-header
-        title="Products"
-        subtitle="Manage all insurance products in the system."
-        buttonText="Add Product"
-        buttonIcon="bi bi-plus-lg"
-        (buttonClick)="navigateToAddProduct()">
-    </app-page-header>
-}
-@else{
-     <app-page-header
-        title="Products"
-        subtitle="view all insurance products in the system.">
-    </app-page-header>
-}
+        <app-page-header
+            title="Products"
+            subtitle="Manage all insurance products in the system."
+            buttonText="Add Product"
+            buttonIcon="bi bi-plus-lg"
+            (buttonClick)="navigateToAddProduct()">
+        </app-page-header>
+
+    }
+    @else{
+
+        <app-page-header
+            title="Products"
+            subtitle="View all insurance products in the system.">
+        </app-page-header>
+
+    }
+
     <form [formGroup]="filterForm" (ngSubmit)="searchProducts()">
 
         <app-filter-card>
@@ -23,58 +27,92 @@
             <div class="row g-3">
 
                 <div class="col-12">
+
                     <app-search-box
                         [searchControl]="searchControl"
                         placeholder="Search by product name or product type..."
                         (clear)="clearSearch()">
                     </app-search-box>
+
                 </div>
 
                 <div class="col-lg-3 col-md-6">
-                    <label class="form-label-custom">Sort By</label>
 
-                    <select class="form-select input-dark" formControlName="sortBy">
+                    <label class="form-label-custom">
+                        Sort By
+                    </label>
+
+                    <select
+                        class="form-select input-dark"
+                        formControlName="sortBy">
+
                         <option value="productName">Product Name</option>
                         <option value="productType">Product Type</option>
                         <option value="createdDate">Created Date</option>
+
                     </select>
+
                 </div>
 
                 <div class="col-lg-3 col-md-6">
-                    <label class="form-label-custom">Order</label>
 
-                    <select class="form-select input-dark" formControlName="sortDirection">
+                    <label class="form-label-custom">
+                        Order
+                    </label>
+
+                    <select
+                        class="form-select input-dark"
+                        formControlName="sortDirection">
+
                         <option value="asc">Ascending</option>
                         <option value="desc">Descending</option>
+
                     </select>
+
                 </div>
 
                 <div class="col-lg-3 col-md-6">
-                    <label class="form-label-custom">Page Size</label>
 
-                    <select class="form-select input-dark" formControlName="pageSize">
+                    <label class="form-label-custom">
+                        Page Size
+                    </label>
+
+                    <select
+                        class="form-select input-dark"
+                        formControlName="pageSize">
+
                         <option [value]="5">5</option>
                         <option [value]="10">10</option>
                         <option [value]="20">20</option>
                         <option [value]="50">50</option>
+
                     </select>
+
                 </div>
 
                 <div class="col-lg-3 col-md-6 d-flex align-items-end">
+
                     <button
                         type="button"
                         class="btn btn-secondary-custom w-100"
                         (click)="resetFilters()">
+
                         Reset Filters
+
                     </button>
+
                 </div>
 
                 <div class="col-12 d-flex justify-content-end">
+
                     <button
                         type="submit"
                         class="btn btn-primary-custom">
+
                         Search
+
                     </button>
+
                 </div>
 
             </div>
@@ -93,22 +131,26 @@
 
         @if(lstProducts.records.length > 0){
 
-            <div class="table-responsive mt-4">
+            <div class="table-responsive mt-4 app-card">
 
-                <table class="table table-hover align-middle">
+                <table class="table table-hover align-middle table-dark-custom">
 
-                    <thead class="table-dark">
+                    <thead>
 
                         <tr>
+
                             <th>Product Name</th>
                             <th>Product Type</th>
                             <th>Description</th>
                             <th class="text-center">Status</th>
                             <th>Created On</th>
+
                             @if(isAdmin){
 
                                 <th class="text-center">Actions</th>
+
                             }
+
                         </tr>
 
                     </thead>
@@ -134,25 +176,26 @@
                                 </td>
 
                                 <td>{{product.createdDate | date:'dd-MM-yyyy'}}</td>
+
                                 @if(isAdmin){
 
-                                
-                                <td class="text-center">
+                                    <td class="text-center">
 
-                                    <app-action-buttons
-                                        [actions]="product.activeStatus === 'Active'
-                                            ? ['edit','deactivate']
-                                            : ['edit','activate']"
-                                        (actionClick)="
-                                            $event === 'edit'
-                                                ? editProduct(product.productId)
-                                                : $event === 'activate'
-                                                    ? activateProduct(product.productId)
-                                                    : deactivateProduct(product.productId)">
-                                    </app-action-buttons>
+                                        <app-action-buttons
+                                            [actions]="product.activeStatus === 'Active'
+                                                ? ['edit','deactivate']
+                                                : ['edit','activate']"
+                                            (actionClick)="
+                                                $event === 'edit'
+                                                    ? editProduct(product.productId)
+                                                    : $event === 'activate'
+                                                        ? activateProduct(product.productId)
+                                                        : deactivateProduct(product.productId)">
+                                        </app-action-buttons>
 
-                                </td>
-                            }
+                                    </td>
+
+                                }
 
                             </tr>
 
