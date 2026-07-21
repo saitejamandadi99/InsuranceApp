@@ -1,0 +1,55 @@
+<button type="button" class="sidebar-toggle-btn" (click)="toggleSidebar()">
+    <i class="bi" [ngClass]="isOpen ? 'bi-x-lg' : 'bi-list'"></i>
+</button>
+
+<aside class="app-sidebar" [ngClass]="{ closed: !isOpen }">
+
+    <div class="sidebar-inner">
+
+        <div class="sidebar-spacer"></div>
+
+        <nav class="sidebar-nav">
+
+            <a class="nav-link dashboard-link" [routerLink]="dashboardRoute" routerLinkActive="active-link">
+                <i class="bi bi-house-door"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <div class="nav-section" *ngFor="let section of sections">
+
+                <div class="nav-section-heading">{{ section.heading }}</div>
+
+                <a *ngFor="let link of section.links" class="nav-link" [routerLink]="link.route" routerLinkActive="active-link">
+                    <i [class]="link.icon"></i>
+                    <span>{{ link.label }}</span>
+                </a>
+
+            </div>
+
+        </nav>
+
+        <div class="sidebar-footer">
+
+            <div class="footer-profile">
+
+                <div class="avatar-circle">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+
+                <div class="profile-text">
+                    <div class="profile-email">{{ userEmail || 'User' }}</div>
+                    <span class="role-badge">{{ role }}</span>
+                </div>
+
+            </div>
+
+            <button type="button" class="logout-btn" (click)="logout()">
+                <i class="bi bi-box-arrow-right"></i>
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+</aside>

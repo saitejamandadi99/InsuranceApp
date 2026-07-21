@@ -43,6 +43,7 @@ import { OfficerDashboardComponent } from './components/dashboards/officer-dashb
 import { CustomerDashboardComponent } from './components/dashboards/customer-dashboard-component/customer-dashboard-component';
 import { AddClaimDocumentComponent } from './components/document/add-claim-document-component/add-claim-document-component';
 export const routes: Routes = [
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
     {path:'login', component:LoginComponent},
     {path:'register', component:RegisterComponent},
 
@@ -92,4 +93,5 @@ export const routes: Routes = [
     { path: 'mydocuments', component: ViewMyDocumentsComponent, canActivate: [customerGuardsGuard] },
     { path: 'viewdocuments', component: ViewDocumentsComponent, canActivate: [adminOfficerGuardsGuard] },
     { path: 'documentdetails/:documentId', component: DocumentDetailsComponent, canActivate: [allGuardsGuard] },
+    { path: '**', redirectTo: 'login' },
 ];

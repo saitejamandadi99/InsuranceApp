@@ -4,10 +4,12 @@ import { NgIf } from '@angular/common';
 import { UserServices } from './services/user/user-services';
 import { AuthServices } from './services/auth/auth-services';
 import { Navbar } from './shared/navbar/navbar';
+import { SidebarComponent } from './components/sidebar/sidebar-component/sidebar-component';
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, NgIf],
+  imports: [RouterOutlet, Navbar, NgIf, SidebarComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
