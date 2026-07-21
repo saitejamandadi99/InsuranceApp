@@ -11,6 +11,7 @@ import { NgIf } from '@angular/common';
 import { PageHeader } from '../../../shared/ui/page-header/page-header';
 import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinner';
 import { ActiveStatus } from '../../../models/ActiveStatus';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-purchase-policy-component',
@@ -19,7 +20,7 @@ import { ActiveStatus } from '../../../models/ActiveStatus';
   styleUrl: './purchase-policy-component.css',
 })
 export class PurchasePolicyComponent implements  OnInit {
-  constructor(private policyService:PolicyServices, private planService:PolicyPlanServices, private cdr:ChangeDetectorRef, private router:Router){}
+  constructor(private policyService:PolicyServices, private planService:PolicyPlanServices, private cdr:ChangeDetectorRef, private router:Router, private toastServices:ToastServices){}
   lstPlans:PolicyPlanResponseDto[]=[];
   isLoading=false;
   today!:string;
@@ -41,7 +42,7 @@ export class PurchasePolicyComponent implements  OnInit {
       },error:(err:HttpErrorResponse)=>{
         this.isLoading=false;
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastServices.error(apiError.Message);
       }
     })  
   }
@@ -91,12 +92,12 @@ export class PurchasePolicyComponent implements  OnInit {
       this.policyService.purchasePolicy(request).subscribe({
         next:(response)=>{
           this.isLoading=false;
-          alert(response.message);
+          this.toastServices.success(response.message);
           this.router.navigate(['/mypolicies']);
         },error:(err:HttpErrorResponse)=>{
           this.isLoading=false;
           const apiError= err.error as ErrorResponseDto;
-          alert(apiError.Message);
+          this.toastServices.error(apiError.Message);
         }
       })
   }

@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { PaymentResponseDto } from '../../../DTO/PaymentResponseDto';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-view-my-payments-component',
@@ -18,7 +19,7 @@ import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
   styleUrl: './view-my-payments-component.css',
 })
 export class ViewMyPaymentsComponent implements OnInit {
-  constructor(private paymentService:PaymentServices, private router:Router, private cdr:ChangeDetectorRef){}
+  constructor(private paymentService:PaymentServices, private router:Router, private cdr:ChangeDetectorRef, private toastServices:ToastServices){}
 
   isLoading=false;
   payments:PaymentResponseDto[]= [];
@@ -33,7 +34,7 @@ export class ViewMyPaymentsComponent implements OnInit {
       },error:(err:HttpErrorResponse)=>{
         this.isLoading=false;
         const apiError=err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastServices.error(apiError.Message);
       }
     })
   }

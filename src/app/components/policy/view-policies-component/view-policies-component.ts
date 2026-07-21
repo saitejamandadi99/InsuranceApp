@@ -16,6 +16,7 @@ import { SearchBox } from '../../../shared/ui/search-box/search-box';
 import { Pagination } from '../../../shared/ui/pagination/pagination';
 import { ActionButtons } from '../../../shared/ui/action-buttons/action-buttons';
 import { PolicyStatus } from '../../../models/PolicyStatus';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 
 @Component({
@@ -26,7 +27,7 @@ import { PolicyStatus } from '../../../models/PolicyStatus';
 })
 export class ViewPoliciesComponent implements OnInit {
   
-  constructor(private policyService:PolicyServices, private cdr: ChangeDetectorRef, private router:Router){}
+  constructor(private policyService:PolicyServices, private cdr: ChangeDetectorRef, private router:Router, private toastService:ToastServices){}
   
   lstPolicies!: PaginationResponseDto<PolicyResponseDto>;
   isLoading=false;
@@ -101,7 +102,7 @@ export class ViewPoliciesComponent implements OnInit {
         },error:(err:HttpErrorResponse)=>{
           this.isLoading=false;
           const apiError = err.error as ErrorResponseDto;
-          alert(apiError.Message);
+          this.toastService.error(apiError.Message);
         }
       })
   }
@@ -123,12 +124,12 @@ get searchControl(): FormControl {
   this.policyService.cancelPolicy(policyId).subscribe({
     next: (response) => {
       this.isLoading = false;
-      alert(response.message);
+      this.toastService.info(response.message);
       this.loadPolicies();
     },error: (err: HttpErrorResponse) => {
       this.isLoading = false;
       const apiError = err.error as ErrorResponseDto;
-      alert(apiError.Message);
+      this.toastService.error(apiError.Message);
     }
   });
 }

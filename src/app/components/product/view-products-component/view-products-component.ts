@@ -16,6 +16,7 @@ import { Pagination } from '../../../shared/ui/pagination/pagination';
 import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinner';
 import { EmptyState } from '../../../shared/ui/empty-state/empty-state';
 import { Role } from '../../../models/Role';
+import { ToastServices } from '../../../services/toast/toast-services';
 @Component({
   selector: 'app-view-products-component',
   imports: [ReactiveFormsModule, DatePipe, PageHeader, FilterCard, SearchBox, StatusBadge, ActionButtons, Pagination, LoadingSpinner, EmptyState],
@@ -63,11 +64,11 @@ export class ViewProductsComponent implements OnInit {
   activateProduct(id:number){
     this.prodService.activateProduct(id).subscribe({
       next:(response)=>{
-        alert(response.message)
+        this.toastService.info(response.message)
         this.loadProducts();
       },error:(err:HttpErrorResponse)=>{
         const apiError= err.error as ErrorResponseDto;
-        alert(apiError.Message)
+        this.toastService.error(apiError.Message)
       }
     })
   }
@@ -75,11 +76,11 @@ export class ViewProductsComponent implements OnInit {
    deactivateProduct(id:number){
     this.prodService.deactivateProduct(id).subscribe({
       next:(response)=>{
-        alert(response.message)
+        this.toastService.info(response.message)
         this.loadProducts();
       },error:(err:HttpErrorResponse)=>{
         const apiError= err.error as ErrorResponseDto;
-        alert(apiError.Message)
+        this.toastService.error(apiError.Message)
       }
     })
   }
@@ -87,7 +88,7 @@ export class ViewProductsComponent implements OnInit {
 
   lstProducts!:PaginationResponseDto<ProductResponseDto>;
   isLoading=true;
-  constructor(private prodService:ProductServices, private router:Router, private cdr:ChangeDetectorRef){}
+  constructor(private prodService:ProductServices, private router:Router, private cdr:ChangeDetectorRef, private toastService:ToastServices){}
 
   ngOnInit(): void {
       this.loadProducts();
@@ -106,7 +107,7 @@ export class ViewProductsComponent implements OnInit {
         this.isLoading=false;
 
         const apiError = err.error as ErrorResponseDto
-        alert(apiError.Message);
+        this.toastService.error(apiError.Message);
       }
     })
   }

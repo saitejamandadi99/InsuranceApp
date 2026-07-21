@@ -14,6 +14,7 @@ import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinn
 import { EmptyState } from '../../../shared/ui/empty-state/empty-state';
 import { Router } from '@angular/router';
 import { ActionButtons } from '../../../shared/ui/action-buttons/action-buttons';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-view-customers-component',
@@ -63,7 +64,7 @@ export class ViewCustomersComponent implements OnInit {
     }
   }
 
-  constructor(private cusService:CustomerServices, private router:Router, private cdr:ChangeDetectorRef){}
+  constructor(private cusService:CustomerServices, private router:Router, private cdr:ChangeDetectorRef, private toastService:ToastServices){}
 
   ngOnInit(): void {
     this.loadCustomers();
@@ -80,7 +81,7 @@ export class ViewCustomersComponent implements OnInit {
         },error:(err:HttpErrorResponse)=>{
           this.isLoading=false;
           const apiError = err.error as ErrorResponseDto;
-          alert(apiError.Message);
+          this.toastService.error(apiError.Message);
         }
       })
   }

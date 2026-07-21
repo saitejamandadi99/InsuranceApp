@@ -10,6 +10,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { PolicyResponseDto } from '../../../DTO/PolicyResponseDto';
 import { PolicyServices } from '../../../services/Policy/policy-services';
+import { ToastServices } from '../../../services/toast/toast-services';
+
 
 @Component({
   selector: 'app-raise-claim-component',
@@ -49,7 +51,7 @@ export class RaiseClaimComponent implements OnInit {
     return null;
   }
 
-  constructor(private claimServices:ClaimServices, private router:Router, private activatedRoute:ActivatedRoute, private cdr:ChangeDetectorRef, private policyService:PolicyServices){}
+  constructor(private claimServices:ClaimServices, private router:Router, private activatedRoute:ActivatedRoute, private cdr:ChangeDetectorRef, private policyService:PolicyServices, private toastService:ToastServices){}
 
   ngOnInit(): void {
     this.isLoading=true;
@@ -112,7 +114,8 @@ export class RaiseClaimComponent implements OnInit {
     this.claimServices.raiseClaim(formData).subscribe({
       next:(response)=>{
         this.isLoading=false;
-        alert(response.message);
+        this.toastService.success(response.message);
+
         this.router.navigate(['/myclaims']);
       },error:(err:HttpErrorResponse)=>{
         this.isLoading=false;

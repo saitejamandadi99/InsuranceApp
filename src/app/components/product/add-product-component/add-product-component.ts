@@ -9,6 +9,7 @@ import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { NgFor, NgIf } from '@angular/common';
 import { PageHeader } from '../../../shared/ui/page-header/page-header';
 import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinner';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-add-product-component',
@@ -28,7 +29,7 @@ export class AddProductComponent {
 
   isLoading=false;
 
-  constructor(private prodService:ProductServices, private router:Router){}
+  constructor(private prodService:ProductServices, private router:Router, private toastService:ToastServices){}
 
   addProduct(){
     this.isLoading=true;
@@ -36,12 +37,12 @@ export class AddProductComponent {
     this.prodService.addProduct(request).subscribe({
       next:(response)=>{
         this.isLoading=false;
-        alert(response.message);
+        this.toastService.success(response.message);
         this.router.navigate(['/viewproducts']);
       }, error:(err:HttpErrorResponse)=>{
         this.isLoading=false;
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastService.error(apiError.Message);
       }
     });
   }

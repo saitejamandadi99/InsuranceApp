@@ -8,6 +8,7 @@ import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { PageHeader } from '../../../shared/ui/page-header/page-header';
 import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinner';
 import { StatusBadge } from '../../../shared/ui/status-badge/status-badge';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-payment-details-component',
@@ -17,7 +18,7 @@ import { StatusBadge } from '../../../shared/ui/status-badge/status-badge';
 })
 export class PaymentDetailsComponent implements OnInit {
 
-  constructor(private paymentService: PaymentServices,private activatedRoute: ActivatedRoute,private router: Router,private cdr: ChangeDetectorRef) {}
+  constructor(private paymentService: PaymentServices,private activatedRoute: ActivatedRoute,private router: Router,private cdr: ChangeDetectorRef, private toastService:ToastServices) {}
 
   paymentId!: number;
   payment!: PaymentResponseDto;
@@ -42,7 +43,7 @@ export class PaymentDetailsComponent implements OnInit {
       error: (err: HttpErrorResponse) => {
         this.isLoading = false;
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastService.error(apiError.Message);
       }
     });
 

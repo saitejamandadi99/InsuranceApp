@@ -33,12 +33,7 @@ export class SidebarComponent implements OnInit {
   dashboardRoute = '';
   sections: SidebarSection[] = [];
 
-  constructor(
-    private authService: AuthServices,
-    private customerService: CustomerServices,
-    private router: Router,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private authService: AuthServices,private customerService: CustomerServices,private router: Router,private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.buildSections();

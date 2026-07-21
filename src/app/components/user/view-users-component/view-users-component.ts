@@ -18,6 +18,7 @@ import { ActionButtons } from '../../../shared/ui/action-buttons/action-buttons'
 import { Pagination } from '../../../shared/ui/pagination/pagination';
 import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinner';
 import { EmptyState } from '../../../shared/ui/empty-state/empty-state';
+import { ToastServices } from '../../../services/toast/toast-services';
 @Component({
   selector: 'app-view-users-component',
   imports: [ReactiveFormsModule, DatePipe, PageHeader, FilterCard, SearchBox, StatusBadge, ActionButtons, Pagination, LoadingSpinner,EmptyState],
@@ -59,7 +60,7 @@ export class ViewUsersComponent implements  OnInit {
       },error:(err:HttpErrorResponse)=>{
         this.isLoading=false;
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastService.error(apiError.Message);
       }
     })
   }
@@ -126,7 +127,7 @@ export class ViewUsersComponent implements  OnInit {
   return this.filterForm.get('search') as FormControl;
 }
 
-  constructor(private userService:UserServices, private cdr:ChangeDetectorRef, private router:Router){}
+  constructor(private userService:UserServices, private cdr:ChangeDetectorRef, private router:Router, private toastService:ToastServices){}
   ngOnInit(): void {
    this.loadUsers();
   }

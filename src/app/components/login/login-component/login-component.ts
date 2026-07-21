@@ -9,6 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { Role } from '../../../models/Role';
 import { LoginRequestDto } from '../../../DTO/LoginRequestDto';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-login-component',
@@ -23,7 +24,7 @@ export class LoginComponent {
     password:new FormControl('',[Validators.required]),
   });
 
-  constructor(private authService:AuthServices, private router:Router){}
+  constructor(private authService:AuthServices, private router:Router, private toast:ToastServices){}
 
   loginUser(){
     const request : LoginRequestDto = this.loginForm.value;
@@ -45,7 +46,7 @@ export class LoginComponent {
       },
       error:(err:HttpErrorResponse)=>{
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toast.error(apiError.Message);
       }
     })
   }

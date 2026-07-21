@@ -11,6 +11,7 @@ import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinn
 import { PremiumType } from '../../../models/PremiumType';
 import { ProductResponseDto } from '../../../DTO/ProductResponseDto';
 import { ProductServices } from '../../../services/Product/product-services';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-add-plan-component',
@@ -28,7 +29,7 @@ export class AddPlanComponent implements OnInit {
     duration:new FormControl(1, [Validators.required, Validators.min(1), Validators.max(100)]),
     termsAndConditions:new FormControl('', [Validators.minLength(3), Validators.maxLength(300)])
   });
-  constructor(private planService:PolicyPlanServices, private router:Router, private cdr:ChangeDetectorRef, private prodService: ProductServices ){}
+  constructor(private planService:PolicyPlanServices, private router:Router, private cdr:ChangeDetectorRef, private prodService: ProductServices, private toastService:ToastServices ){}
 
   PremiumType=PremiumType;
   premiumTypes = Object.values(PremiumType);
@@ -49,7 +50,7 @@ export class AddPlanComponent implements OnInit {
         },error:(err:HttpErrorResponse)=>{
           this.isLoading=false;
           const apiError = err.error as ErrorResponseDto;
-          alert(apiError.Message);
+          this.toastService.error(apiError.Message);
         }
       })
   }
@@ -60,13 +61,13 @@ export class AddPlanComponent implements OnInit {
     const request:PolicyPlanRequestDto= this.planForm.value;
     this.planService.addPolicyPlan(request).subscribe({
       next:(response)=>{
-        alert(response.message);
+        this.toastService.success(response.message);
         this.isLoading=false;
         this.router.navigate(['/viewplans']);
       },error:(err:HttpErrorResponse)=>{
         this.isLoading=false;
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastService.error(apiError.Message);
       }
     })
   }

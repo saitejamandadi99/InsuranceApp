@@ -10,6 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { NgIf } from '@angular/common';
 import { PageHeader } from '../../../shared/ui/page-header/page-header';
+import { ToastServices } from '../../../services/toast/toast-services';
 @Component({
   selector: 'app-add-user-component',
   imports: [ReactiveFormsModule, NgIf, PageHeader],
@@ -27,19 +28,19 @@ export class AddUserComponent {
     mobileNumber:new FormControl('', [Validators.required, Validators.pattern("^[6-9][0-9]{9}$")]),
   });
 
-  constructor(private userService:UserServices, private router:Router){}
+  constructor(private userService:UserServices, private router:Router, private toastService:ToastServices){}
 
   addUser(){
     const request:UserRequestDto = this.userForm.value;
     this.addUser$ = this.userService.postUser(request); 
     this.addUser$.subscribe({
       next:(response)=>{
-        alert(response.message);
-        this.router.navigate(['viewusers'])
+        this.toastService.success(response.message);
+        this.router.navigate(['/viewusers'])
       },error:(err:HttpErrorResponse)=>{
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
-
+        this.toastService.error(apiError.Message);
+        this.router.navigate(['/viewusers'])
       }
     })
   }

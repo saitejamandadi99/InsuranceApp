@@ -8,6 +8,7 @@ import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { DatePipe } from '@angular/common';
 import { PageHeader } from '../../../shared/ui/page-header/page-header';
 import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinner';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-customer-details-component',
@@ -20,7 +21,7 @@ export class CustomerDetailsComponent implements OnInit  {
   id!:number;
   profileDetails!:SuccessResponseDto<CustomerResponseDto>;
   isLoading=true;
-  constructor(private cusService:CustomerServices, private activedRoute : ActivatedRoute, private cdr:ChangeDetectorRef){}
+  constructor(private cusService:CustomerServices, private activedRoute : ActivatedRoute, private cdr:ChangeDetectorRef, private toastService:ToastServices){}
   ngOnInit(): void {
     this.id= this.activedRoute.snapshot.params['id'];
       this.cusService.getCustomerDetailsById(this.id).subscribe({
@@ -28,11 +29,11 @@ export class CustomerDetailsComponent implements OnInit  {
             this.profileDetails = response;
             this.isLoading=false;
             this.cdr.detectChanges();
-            alert('profile fetched successfully')
+            this.toastService.info('profile fetched successfully')
         },error:(err:HttpErrorResponse)=>{
           this.isLoading=false;
           const apiError = err.error as ErrorResponseDto;
-          alert(apiError.Message);
+          this.toastService.error(apiError.Message);
         }
       })
   }

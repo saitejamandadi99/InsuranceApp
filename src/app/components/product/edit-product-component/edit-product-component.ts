@@ -9,6 +9,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { PageHeader } from '../../../shared/ui/page-header/page-header';
 import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinner';
 import { ProductType } from '../../../models/ProductType';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-edit-product-component',
@@ -45,25 +46,25 @@ isLoading = true;
         },error:(err:HttpErrorResponse)=>{
           this.isLoading=false;
           const apiError = err.error as ErrorResponseDto;
-          alert(apiError.Message);
+          this.toastService.error(apiError.Message);
         }
       })
   }
 
-  constructor(private prodService:ProductServices, private router:Router, private activatedRoute:ActivatedRoute, private cdr:ChangeDetectorRef){}
+  constructor(private prodService:ProductServices, private router:Router, private activatedRoute:ActivatedRoute, private cdr:ChangeDetectorRef, private toastService:ToastServices){}
 
   editProduct(){
     this.isLoading=true;
     const request:ProductRequestDto = this.productForm.value;
     this.prodService.updateProduct(this.id, request).subscribe({
       next:(response)=>{
-        alert(response.message);
+        this.toastService.success(response.message);
         this.isLoading=false;
         this.router.navigate(['/viewproducts']);
       }, error:(err:HttpErrorResponse)=>{
         this.isLoading=false;
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastService.error(apiError.Message);
       }
     });
   }

@@ -8,6 +8,7 @@ import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { DatePipe } from '@angular/common';
 import { PageHeader } from '../../../shared/ui/page-header/page-header';
 import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinner';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-view-my-profile-component',
@@ -20,7 +21,7 @@ export class ViewMyProfileComponent implements OnInit {
   profileDetails!:SuccessResponseDto<CustomerResponseDto>;
   isLoading=true;
   
-  constructor(private cusService:CustomerServices, private cdr:ChangeDetectorRef){}
+  constructor(private cusService:CustomerServices, private cdr:ChangeDetectorRef, private toastService:ToastServices){}
   ngOnInit(): void {
       this.cusService.getMyProfile().subscribe({
         next:(response)=>{
@@ -33,7 +34,7 @@ export class ViewMyProfileComponent implements OnInit {
         ,error:(err:HttpErrorResponse)=>{
           this.isLoading=false;
           const apiError = err.error as ErrorResponseDto;
-          alert(apiError.Message);
+          this.toastService.error(apiError.Message);
         }
       })
   }

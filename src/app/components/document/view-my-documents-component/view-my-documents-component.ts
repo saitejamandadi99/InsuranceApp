@@ -13,6 +13,7 @@ import { ClaimDocumentServices } from '../../../services/ClaimDocument/claim-doc
 import { ClaimDocumentResponseDto } from '../../../DTO/ClaimDocumentResponseDto';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { FilterCard } from '../../../shared/ui/filter-card/filter-card';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-view-my-documents-component',
@@ -29,11 +30,7 @@ export class ViewMyDocumentsComponent implements OnInit {
   isLoading = true;
   searchControl = new FormControl('');
 
-  constructor(
-    private documentServices: ClaimDocumentServices,
-    private router: Router,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private documentServices: ClaimDocumentServices,private router: Router,private cdr: ChangeDetectorRef, private toastServices:ToastServices) {}
 
   ngOnInit(): void {
     this.loadDocuments();
@@ -56,7 +53,7 @@ export class ViewMyDocumentsComponent implements OnInit {
       error: (err: HttpErrorResponse) => {
         this.isLoading = false;
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastServices.error(apiError.Message);
       },
     });
   }
@@ -64,9 +61,7 @@ export class ViewMyDocumentsComponent implements OnInit {
   applyFilter() {
     const term = (this.searchControl.value ?? '').trim().toLowerCase();
 
-    this.filteredDocuments = !term
-      ? this.documents
-      : this.documents.filter(
+    this.filteredDocuments = !term ? this.documents: this.documents.filter(
           (doc) =>
             doc.documentName.toLowerCase().includes(term) ||
             doc.documentType.toLowerCase().includes(term) ||
@@ -93,12 +88,12 @@ export class ViewMyDocumentsComponent implements OnInit {
 
     this.documentServices.deleteClaimDocumentById(documentId).subscribe({
       next: (response) => {
-        alert(response.message);
+        this.toastServices.info(response.message);
         this.loadDocuments();
       },
       error: (err: HttpErrorResponse) => {
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastServices.error(apiError.Message);
       },
     });
   }

@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { CustomerRequestDto } from '../../../DTO/CustomerRequestDto';
 import { PageHeader } from '../../../shared/ui/page-header/page-header';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-add-customer-profile-component',
@@ -39,17 +40,17 @@ export class AddCustomerProfileComponent {
     return null;
   }
 
-  constructor(private cusService:CustomerServices, private router:Router){}
+  constructor(private cusService:CustomerServices, private router:Router, private toastService:ToastServices){}
 
   addCustomerProfile(){
     const request:CustomerRequestDto = this.customerForm.value;
     this.cusService.addCustomerProfile(request).subscribe({
       next:(response)=>{
-        alert(response.message);
+        this.toastService.success(response.message);
         this.router.navigate(['/myprofile']);
       },error:(err:HttpErrorResponse)=>{
         const apiError = err.error as ErrorResponseDto
-        alert(apiError.Message);
+        this.toastService.error(apiError.Message);
       }
     })
   }

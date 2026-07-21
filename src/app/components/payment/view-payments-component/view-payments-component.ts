@@ -15,6 +15,7 @@ import { StatusBadge } from '../../../shared/ui/status-badge/status-badge';
 import { ActionButtons } from '../../../shared/ui/action-buttons/action-buttons';
 import { Pagination } from '../../../shared/ui/pagination/pagination';
 import { EmptyState } from '../../../shared/ui/empty-state/empty-state';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-view-payments-component',
@@ -36,7 +37,7 @@ export class ViewPaymentsComponent implements OnInit {
     pageSize: new FormControl(10)
   });
 
-  constructor(private paymentService: PaymentServices,private cdr: ChangeDetectorRef,private router: Router) {}
+  constructor(private paymentService: PaymentServices,private cdr: ChangeDetectorRef,private router: Router, private toastServices:ToastServices) {}
 
   ngOnInit(): void {
     this.loadPayments();
@@ -56,7 +57,7 @@ export class ViewPaymentsComponent implements OnInit {
       error: (err: HttpErrorResponse) => {
         this.isLoading = false;
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastServices.error(apiError.Message);
       }
     });
   }

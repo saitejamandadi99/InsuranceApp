@@ -14,6 +14,7 @@ import { PaymentMode } from '../../../models/PaymentMode';
 import { Role } from '../../../models/Role';
 import { PaymentRequestDto } from '../../../DTO/PaymentRequestDto';
 import { StatusBadge } from '../../../shared/ui/status-badge/status-badge';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-make-payment-component',
@@ -22,7 +23,7 @@ import { StatusBadge } from '../../../shared/ui/status-badge/status-badge';
   styleUrl: './make-payment-component.css',
 })
 export class MakePaymentComponent implements OnInit {
-  constructor(private payService: PaymentServices, private policyService: PolicyServices, private activatedRoutes: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef) {}
+  constructor(private payService: PaymentServices, private policyService: PolicyServices, private activatedRoutes: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef, private toastServices:ToastServices) {}
 
   policyId!: number;
   role!: string;
@@ -73,7 +74,7 @@ export class MakePaymentComponent implements OnInit {
       error: (err: HttpErrorResponse) => {
         this.isLoading = false;
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastServices.error(apiError.Message);
       },
     });
   }
@@ -91,26 +92,26 @@ export class MakePaymentComponent implements OnInit {
       this.payService.addMyPayment(request).subscribe({
         next: (response) => {
           this.isLoading = false;
-          alert(response.message);
+          this.toastServices.success(response.message);
           this.router.navigate(['/mypayments']);
         },
         error: (err: HttpErrorResponse) => {
           this.isLoading = false;
           const apiError = err.error as ErrorResponseDto;
-          alert(apiError.Message);
+          this.toastServices.error(apiError.Message);
         },
       });
     } else {
       this.payService.addOfficerPayment(request).subscribe({
         next: (response) => {
           this.isLoading = false;
-          alert(response.message);
+          this.toastServices.success(response.message);
           this.router.navigate(['/viewpayments']);
         },
         error: (err: HttpErrorResponse) => {
           this.isLoading = false;
           const apiError = err.error as ErrorResponseDto;
-          alert(apiError.Message);
+          this.toastServices.error(apiError.Message);
         },
       });
     }

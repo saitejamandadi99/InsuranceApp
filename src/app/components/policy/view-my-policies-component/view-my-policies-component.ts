@@ -10,6 +10,7 @@ import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { StatusBadge } from '../../../shared/ui/status-badge/status-badge';
 import { Router } from '@angular/router';
 import { PolicyStatus } from '../../../models/PolicyStatus';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-view-my-policies-component',
@@ -19,7 +20,7 @@ import { PolicyStatus } from '../../../models/PolicyStatus';
 })
 export class ViewMyPoliciesComponent implements OnInit {
   
-  constructor(private policyService:PolicyServices, private cdr: ChangeDetectorRef, private router:Router){}
+  constructor(private policyService:PolicyServices, private cdr: ChangeDetectorRef, private router:Router, private toastServices:ToastServices){}
   
   lstMyPolicies: PolicyResponseDto[] = [];
   isLoading=false;
@@ -34,12 +35,12 @@ export class ViewMyPoliciesComponent implements OnInit {
         next:(response)=>{
           this.lstMyPolicies = response.data ?? [];
           this.isLoading=false;
-          alert(response.message);
+          this.toastServices.success(response.message);
           this.cdr.detectChanges();
         },error:(err:HttpErrorResponse)=>{
           this.isLoading=false;
           const apiError = err.error as ErrorResponseDto;
-          alert(apiError.Message);
+          this.toastServices.error(apiError.Message);
         }
       })
   }

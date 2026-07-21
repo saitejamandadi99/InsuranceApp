@@ -8,6 +8,7 @@ import { Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { RegisterRequestDto } from '../../../DTO/RegisterRequestDto';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-register-component',
@@ -26,7 +27,7 @@ export class RegisterComponent {
 
 
 
-  constructor(private authService: AuthServices, private router:Router){}
+  constructor(private authService: AuthServices, private router:Router, private toastService:ToastServices){}
 
   registerUser(){
     const request:RegisterRequestDto= this.registerForm.value;
@@ -34,13 +35,13 @@ export class RegisterComponent {
     this.registerResponse$.subscribe({
       next:(response)=>{
 
-        alert(response.message);
+        this.toastService.success(response.message);
         this.router.navigate(['/login']);
 
       },
        error:(err:HttpErrorResponse)=>{
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastService.error(apiError.Message);
       }
     })
   }

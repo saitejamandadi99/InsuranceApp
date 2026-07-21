@@ -16,6 +16,7 @@ import { Pagination } from '../../../shared/ui/pagination/pagination';
 import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinner';
 import { EmptyState } from '../../../shared/ui/empty-state/empty-state';
 import { Role } from '../../../models/Role';
+import { ToastServices } from '../../../services/toast/toast-services';
 @Component({
   selector: 'app-view-plans-component',
   imports: [ReactiveFormsModule,NgIf,DatePipe,PageHeader,FilterCard,SearchBox,StatusBadge,ActionButtons,Pagination,LoadingSpinner,EmptyState, CurrencyPipe],
@@ -24,12 +25,12 @@ import { Role } from '../../../models/Role';
 })
 export class ViewPlansComponent implements OnInit {
 
-  constructor(private planService: PolicyPlanServices,private router: Router, private cdr:ChangeDetectorRef) {}
+  constructor(private planService: PolicyPlanServices,private router: Router, private cdr:ChangeDetectorRef, private toastService:ToastServices) {}
   isLoading = true;
   lstPlans!: PaginationResponseDto<PolicyPlanResponseDto>;
   role:string = localStorage.getItem('role') ?? '';
   isOfficer:boolean = this.role === Role.Officer;
-  
+
 
   filterForm: FormGroup = new FormGroup({
     search: new FormControl(''),
@@ -55,7 +56,7 @@ export class ViewPlansComponent implements OnInit {
       error: (err: HttpErrorResponse) => {
         this.isLoading = false;
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastService.error(apiError.Message);
       }
     });
   }
@@ -108,12 +109,12 @@ export class ViewPlansComponent implements OnInit {
   activatePlan(id: number) {
     this.planService.activatePolicyPlan(id).subscribe({
       next: (response) => {
-        alert(response.message);
+        this.toastService.info(response.message);
         this.loadPlans();
       },
       error: (err: HttpErrorResponse) => {
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastService.error(apiError.Message);
       }
     });
 
@@ -122,12 +123,12 @@ export class ViewPlansComponent implements OnInit {
   deactivatePlan(id: number) {
     this.planService.deactivatePolicyPlan(id).subscribe({
       next: (response) => {
-        alert(response.message);
+        this.toastService.info(response.message);
         this.loadPlans();
       },
       error: (err: HttpErrorResponse) => {
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastService.error(apiError.Message);
       }
     });
 

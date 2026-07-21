@@ -15,6 +15,7 @@ import { ClaimDocumentServices } from '../../../services/ClaimDocument/claim-doc
 import { PaginationResponseDto } from '../../../DTO/PaginationResponseDto';
 import { ClaimDocumentResponseDto } from '../../../DTO/ClaimDocumentResponseDto';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-view-documents-component',
@@ -36,11 +37,7 @@ export class ViewDocumentsComponent implements OnInit {
     pageSize: new FormControl(10),
   });
 
-  constructor(
-    private documentServices: ClaimDocumentServices,
-    private router: Router,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private documentServices: ClaimDocumentServices,private router: Router,private cdr: ChangeDetectorRef, private toastServices:ToastServices) {}
 
   ngOnInit(): void {
     this.loadDocuments();
@@ -62,7 +59,7 @@ export class ViewDocumentsComponent implements OnInit {
         error: (err: HttpErrorResponse) => {
           this.isLoading = false;
           const apiError = err.error as ErrorResponseDto;
-          alert(apiError.Message);
+          this.toastServices.error(apiError.Message);
         },
       });
   }

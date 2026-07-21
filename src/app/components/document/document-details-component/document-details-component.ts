@@ -9,6 +9,7 @@ import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinn
 import { ClaimDocumentServices } from '../../../services/ClaimDocument/claim-document-services';
 import { ClaimDocumentResponseDto } from '../../../DTO/ClaimDocumentResponseDto';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-document-details-component',
@@ -23,12 +24,7 @@ export class DocumentDetailsComponent implements OnInit {
   document!: ClaimDocumentResponseDto;
   isLoading = true;
 
-  constructor(
-    private documentServices: ClaimDocumentServices,
-    private activatedRoute: ActivatedRoute,
-    private location: Location,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private documentServices: ClaimDocumentServices,private activatedRoute: ActivatedRoute,private location: Location,private cdr: ChangeDetectorRef, private toastService:ToastServices) {}
 
   ngOnInit(): void {
     this.documentId = Number(this.activatedRoute.snapshot.params['documentId']);
@@ -53,7 +49,7 @@ export class DocumentDetailsComponent implements OnInit {
       error: (err: HttpErrorResponse) => {
         this.isLoading = false;
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastService.error(apiError.Message);
       },
     });
   }

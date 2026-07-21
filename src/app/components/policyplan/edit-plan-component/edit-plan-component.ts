@@ -11,6 +11,7 @@ import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinn
 import { PremiumType } from '../../../models/PremiumType';
 import { ProductResponseDto } from '../../../DTO/ProductResponseDto';
 import { ProductServices } from '../../../services/Product/product-services';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-edit-plan-component',
@@ -36,7 +37,7 @@ export class EditPlanComponent implements OnInit {
   isLoading=false;
   products : ProductResponseDto[] = [];
 
-  constructor(private planService:PolicyPlanServices, private router:Router, private activatedRoute:ActivatedRoute,private cdr:ChangeDetectorRef, private prodService:ProductServices){}
+  constructor(private planService:PolicyPlanServices, private router:Router, private activatedRoute:ActivatedRoute,private cdr:ChangeDetectorRef, private prodService:ProductServices, private toastService:ToastServices){}
 
   ngOnInit(): void {
     this.id=this.activatedRoute.snapshot.params['id'];
@@ -64,7 +65,7 @@ export class EditPlanComponent implements OnInit {
         },error:(err:HttpErrorResponse)=>{
           this.isLoading=false;
           const apiError = err.error as ErrorResponseDto;
-          alert(apiError.Message);
+          this.toastService.error(apiError.Message);
         }
       })
   }
@@ -80,7 +81,7 @@ export class EditPlanComponent implements OnInit {
       error:(err:HttpErrorResponse)=>{
         this.isLoading=false;
         const apiError=err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastService.error(apiError.Message);
       }
     })
   }
@@ -91,12 +92,12 @@ export class EditPlanComponent implements OnInit {
     this.planService.updatePolicyPlan(this.id, request).subscribe({
       next:(response)=>{
         this.isLoading=false;
-        alert(response.message);
+        this.toastService.info(response.message);
         this.router.navigate(['/viewplans']);
       },error:(err:HttpErrorResponse)=>{
         this.isLoading=false;
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastService.error(apiError.Message);
       }
     })
   }

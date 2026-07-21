@@ -12,6 +12,7 @@ import { ClaimDocumentServices } from '../../../services/ClaimDocument/claim-doc
 import { ClaimResponseDto } from '../../../DTO/ClaimResponseDto';
 import { ClaimStatus } from '../../../models/ClaimStatus';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-add-claim-document-component',
@@ -27,12 +28,7 @@ export class AddClaimDocumentComponent implements OnInit {
     documentType: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
   });
 
-  constructor(
-    private claimServices: ClaimServices,
-    private documentServices: ClaimDocumentServices,
-    private router: Router,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private claimServices: ClaimServices,private documentServices: ClaimDocumentServices,private router: Router,private cdr: ChangeDetectorRef, private toastServices:ToastServices) {}
 
   claims: ClaimResponseDto[] = [];
   selectedFiles: File[] = [];
@@ -53,7 +49,7 @@ export class AddClaimDocumentComponent implements OnInit {
       error: (err: HttpErrorResponse) => {
         this.isLoading = false;
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastServices.error(apiError.Message);
       },
     });
   }
@@ -75,15 +71,11 @@ export class AddClaimDocumentComponent implements OnInit {
 
   addDocument() {
     this.filesTouched = true;
-
     if (this.selectedFiles.length === 0) {
       return;
     }
-
     this.isLoading = true;
-
     const formValue = this.documentForm.value;
-
     const formData = new FormData();
     formData.append('claimId', formValue.claimId);
     formData.append('documentName', formValue.documentName);
@@ -95,14 +87,14 @@ export class AddClaimDocumentComponent implements OnInit {
 
     this.documentServices.addClaimDocument(formData).subscribe({
       next: (response) => {
-        alert(response.message);
+        this.toastServices.success(response.message);
         this.isLoading = false;
         this.router.navigate(['/mydocuments']);
       },
       error: (err: HttpErrorResponse) => {
         this.isLoading = false;
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastServices.error(apiError.Message);
       },
     });
   }

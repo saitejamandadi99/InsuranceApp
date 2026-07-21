@@ -16,20 +16,11 @@ import { Pagination } from '../../../shared/ui/pagination/pagination';
 import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinner';
 import { EmptyState } from '../../../shared/ui/empty-state/empty-state';
 import { StatusBadge } from '../../../shared/ui/status-badge/status-badge';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-view-claim-status-history-component',
-  imports: [
-    ReactiveFormsModule,
-    DatePipe,
-    PageHeader,
-    FilterCard,
-    SearchBox,
-    Pagination,
-    LoadingSpinner,
-    EmptyState,
-    StatusBadge
-  ],
+  imports: [ReactiveFormsModule,DatePipe,PageHeader,FilterCard,SearchBox,Pagination,LoadingSpinner,EmptyState,StatusBadge],
   templateUrl: './view-claim-status-history-component.html',
   styleUrl: './view-claim-status-history-component.css',
 })
@@ -47,10 +38,7 @@ export class ViewClaimStatusHistoryComponent implements OnInit {
     pageSize: new FormControl(10)
   });
 
-  constructor(
-    private historyService: ClaimStatusServices,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private historyService: ClaimStatusServices,private cdr: ChangeDetectorRef, private toastServices:ToastServices) {}
 
   ngOnInit(): void {
     this.loadHistories();
@@ -75,7 +63,7 @@ export class ViewClaimStatusHistoryComponent implements OnInit {
       error: (err: HttpErrorResponse) => {
         this.isLoading = false;
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastServices.error(apiError.Message);
       }
     });
   }

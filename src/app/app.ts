@@ -5,11 +5,13 @@ import { UserServices } from './services/user/user-services';
 import { AuthServices } from './services/auth/auth-services';
 import { Navbar } from './shared/navbar/navbar';
 import { SidebarComponent } from './components/sidebar/sidebar-component/sidebar-component';
+import { ToastComponent } from './components/toast/toast-component/toast-component';
+import { ToastType } from './models/ToastType';
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, NgIf, SidebarComponent],
+  imports: [RouterOutlet, Navbar, NgIf, SidebarComponent, ToastComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

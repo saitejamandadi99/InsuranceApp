@@ -42,6 +42,7 @@ import { AdminDashboardComponent } from './components/dashboards/admin-dashboard
 import { OfficerDashboardComponent } from './components/dashboards/officer-dashboard-component/officer-dashboard-component';
 import { CustomerDashboardComponent } from './components/dashboards/customer-dashboard-component/customer-dashboard-component';
 import { AddClaimDocumentComponent } from './components/document/add-claim-document-component/add-claim-document-component';
+import { ErrorPageComponent } from './components/error/error-page-component/error-page-component';
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     {path:'login', component:LoginComponent},
@@ -61,11 +62,11 @@ export const routes: Routes = [
     {path:'createprofile', component:AddCustomerProfileComponent, canActivate:[customerGuardsGuard]},
     {path:'editprofile', component:EditCustomerProfileComponent, canActivate:[customerGuardsGuard]},
     
-    { path: 'viewproducts', component: ViewProductsComponent, canActivate: [adminOfficerGuardsGuard] },
+    { path: 'viewproducts', component: ViewProductsComponent, canActivate: [allGuardsGuard] },
     { path: 'addproduct', component: AddProductComponent, canActivate: [adminGuardsGuard] },
     { path: 'editproduct/:id', component: EditProductComponent, canActivate: [adminGuardsGuard] },
 
-    { path: 'viewplans', component: ViewPlansComponent, canActivate: [adminOfficerGuardsGuard] },
+    { path: 'viewplans', component: ViewPlansComponent, canActivate: [allGuardsGuard] },
     { path: 'addplan', component: AddPlanComponent, canActivate: [adminGuardsGuard] },
     { path: 'editplan/:id', component: EditPlanComponent, canActivate: [adminGuardsGuard] },
 
@@ -93,5 +94,5 @@ export const routes: Routes = [
     { path: 'mydocuments', component: ViewMyDocumentsComponent, canActivate: [customerGuardsGuard] },
     { path: 'viewdocuments', component: ViewDocumentsComponent, canActivate: [adminOfficerGuardsGuard] },
     { path: 'documentdetails/:documentId', component: DocumentDetailsComponent, canActivate: [allGuardsGuard] },
-    { path: '**', redirectTo: 'login' },
+    { path: '**', component:ErrorPageComponent},
 ];

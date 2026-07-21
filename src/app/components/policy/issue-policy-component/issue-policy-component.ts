@@ -13,6 +13,8 @@ import { IssuePolicyRequestDto } from '../../../DTO/IssuePolicyRequestDto';
 import { PageHeader } from '../../../shared/ui/page-header/page-header';
 import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinner';
 import { minDate } from '@angular/forms/signals';
+import { ActiveStatus } from '../../../models/ActiveStatus';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-issue-policy-component',
@@ -21,7 +23,7 @@ import { minDate } from '@angular/forms/signals';
   styleUrl: './issue-policy-component.css',
 })
 export class IssuePolicyComponent implements  OnInit {
-  constructor(private policyService:PolicyServices, private planService:PolicyPlanServices, private cusService:CustomerServices, private cdr:ChangeDetectorRef, private router:Router){}
+  constructor(private policyService:PolicyServices, private planService:PolicyPlanServices, private cusService:CustomerServices, private cdr:ChangeDetectorRef, private router:Router, private toastServices:ToastServices){}
   lstCustomers: CustomerResponseDto[]=[];
   lstPlans:PolicyPlanResponseDto[]=[];
   isLoading=false;
@@ -47,7 +49,7 @@ export class IssuePolicyComponent implements  OnInit {
       },error:(err:HttpErrorResponse)=>{
         this.isLoading=false;
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastServices.error(apiError.Message);
       }
     })  
   }
@@ -56,13 +58,13 @@ export class IssuePolicyComponent implements  OnInit {
     this.isLoading=true;
     this.planService.listPolicyPlans(1,99,'planName', 'asc', '').subscribe({
       next:(response)=>{
-        this.lstPlans=response.data?.records ?? [];
+        this.lstPlans=(response.data?.records ?? []).filter(plan=>plan.activeStatus === ActiveStatus.Active);
         this.isLoading=false;
         this.cdr.detectChanges(); 
       },error:(err:HttpErrorResponse)=>{
         this.isLoading=false;
         const apiError = err.error as ErrorResponseDto;
-        alert(apiError.Message);
+        this.toastServices.error(apiError.Message);
       }
     })  
   }
@@ -113,12 +115,12 @@ export class IssuePolicyComponent implements  OnInit {
       this.policyService.issuePolicy(request).subscribe({
         next:(response)=>{
           this.isLoading=false;
-          alert(response.message);
+          this.toastServices.info(response.message);
           this.router.navigate(['/viewpolicies']);
         },error:(err:HttpErrorResponse)=>{
           this.isLoading=false;
           const apiError= err.error as ErrorResponseDto;
-          alert(apiError.Message);
+          this.toastServices.error(apiError.Message);
         }
       })
   }

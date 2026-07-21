@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponseDto } from '../../../DTO/ErrorResponseDto';
 import { CustomerRequestDto } from '../../../DTO/CustomerRequestDto';
 import { PageHeader } from '../../../shared/ui/page-header/page-header';
+import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-edit-customer-profile-component',
@@ -33,7 +34,7 @@ export class EditCustomerProfileComponent implements OnInit {
         },
         error:(err:HttpErrorResponse)=>{
           const apiError = err.error as ErrorResponseDto;
-          alert(apiError.Message);
+          this.toastService.error(apiError.Message);
         }
       })
   }
@@ -51,17 +52,17 @@ export class EditCustomerProfileComponent implements OnInit {
     return null;
   }
 
-  constructor(private cusService:CustomerServices, private router:Router){}
+  constructor(private cusService:CustomerServices, private router:Router, private toastService:ToastServices){}
 
   updateCustomerProfile(){
     const request:CustomerRequestDto= this.customerForm.value;
     this.cusService.updateCustomerProfile(request).subscribe({
       next:(response)=>{
-        alert(response.message);
+        this.toastService.info(response.message);
         this.router.navigate(['/myprofile']);
       },error:(err:HttpErrorResponse)=>{
         const apiError = err.error as ErrorResponseDto
-        alert(apiError.Message);
+        this.toastService.error(apiError.Message);
       }
     })
   }
