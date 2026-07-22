@@ -170,6 +170,15 @@ export class SidebarComponent implements OnInit {
                 { icon: 'bi bi-pencil-square', label: 'Edit Profile', route: '/editprofile' },
               ]
             : [{ icon: 'bi bi-person-plus', label: 'Create Profile', route: '/createprofile' }],
+        }
+        ,
+        {
+          heading: 'Insurance Products',
+          links: [{ icon: 'bi bi-box-seam', label: 'View Products', route: '/viewproducts' }],
+        },
+        {
+          heading: 'Policy Plans',
+          links: [{ icon: 'bi bi-journal-text', label: 'View Plans', route: '/viewplans' }],
         },
         {
           heading: 'Policies',

@@ -17,6 +17,7 @@ import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinn
 import { EmptyState } from '../../../shared/ui/empty-state/empty-state';
 import { Role } from '../../../models/Role';
 import { ToastServices } from '../../../services/toast/toast-services';
+import { ActiveStatus } from '../../../models/ActiveStatus';
 @Component({
   selector: 'app-view-products-component',
   imports: [ReactiveFormsModule, DatePipe, PageHeader, FilterCard, SearchBox, StatusBadge, ActionButtons, Pagination, LoadingSpinner, EmptyState],
@@ -98,8 +99,15 @@ export class ViewProductsComponent implements OnInit {
     const filters = this.filterForm.value;
     this.prodService.listProducts(filters.pageNumber!, filters.pageSize!, filters.sortBy!, filters.sortDirection!, filters.search!).subscribe({
       next:(response)=>{
-
-        this.lstProducts=response.data
+        if(this.isAdmin){
+          this.lstProducts=response.data
+        }
+        else{
+          this.lstProducts ={
+            ...response.data,
+            records: response.data.records.filter(d=>d.activeStatus === ActiveStatus.Active)
+          } 
+        }
         this.isLoading=false;
         this.cdr.detectChanges();
 

@@ -17,6 +17,7 @@ import { LoadingSpinner } from '../../../shared/ui/loading-spinner/loading-spinn
 import { EmptyState } from '../../../shared/ui/empty-state/empty-state';
 import { Role } from '../../../models/Role';
 import { ToastServices } from '../../../services/toast/toast-services';
+import { ActiveStatus } from '../../../models/ActiveStatus';
 @Component({
   selector: 'app-view-plans-component',
   imports: [ReactiveFormsModule,NgIf,DatePipe,PageHeader,FilterCard,SearchBox,StatusBadge,ActionButtons,Pagination,LoadingSpinner,EmptyState, CurrencyPipe],
@@ -29,7 +30,7 @@ export class ViewPlansComponent implements OnInit {
   isLoading = true;
   lstPlans!: PaginationResponseDto<PolicyPlanResponseDto>;
   role:string = localStorage.getItem('role') ?? '';
-  isOfficer:boolean = this.role === Role.Officer;
+  isAdmin:boolean = this.role === Role.Admin;
 
 
   filterForm: FormGroup = new FormGroup({
@@ -49,7 +50,15 @@ export class ViewPlansComponent implements OnInit {
     const filters = this.filterForm.value;
     this.planService.listPolicyPlans(filters.pageNumber!,filters.pageSize!,filters.sortBy!,filters.sortDirection!,filters.search!).subscribe({
       next: (response) => {
-        this.lstPlans = response.data;
+        if(this.isAdmin){
+          this.lstPlans = response.data;
+        }
+        else{
+          this.lstPlans = {
+            ...response.data,
+            records: response.data.records.filter(d=>d.activeStatus === ActiveStatus.Active)
+          }
+        }
         this.isLoading = false;
         this.cdr.detectChanges();
       },

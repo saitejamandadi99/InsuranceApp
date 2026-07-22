@@ -57,6 +57,18 @@ export class CustomerDashboardComponent implements OnInit {
 
   sections: DashboardSection[] = [
     {
+      heading: 'Insurance Products',
+      cards: [
+        { icon: 'bi bi-box-seam', title: 'View Products', subtitle: 'Browse insurance products', route: '/viewproducts', color: 'primary' },
+      ],
+    },
+    {
+      heading: 'Policy Plans',
+      cards: [
+        { icon: 'bi bi-journal-text', title: 'View Plans', subtitle: 'Browse policy plans', route: '/viewplans', color: 'primary' },
+      ],
+    },
+    {
       heading: 'Policies',
       cards: [
         { icon: 'bi bi-bag-plus', title: 'Purchase Policy', subtitle: 'Buy a new insurance policy', route: '/purchasepolicy', color: 'success' },

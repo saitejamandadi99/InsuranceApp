@@ -1,6 +1,6 @@
 <div class="container-fluid py-4">
 
-    @if (!isOfficer) {
+    @if (isAdmin) {
 
         <app-page-header
             title="Policy Plans"
@@ -157,7 +157,7 @@
                             <th>Duration</th>
                             <th class="text-center">Status</th>
                             <th>Created On</th>
-                            @if(!isOfficer){
+                            @if(isAdmin){
                                 <th class="text-center">Actions</th>
                             }
                         </tr>
@@ -178,7 +178,7 @@
                                     </app-status-badge>
                                 </td>
                                 <td>{{plan.createdDate | date:'dd-MM-yyyy'}}</td>
-                                @if(!isOfficer){
+                                @if(isAdmin){
                                     <td class="text-center">
                                         <app-action-buttons
                                             [actions]="plan.activeStatus === 'Active'
