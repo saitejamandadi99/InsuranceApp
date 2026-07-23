@@ -16,45 +16,22 @@
     <div class="row justify-content-center">
 
         <div class="col-12 col-xl-10 col-xxl-9">
-
             <div class="app-card p-4">
-
                 <div class="row g-4">
-
                     <div class="col-md-6">
-
-                        <label class="form-label-custom">
-                            Policy Number
-                        </label>
-
+                        <label class="form-label-custom">Policy Number</label>
                         <div class="form-control input-dark">
-
                             {{payment.policyNumber}}
-
                         </div>
-
                     </div>
-
                     <div class="col-md-6">
-
-                        <label class="form-label-custom">
-                            Amount
-                        </label>
-
+                        <label class="form-label-custom">Amount</label>
                         <div class="form-control input-dark">
-
                             {{payment.amount | currency:'INR':'symbol':'1.2-2'}}
-
                         </div>
-
                     </div>
-
                     <div class="col-md-6">
-
-                        <label class="form-label-custom">
-                            Payment Date
-                        </label>
-
+                        <label class="form-label-custom">Payment Date</label>
                         <div class="form-control input-dark">
 
                             {{payment.paymentDate | date:'dd-MM-yyyy'}}

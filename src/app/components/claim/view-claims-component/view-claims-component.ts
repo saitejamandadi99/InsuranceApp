@@ -43,7 +43,7 @@ export class ViewClaimsComponent implements OnInit {
 
   filterForm: FormGroup = new FormGroup({
     search: new FormControl(''),
-    sortBy: new FormControl('createdDate'),
+    sortBy: new FormControl('incidentDate'),
     sortDirection: new FormControl('desc'),
     pageNumber: new FormControl(1),
     pageSize: new FormControl(10)
