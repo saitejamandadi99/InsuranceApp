@@ -16,6 +16,7 @@ import { ToastServices } from '../../../services/toast/toast-services';
 
 @Component({
   selector: 'app-add-claim-document-component',
+  standalone:true,
   imports: [ReactiveFormsModule, NgIf, NgFor, PageHeader, LoadingSpinner],
   templateUrl: './add-claim-document-component.html',
   styleUrl: './add-claim-document-component.css',

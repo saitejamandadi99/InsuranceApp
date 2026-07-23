@@ -197,7 +197,7 @@ export class SidebarComponent implements OnInit {
         {
           heading: 'Claim Documents',
           links: [
-            { icon: 'bi bi-cloud-upload', label: 'Upload Document', route: '/addclaimdocument' },
+            { icon: 'bi bi-cloud-upload', label: 'Upload Document', route: '/adddocument' },
             { icon: 'bi bi-file-earmark-text', label: 'My Documents', route: '/mydocuments' },
           ],
         },

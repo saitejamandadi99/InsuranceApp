@@ -26,15 +26,12 @@
                             <thead>
 
                                 <tr>
-
-                                    <th>Payment #</th>
                                     <th>Policy #</th>
                                     <th>Amount</th>
                                     <th>Payment Date</th>
                                     <th>Payment Mode</th>
                                     <th>Transaction Reference</th>
                                     <th class="text-center">Status</th>
-
                                 </tr>
 
                             </thead>
@@ -42,48 +39,31 @@
                             <tbody>
 
                                 @for(payment of payments; track payment.paymentId){
-
                                     <tr>
-
-                                        <td>{{payment.paymentId}}</td>
                                         <td>{{payment.policyNumber}}</td>
                                         <td>{{payment.amount | currency:'INR':'symbol':'1.2-2'}}</td>
                                         <td>{{payment.paymentDate | date:'dd-MM-yyyy'}}</td>
                                         <td>{{payment.paymentMode}}</td>
                                         <td>{{payment.transactionReference}}</td>
-
                                         <td class="text-center">
-
                                             <app-status-badge
                                                 [status]="payment.paymentStatus">
                                             </app-status-badge>
-
                                         </td>
-
                                     </tr>
-
                                 }
-
                             </tbody>
-
                         </table>
-
                     </div>
-
                 </div>
-
             </div>
-
         }
-
         @else{
-
             <app-empty-state
                 icon="bi bi-credit-card"
                 title="No Payments Found"
                 message="You haven't made any premium payments yet.">
             </app-empty-state>
-
         }
 
     }
